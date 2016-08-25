@@ -59,7 +59,6 @@ class Message(object):
                 elif attr == "R_HASH_ID":
                     self.router_hash_id = value
 
-
     # Getters
     def getVersion(self):
         return self.__version
