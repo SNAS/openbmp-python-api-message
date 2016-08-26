@@ -6,15 +6,15 @@
     and is available at http://www.eclipse.org/legal/epl-v10.html
 """
 
-from abc import ABCMeta, abstractmethod
-
 class Base(object):
-    __metaclass__ = ABCMeta
 
     __DEFAULT_SPEC_VERSION = float(1.3) # Default message bus specification version (max) supported
     _spec_version = float(1.0) # Configured message bus specification version (max) supported
     _headerNames = []
     _rowMap = 0
+
+    def __init__(self):
+        pass
 
     def parse(self, data):
         if not data.strip(): # If "data" is not string, throws error.
@@ -26,5 +26,5 @@ class Base(object):
         self._spec_version = float(version)
 
         # Read tab deliminated data.
-        values = data.split("\t")
-        print values
+        records = data.split("\n")
+        print records
