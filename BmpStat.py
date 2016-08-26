@@ -16,14 +16,14 @@ from FieldProcessors import *
 
 class BmpStat(Base):
 
-    def __init__(self, version, data):
+    def __init__(self, data):
 
         self.headerNames = ["action", "seq", "router_hash", "router_ip", "peer_hash", "peer_ip",
             "peer_asn", "timestamp", "rejected", "known_dup_updates", "known_dup_withdraws",
             "invalid_cluster_list", "invalid_as_path", "invalid_originator",
             "invalid_as_confed", "pre_policy", "post_policy"]
 
-        self.parse(version, data);
+        self.parse(data);
 
     def getProcessors(self):
         processors = None
