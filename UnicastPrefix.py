@@ -5,7 +5,7 @@
     terms of the Eclipse Public License v1.0 which accompanies this distribution,
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
-import Base.py
+from Base import *
 from FieldProcessors import *
 
 """
@@ -17,6 +17,8 @@ from FieldProcessors import *
 class UnicastPrefix(Base):
 
     def __init__(self, version, data):
+
+        self.spec_version = version
 
         if version >= float(1.3):
 
@@ -44,12 +46,13 @@ class UnicastPrefix(Base):
             "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
             "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id"]
 
+        #self.processors = self.getProcessors()
         self.parse(version, data);
 
     def getProcessors(self):
         processors = None
 
-        if self._spec_version >= float(1.3):
+        if self.spec_version >= float(1.3):
 
             processors = [
 
@@ -86,7 +89,7 @@ class UnicastPrefix(Base):
                 ParseLongEmptyAsZero() # isAdjRibIn
             ]
 
-        elif self._spec_version >= float(1.1):
+        elif self.spec_version >= float(1.1):
 
             processors = [
 
@@ -155,10 +158,3 @@ class UnicastPrefix(Base):
             ]
 
         return processors
-
-
-
-
-
-
-
