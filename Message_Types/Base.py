@@ -6,14 +6,22 @@
     and is available at http://www.eclipse.org/legal/epl-v10.html
 """
 
+from abc import ABCMeta, abstractmethod
+
+
 class Base(object):
+    __metaclass__ = ABCMeta
 
     __DEFAULT_SPEC_VERSION = float(1.3) # Default message bus specification version (max) supported
-    _spec_version = float(1.0) # Configured message bus specification version (max) supported
+    _spec_version = None # Configured message bus specification version (max) supported
     _headerNames = []
-    _rowMap = 0
+    _rowMap = None
 
     def __init__(self):
+        self._spec_version = self.__DEFAULT_SPEC_VERSION
+
+    @abstractmethod
+    def getProcessors(self):
         pass
 
     def parse(self, data):
@@ -25,6 +33,12 @@ class Base(object):
     def parse(self, version, data):
         self._spec_version = float(version)
 
-        # Read tab deliminated data.
-        records = data.split("\n")
-        print records
+        __processors = self.getProcessors()
+
+        # Splits each record in data.
+        records = data.splitlines()
+
+        # Split each records into fields.
+        for r in records:
+            fields = r.split('\t');
+
