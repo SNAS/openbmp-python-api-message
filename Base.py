@@ -7,7 +7,7 @@
 """
 
 from abc import ABCMeta, abstractmethod
-
+import json
 
 class Base(object):
     __metaclass__ = ABCMeta
@@ -23,6 +23,9 @@ class Base(object):
     def getProcessors(self):
         #return self.processors
         pass
+
+    def getRowMap(self):
+        return self.rowMap
 
     def parse(self, data):
         if not data.strip(): # If "data" is not string, throws error.
@@ -49,7 +52,14 @@ class Base(object):
             for (f, p, h) in zip(fields, self.getProcessors(), self.headerNames):
                 fieldsMap[h] = p.processValue(f)
 
-            print fieldsMap
+            self.rowMap.append(fieldsMap)
+            #print fieldsMap
+
+    def toJson(self):
+        return json.dumps(self.rowMap)
+
+    def toJsonPretty(self):
+        return json.dumps(self.rowMap, indent=4, sort_keys=False)
 
 
 

@@ -5,7 +5,7 @@
     terms of the Eclipse Public License v1.0 which accompanies this distribution,
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
-import Base.py
+from Base import *
 from FieldProcessors import *
 
 """
@@ -17,6 +17,8 @@ from FieldProcessors import *
 class BaseAttribute(Base):
 
     def __init__(self, version, data):
+
+        super(BaseAttribute, self).__init__()
 
         self.headerNames = ["action", "seq", "hash", "router_hash", "router_ip", "peer_hash", "peer_ip",
             "peer_asn", "timestamp", "origin", "as_path", "as_path_count", "origin_as",

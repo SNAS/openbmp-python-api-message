@@ -5,7 +5,7 @@
     terms of the Eclipse Public License v1.0 which accompanies this distribution,
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
-import Base.py
+from Base import *
 from FieldProcessors import *
 
 """
@@ -17,6 +17,8 @@ from FieldProcessors import *
 class Router(Base):
 
     def __init__(self, version, data):
+
+        self.spec_version = version
 
         if version >= float(1.2):
 
@@ -33,7 +35,7 @@ class Router(Base):
     def getProcessors(self):
         processors = None
 
-        if self._spec_version >= float(1.2):
+        if self.spec_version >= float(1.2):
 
             processors = [
 

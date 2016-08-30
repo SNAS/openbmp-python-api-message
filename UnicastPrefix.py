@@ -17,34 +17,34 @@ from FieldProcessors import *
 class UnicastPrefix(Base):
 
     def __init__(self, version, data):
-
+        super(UnicastPrefix, self).__init__()
         self.spec_version = version
 
         if version >= float(1.3):
 
             self.headerNames = ["action", "seq", "hash", "router_hash", "router_ip", "base_attr_hash", "peer_hash",
-            "peer_ip", "peer_asn", "timestamp", "prefix", "prefix_len", "isIPv4",
-            "origin", "as_path", "as_path_count", "origin_as",
-            "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
-            "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id",
-            "path_id", "labels", "isPrePolicy", "isAdjRibIn"]
+                "peer_ip", "peer_asn", "timestamp", "prefix", "prefix_len", "isIPv4",
+                "origin", "as_path", "as_path_count", "origin_as",
+                "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
+                "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id",
+                "path_id", "labels", "isPrePolicy", "isAdjRibIn"]
 
         elif version >= float(1.1):
 
             self.headerNames = ["action", "seq", "hash", "router_hash", "router_ip", "base_attr_hash", "peer_hash",
-            "peer_ip", "peer_asn", "timestamp", "prefix", "prefix_len", "isIPv4",
-            "origin", "as_path", "as_path_count", "origin_as",
-            "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
-            "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id",
-            "path_id", "labels"]
+                "peer_ip", "peer_asn", "timestamp", "prefix", "prefix_len", "isIPv4",
+                "origin", "as_path", "as_path_count", "origin_as",
+                "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
+                "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id",
+                "path_id", "labels"]
 
         else:
 
             self.headerNames = ["action", "seq", "hash", "router_hash", "router_ip", "base_attr_hash", "peer_hash",
-            "peer_ip", "peer_asn", "timestamp", "prefix", "prefix_len", "isIPv4",
-            "origin", "as_path", "as_path_count", "origin_as",
-            "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
-            "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id"]
+                "peer_ip", "peer_asn", "timestamp", "prefix", "prefix_len", "isIPv4",
+                "origin", "as_path", "as_path_count", "origin_as",
+                "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
+                "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id"]
 
         #self.processors = self.getProcessors()
         self.parse(version, data);
