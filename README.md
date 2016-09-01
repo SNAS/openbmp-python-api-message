@@ -3,6 +3,7 @@
 This library implements the OpenBMP message bus specification as defined at [MESSAGE_BUS_API.md](http://openbmp.org/#!docs/MESSAGE_BUS_API.md).
  
 Messages from kafka (headers and content) are parsed and made available in ```Map``` and String/JSON.
+> ### API supports Python 2.7
 > ### Current Schema supported is 1.3
 
 ## Usage
