@@ -57,7 +57,7 @@ class LsLink(Base):
                 "link_protection", "mpls_proto_mask", "srlg", "link_name", "remote_node_hash",
                 "local_node_hash"]
 
-        self.parse(version, data);
+        self.parse(version, data)
 
     def getProcessors(self):
         """

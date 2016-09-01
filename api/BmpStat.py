@@ -28,7 +28,7 @@ class BmpStat(Base):
             "invalid_cluster_list", "invalid_as_path", "invalid_originator",
             "invalid_as_confed", "pre_policy", "post_policy"]
 
-        self.parse(data);
+        self.parse(Base.DEFAULT_SPEC_VERSION, data)
 
     def getProcessors(self):
         """

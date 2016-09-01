@@ -30,7 +30,7 @@ class BaseAttribute(Base):
             "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
             "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id"]
 
-        self.parse(data);
+        self.parse(Base.DEFAULT_SPEC_VERSION, data);
 
     def getProcessors(self):
         """

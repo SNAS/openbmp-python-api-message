@@ -53,7 +53,7 @@ class UnicastPrefix(Base):
                 "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id"]
 
         #self.processors = self.getProcessors()
-        self.parse(version, data);
+        self.parse(version, data)
 
     def getProcessors(self):
         """

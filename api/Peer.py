@@ -28,7 +28,7 @@ class Peer(Base):
             "remote_holddown", "adv_holddown", "bmp_reason", "bgp_error_code",
             "bgp_error_sub_code", "error_text", "isL3VPN", "isPrePolicy", "isIPv4"]
 
-        self.parse(data);
+        self.parse(Base.DEFAULT_SPEC_VERSION, data)
 
     def getProcessors(self):
         """

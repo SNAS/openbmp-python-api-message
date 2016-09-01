@@ -42,7 +42,7 @@ class LsPrefix(Base):
                 "local_node_hash", "mt_id", "ospf_route_type", "igp_flags", "route_tag",
                 "ext_route_tag", "ospf_fwd_addr", "igp_metric", "prefix", "prefix_len"]
 
-        self.parse(version, data);
+        self.parse(version, data)
 
     def getProcessors(self):
         """

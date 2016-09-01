@@ -39,7 +39,7 @@ class LsNode(Base):
                 "ospf_area_id", "isis_area_id", "protocol", "flags", "as_path", "local_pref",
                 "med", "nexthop", "name"]
 
-        self.parse(version, data);
+        self.parse(version, data)
 
     def getProcessors(self):
         """

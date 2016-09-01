@@ -25,7 +25,7 @@ class Collector(Base):
         self.headerNames = ["action", "seq", "admin_id", "hash", "routers", "router_count", "timestamp"]
 
         # Change below to supply version when version is required
-        self.parse(data);
+        self.parse(Base.DEFAULT_SPEC_VERSION, data)
 
     def getProcessors(self):
         """

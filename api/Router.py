@@ -35,7 +35,7 @@ class Router(Base):
             self.headerNames = ["action", "seq", "name", "hash", "ip_address", "description", "term_code",
                 "term_reason", "init_data", "term_data", "timestamp"]
 
-        self.parse(version, data);
+        self.parse(version, data)
 
     def getProcessors(self):
         """

@@ -11,17 +11,7 @@ import socket
 import kafka
 import traceback
 
-from UnicastPrefix import *
-from Router import *
-from Peer import *
-from Collector import *
-from BmpStat import *
-from BaseAttribute import *
-from LsNode import *
-from LsLink import *
-from LsPrefix import *
-
-from Message import *
+from api import *
 
 def processMessage(msg):
     """ Process the message
@@ -51,7 +41,7 @@ def processMessage(msg):
         print unicastPrefix.toJsonPretty()
 
     elif t == "openbmp.parsed.base_attribute":
-        base_attribute = BaseAttribute(m.getVersion(), m.getContent())
+        base_attribute = BaseAttribute(m.getContent())
 
     elif t == "openbmp.parsed.ls_node":
         ls_node = LsNode(m.getVersion(), m.getContent())

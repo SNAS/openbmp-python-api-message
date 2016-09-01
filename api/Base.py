@@ -23,7 +23,7 @@ class Base(object):
 
     __metaclass__ = ABCMeta
 
-    __DEFAULT_SPEC_VERSION = float(1.3)  # Default message bus specification version (max) supported
+    DEFAULT_SPEC_VERSION = float(1.3)  # Default message bus specification version (max) supported
 
     def __init__(self):
         """Initializes the class variables."""
@@ -45,22 +45,6 @@ class Base(object):
     def getRowMap(self):
         return self.rowMap
 
-
-    def parse(self, data):
-        """
-        Parse TSV rows of data from message
-            Defaults to use current message bus version
-
-        :param data: TSV data (MUST not include the headers)
-
-        :return: True if error, False if no errors
-        """
-
-        if not data.strip(): # If "data" is not string, throws error.
-            raise "Invalid data!", data
-
-        return self.parse(self.__DEFAULT_SPEC_VERSION, data)
-
     def parse(self, version, data):
         """
         Parse TSV rows of data from message
@@ -71,6 +55,9 @@ class Base(object):
 
         :return:  True if error, False if no errors
         """
+        if not data.strip(): # If "data" is not string, throws error.
+            raise "Invalid data!", data
+
         self.spec_version = float(version)
 
         records = data.splitlines() # Splits data into records.
