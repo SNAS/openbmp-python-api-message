@@ -7,14 +7,17 @@
 """
 
 class Message(object):
-
     """
-        Constructor
-            Parse the data
-
-        @param data
+        Kafka Message class. This class processes header of raw Kafka messages.
     """
+
     def __init__(self, data):
+        """
+        Handle the message by parsing header of it.
+
+        :param data: Raw Kafka message as string.
+        """
+
         if not data.strip(): # If "data" is not string, throws error.
             raise "Invalid data!", data
 
@@ -29,6 +32,12 @@ class Message(object):
         self.__parse(data)
 
     def __parse(self, data):
+        """
+        Parses header of raw Kafka messages and set the version, length, number of records and router hash id.
+
+        :param data: Raw Kafka message as string.
+        """
+
         data_end_pos = data.rfind("\n\n")
         header_data = data[:data_end_pos]
 
@@ -41,10 +50,7 @@ class Message(object):
             value = header.split(":")[1].strip();
             attr = header.split(":")[0].strip();
 
-            """
-            attribute names are from http://openbmp.org/#!docs/MESSAGE_BUS_API.md headers
-            """
-
+            # Attribute names are from http://openbmp.org/#!docs/MESSAGE_BUS_API.md headers
             if attr == "V":
                 self.version = float(value);
 

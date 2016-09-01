@@ -5,18 +5,23 @@
     terms of the Eclipse Public License v1.0 which accompanies this distribution,
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
+
 from Base import *
 from FieldProcessors import *
 
-"""
+class BaseAttribute(Base):
+    """
     Format class for base_attribute parsed messages (openbmp.parsed.base_attribute)
 
     Schema Version: 1.2
-"""
+    """
 
-class BaseAttribute(Base):
+    def __init__(self, data):
+        """
+        Handle the message by parsing it and storing the data in memory.
 
-    def __init__(self, version, data):
+        :param data: Data to parse.
+        """
 
         super(BaseAttribute, self).__init__()
 
@@ -25,10 +30,15 @@ class BaseAttribute(Base):
             "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
             "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id"]
 
-        self.parse(version, data);
+        self.parse(data);
 
     def getProcessors(self):
-        processors = None
+        """
+        Processors used for each field.
+        Order matters and must match the same order as defined in headerNames
+
+        :return: array of cell processors.
+        """
 
         processors = [
 

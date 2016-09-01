@@ -8,15 +8,19 @@
 from Base import *
 from FieldProcessors import *
 
-"""
-    Format class for peer parsed messages (openbmp.parsed.peer)
-
-    Schema Version: 1.3
-"""
-
 class Peer(Base):
+    """
+        Format class for peer parsed messages (openbmp.parsed.peer)
+
+        Schema Version: 1.3
+    """
 
     def __init__(self, data):
+        """
+        Handle the message by parsing it and storing the data in memory.
+
+        :param data: Data to parse.
+        """
 
         self.headerNames = ["action", "seq", "hash", "router_hash", "name", "remote_bgp_id", "router_ip",
             "timestamp", "remote_asn", "remote_ip", "peer_rd", "remote_port", "local_asn",
@@ -27,7 +31,12 @@ class Peer(Base):
         self.parse(data);
 
     def getProcessors(self):
-        processors = None
+        """
+        Processors used for each field.
+        Order matters and must match the same order as defined in headerNames
+
+        :return: array of cell processors.
+        """
 
         processors = [
 

@@ -5,18 +5,23 @@
     terms of the Eclipse Public License v1.0 which accompanies this distribution,
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
+
 from Base import *
 from FieldProcessors import *
 
-"""
-    Format class for bmp_stat parsed messages (openbmp.parsed.bmp_stat)
-
-    Schema Version: 1.2
-"""
-
 class BmpStat(Base):
+    """
+        Format class for bmp_stat parsed messages (openbmp.parsed.bmp_stat)
+
+        Schema Version: 1.2
+    """
 
     def __init__(self, data):
+        """
+        Handle the message by parsing it and storing the data in memory.
+
+        :param data: Data to parse.
+        """
 
         self.headerNames = ["action", "seq", "router_hash", "router_ip", "peer_hash", "peer_ip",
             "peer_asn", "timestamp", "rejected", "known_dup_updates", "known_dup_withdraws",
@@ -26,7 +31,12 @@ class BmpStat(Base):
         self.parse(data);
 
     def getProcessors(self):
-        processors = None
+        """
+        Processors used for each field.
+        Order matters and must match the same order as defined in headerNames
+
+        :return: array of cell processors.
+        """
 
         processors = [
 

@@ -8,15 +8,20 @@
 from Base import *
 from FieldProcessors import *
 
-"""
-    Format class for ls_prefix parsed messages (openbmp.parsed.ls_prefix)
-
-    Schema Version: 1.2
-"""
-
 class LsPrefix(Base):
+    """
+        Format class for ls_prefix parsed messages (openbmp.parsed.ls_prefix)
+
+        Schema Version: 1.2
+    """
 
     def __init__(self, version, data):
+        """
+        Handle the message by parsing it and storing the data in memory.
+
+        :param version: Schema version of the message.
+        :param data: Data to parse.
+        """
 
         self.spec_version = version
 
@@ -40,6 +45,13 @@ class LsPrefix(Base):
         self.parse(version, data);
 
     def getProcessors(self):
+        """
+        Processors used for each field.
+        Order matters and must match the same order as defined in headerNames
+
+        :return: array of cell processors.
+        """
+
         processors = None
 
         if self.spec_version >= float(1.3):
@@ -119,10 +131,3 @@ class LsPrefix(Base):
             ]
 
         return processors
-
-
-
-
-
-
-

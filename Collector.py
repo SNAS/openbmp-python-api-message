@@ -8,15 +8,19 @@
 from Base import *
 from FieldProcessors import *
 
-"""
-    Format class for collector parsed messages (openbmp.parsed.collector)
-
-    Schema Version: 1.2
-"""
-
 class Collector(Base):
+    """
+        Format class for collector parsed messages (openbmp.parsed.collector)
+
+        Schema Version: 1.2
+    """
 
     def __init__(self, data):
+        """
+        Handle the message by parsing it and storing the data in memory.
+
+        :param data: Data to parse.
+        """
 
         self.headerNames = ["action", "seq", "admin_id", "hash", "routers", "router_count", "timestamp"]
 
@@ -24,7 +28,12 @@ class Collector(Base):
         self.parse(data);
 
     def getProcessors(self):
-        processors = None
+        """
+        Processors used for each field.
+        Order matters and must match the same order as defined in headerNames
+
+        :return: array of cell processors.
+        """
 
         processors = [
 

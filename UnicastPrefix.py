@@ -8,15 +8,21 @@
 from Base import *
 from FieldProcessors import *
 
-"""
-    Format class for unicast_prefix parsed messages (openbmp.parsed.unicast_prefix)
-
-    Schema Version: 1.3
-"""
-
 class UnicastPrefix(Base):
+    """
+        Format class for unicast_prefix parsed messages (openbmp.parsed.unicast_prefix)
+
+        Schema Version: 1.3
+    """
 
     def __init__(self, version, data):
+        """
+        Handle the message by parsing it and storing the data in memory.
+
+        :param version: Schema version of the message.
+        :param data: Data to parse.
+        """
+
         super(UnicastPrefix, self).__init__()
         self.spec_version = version
 
@@ -50,6 +56,13 @@ class UnicastPrefix(Base):
         self.parse(version, data);
 
     def getProcessors(self):
+        """
+        Processors used for each field.
+        Order matters and must match the same order as defined in headerNames
+
+        :return: array of cell processors.
+        """
+
         processors = None
 
         if self.spec_version >= float(1.3):

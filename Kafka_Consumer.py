@@ -31,8 +31,8 @@ def processMessage(msg):
     :return:
     """
 
-    m = Message(msg.value)
-    t = msg.topic
+    m = Message(msg.value) # Gets body of kafka message.
+    t = msg.topic # Gets topic of kafka message.
 
     if t == "openbmp.parsed.router":
         router = Router(m.getVersion(), m.getContent())
@@ -67,7 +67,6 @@ def main():
     topics = [ 'openbmp.parsed.router', 'openbmp.parsed.peer', 'openbmp.parsed.collector',
                'openbmp.parsed.bmp_stat', 'openbmp.parsed.unicast_prefix', 'openbmp.parsed.base_attribute',
                'openbmp.parsed.ls_node', 'openbmp.parsed.ls_link', 'openbmp.parsed.ls_prefix' ]
-
 
     try:
         # connect and bind to topics
