@@ -43,6 +43,11 @@ class Base(object):
         pass
 
     def getRowMap(self):
+        """
+        Get rowMap as array of dictionaries.
+
+        :return: parsed rowMap is returned as an array of dictionaries.
+        """
         return self.rowMap
 
     def parse(self, version, data):
