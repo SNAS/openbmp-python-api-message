@@ -22,6 +22,7 @@ class Collector(Base):
         :param data: Data to parse.
         """
 
+        super(Collector, self).__init__()
         self.headerNames = ["action", "seq", "admin_id", "hash", "routers", "router_count", "timestamp"]
 
         # Change below to supply version when version is required

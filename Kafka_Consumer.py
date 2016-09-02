@@ -26,31 +26,48 @@ def processMessage(msg):
 
     if t == "openbmp.parsed.router":
         router = Router(m.getVersion(), m.getContent())
+        print t + '\n'
+        print router.toJsonPretty()
 
     elif t == "openbmp.parsed.peer":
-        peer = Peer(m.getVersion(), m.getContent())
+        peer = Peer(m.getContent())
+        print t + '\n'
+        print peer.toJsonPretty()
 
     elif t == "openbmp.parsed.collector":
-        collector = Collector(m.getVersion(), m.getContent())
+        collector = Collector(m.getContent())
+        print t + '\n'
+        print collector.toJsonPretty()
 
     elif t == "openbmp.parsed.bmp_stat":
-        bmp_stat = BmpStat(m.getVersion(), m.getContent())
+        bmp_stat = BmpStat(m.getContent())
+        print t + '\n'
+        print bmp_stat.toJsonPretty()
 
     elif t == "openbmp.parsed.unicast_prefix":
         unicastPrefix = UnicastPrefix(m.getVersion(), m.getContent())
+        print t + '\n'
         print unicastPrefix.toJsonPretty()
 
     elif t == "openbmp.parsed.base_attribute":
         base_attribute = BaseAttribute(m.getContent())
+        #print t + '\n'
+        ##print base_attribute.toJsonPretty()
 
     elif t == "openbmp.parsed.ls_node":
         ls_node = LsNode(m.getVersion(), m.getContent())
+        print t + '\n'
+        print ls_node.toJsonPretty()
 
     elif t == "openbmp.parsed.ls_link":
         ls_link = LsLink(m.getVersion(), m.getContent())
+        print t + '\n'
+        print ls_link.toJsonPretty()
 
     elif t == "openbmp.parsed.ls_prefix":
         ls_prefix = LsPrefix(m.getVersion(), m.getContent())
+        print t + '\n'
+        print ls_prefix.toJsonPretty()
 
 def main():
     # Enable to topics/feeds

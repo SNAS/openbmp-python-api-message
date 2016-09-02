@@ -23,6 +23,7 @@ class LsPrefix(Base):
         :param data: Data to parse.
         """
 
+        super(LsPrefix, self).__init__()
         self.spec_version = version
 
         if version >= float(1.3):

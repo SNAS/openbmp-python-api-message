@@ -23,6 +23,7 @@ class Router(Base):
         :param data: Data to parse.
         """
 
+        super(Router, self).__init__()
         self.spec_version = version
 
         if version >= float(1.2):

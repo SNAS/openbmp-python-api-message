@@ -22,6 +22,8 @@ class Peer(Base):
         :param data: Data to parse.
         """
 
+        super(Peer, self).__init__()
+
         self.headerNames = ["action", "seq", "hash", "router_hash", "name", "remote_bgp_id", "router_ip",
             "timestamp", "remote_asn", "remote_ip", "peer_rd", "remote_port", "local_asn",
             "local_ip", "local_port", "local_bgp_id", "info_data", "adv_cap", "recv_cap",

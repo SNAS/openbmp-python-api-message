@@ -23,6 +23,7 @@ class BmpStat(Base):
         :param data: Data to parse.
         """
 
+        super(BmpStat, self).__init__()
         self.headerNames = ["action", "seq", "router_hash", "router_ip", "peer_hash", "peer_ip",
             "peer_asn", "timestamp", "rejected", "known_dup_updates", "known_dup_withdraws",
             "invalid_cluster_list", "invalid_as_path", "invalid_originator",
