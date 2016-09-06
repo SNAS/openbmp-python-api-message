@@ -7,6 +7,7 @@
 """
 from Base import *
 from FieldProcessors import *
+from Message import *
 
 class LsPrefix(Base):
     """
@@ -15,13 +16,17 @@ class LsPrefix(Base):
         Schema Version: 1.2
     """
 
-    def __init__(self, version, data):
+    def __init__(self, message):
         """
         Handle the message by parsing it and storing the data in memory.
 
-        :param version: Schema version of the message.
-        :param data: Data to parse.
+        :param message: 'Message' object.
         """
+        if not isinstance(message, Message):
+            raise TypeError("Expected Message object instead of type " + type(message))
+
+        data = message.getContent()
+        version = message.getVersion()
 
         super(LsPrefix, self).__init__()
         self.spec_version = version

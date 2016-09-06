@@ -8,6 +8,7 @@
 
 from Base import *
 from FieldProcessors import *
+from Message import *
 
 class BmpStat(Base):
     """
@@ -16,12 +17,16 @@ class BmpStat(Base):
         Schema Version: 1.2
     """
 
-    def __init__(self, data):
+    def __init__(self, message):
         """
         Handle the message by parsing it and storing the data in memory.
 
-        :param data: Data to parse.
+        :param message: 'Message' object.
         """
+        if not isinstance(message, Message):
+            raise TypeError("Expected Message object instead of type " + type(message))
+
+        data = message.getContent()
 
         super(BmpStat, self).__init__()
         self.headerNames = ["action", "seq", "router_hash", "router_ip", "peer_hash", "peer_ip",
@@ -29,7 +34,7 @@ class BmpStat(Base):
             "invalid_cluster_list", "invalid_as_path", "invalid_originator",
             "invalid_as_confed", "pre_policy", "post_policy"]
 
-        self.parse(Base.DEFAULT_SPEC_VERSION, data)
+        self.parse(Base.spec_version, data)
 
     def getProcessors(self):
         """

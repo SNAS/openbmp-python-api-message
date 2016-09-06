@@ -7,6 +7,7 @@
 """
 from Base import *
 from FieldProcessors import *
+from Message import *
 
 class Router(Base):
     """
@@ -15,13 +16,17 @@ class Router(Base):
         Schema Version: 1.2
     """
 
-    def __init__(self, version, data):
+    def __init__(self, message):
         """
         Handle the message by parsing it and storing the data in memory.
 
-        :param version: Schema version of the message.
-        :param data: Data to parse.
+        :param message: 'Message' object.
         """
+        if not isinstance(message, Message):
+            raise TypeError("Expected Message object instead of type " + type(message))
+
+        version = message.getVersion()
+        data = message.getContent()
 
         super(Router, self).__init__()
         self.spec_version = version

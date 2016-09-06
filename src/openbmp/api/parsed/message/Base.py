@@ -23,11 +23,9 @@ class Base(object):
 
     __metaclass__ = ABCMeta
 
-    DEFAULT_SPEC_VERSION = float(1.3)  # Default message bus specification version (max) supported
-
     def __init__(self):
         """Initializes the class variables."""
-        self.spec_version = float(0.0) # Configured message bus specification version (max) supported
+        self.spec_version = float(1.3) # Default message bus specification version (max) supported
         self.headerNames = [] # Column field header names will be the MAP key for fields, order matters and must match TSV order of fields.
         self.rowMap = [] # List of records as dictionaries of records.
 

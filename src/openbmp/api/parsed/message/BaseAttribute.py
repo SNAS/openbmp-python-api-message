@@ -8,6 +8,7 @@
 
 from Base import *
 from FieldProcessors import *
+from Message import *
 
 class BaseAttribute(Base):
     """
@@ -16,12 +17,16 @@ class BaseAttribute(Base):
     Schema Version: 1.2
     """
 
-    def __init__(self, data):
+    def __init__(self, message):
         """
         Handle the message by parsing it and storing the data in memory.
 
-        :param data: Data to parse.
+        :param message: 'Message' object.
         """
+        if not isinstance(message, Message):
+            raise TypeError("Expected Message object instead of type " + type(message))
+
+        data = message.getContent()
 
         super(BaseAttribute, self).__init__()
 
@@ -30,7 +35,7 @@ class BaseAttribute(Base):
             "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
             "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id"]
 
-        self.parse(Base.DEFAULT_SPEC_VERSION, data);
+        self.parse(Base.spec_version, data);
 
     def getProcessors(self):
         """

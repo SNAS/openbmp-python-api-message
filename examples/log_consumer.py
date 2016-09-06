@@ -11,8 +11,6 @@ import socket
 import kafka
 import traceback
 
-from api import *
-
 def processMessage(msg):
     """ Process the message
 
@@ -25,47 +23,47 @@ def processMessage(msg):
     t = msg.topic # Gets topic of kafka message.
 
     if t == "openbmp.parsed.router":
-        router = Router(m.getVersion(), m.getContent())
+        router = Router(m)
         print t + '\n'
         print router.toJsonPretty()
 
     elif t == "openbmp.parsed.peer":
-        peer = Peer(m.getContent())
+        peer = Peer(m)
         print t + '\n'
         print peer.toJsonPretty()
 
     elif t == "openbmp.parsed.collector":
-        collector = Collector(m.getContent())
+        collector = Collector(m)
         print t + '\n'
         print collector.toJsonPretty()
 
     elif t == "openbmp.parsed.bmp_stat":
-        bmp_stat = BmpStat(m.getContent())
+        bmp_stat = BmpStat(m)
         print t + '\n'
         print bmp_stat.toJsonPretty()
 
     elif t == "openbmp.parsed.unicast_prefix":
-        unicastPrefix = UnicastPrefix(m.getVersion(), m.getContent())
+        unicastPrefix = UnicastPrefix(m)
         print t + '\n'
         print unicastPrefix.toJsonPretty()
 
     elif t == "openbmp.parsed.base_attribute":
-        base_attribute = BaseAttribute(m.getContent())
+        base_attribute = BaseAttribute(m)
         #print t + '\n'
         ##print base_attribute.toJsonPretty()
 
     elif t == "openbmp.parsed.ls_node":
-        ls_node = LsNode(m.getVersion(), m.getContent())
+        ls_node = LsNode(m)
         print t + '\n'
         print ls_node.toJsonPretty()
 
     elif t == "openbmp.parsed.ls_link":
-        ls_link = LsLink(m.getVersion(), m.getContent())
+        ls_link = LsLink(m)
         print t + '\n'
         print ls_link.toJsonPretty()
 
     elif t == "openbmp.parsed.ls_prefix":
-        ls_prefix = LsPrefix(m.getVersion(), m.getContent())
+        ls_prefix = LsPrefix(m)
         print t + '\n'
         print ls_prefix.toJsonPretty()
 

@@ -7,6 +7,7 @@
 """
 from Base import *
 from FieldProcessors import *
+from Message import *
 
 class Peer(Base):
     """
@@ -15,12 +16,16 @@ class Peer(Base):
         Schema Version: 1.3
     """
 
-    def __init__(self, data):
+    def __init__(self, message):
         """
         Handle the message by parsing it and storing the data in memory.
 
-        :param data: Data to parse.
+        :param message: 'Message' object.
         """
+        if not isinstance(message, Message):
+            raise TypeError("Expected Message object instead of type " + type(message))
+
+        data = message.getContent()
 
         super(Peer, self).__init__()
 
@@ -30,7 +35,7 @@ class Peer(Base):
             "remote_holddown", "adv_holddown", "bmp_reason", "bgp_error_code",
             "bgp_error_sub_code", "error_text", "isL3VPN", "isPrePolicy", "isIPv4"]
 
-        self.parse(Base.DEFAULT_SPEC_VERSION, data)
+        self.parse(Base.spec_version, data)
 
     def getProcessors(self):
         """
