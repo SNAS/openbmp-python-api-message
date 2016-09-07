@@ -42,12 +42,12 @@ class LsLink(Base):
         self.spec_version = version
 
         if version >= float(1.3):
-            versionSpecificHeaders = [MsgBusFields.REMOTE_IGP_ROUTER_ID.getName(),MsgBusFields.REMOTE_ROUTER_ID.getName(),MsgBusFields.LOCAL_NODE_ASN.getName(),MsgBusFields.REMOTE_NODE_ASN.getName(),
-                                      MsgBusFields.PEER_NODE_SID.getName(),MsgBusFields.ISPREPOLICY.getName(),MsgBusFields.IS_ADJ_RIB_IN.getName()]
+            versionSpecificHeaders = [MsgBusFields.REMOTE_IGP_ROUTER_ID['name'],MsgBusFields.REMOTE_ROUTER_ID['name'],MsgBusFields.LOCAL_NODE_ASN['name'],MsgBusFields.REMOTE_NODE_ASN['name'],
+                                      MsgBusFields.PEER_NODE_SID['name'],MsgBusFields.ISPREPOLICY['name'],MsgBusFields.IS_ADJ_RIB_IN['name']]
 
         elif version >= float(1.2):
-            versionSpecificHeaders = [MsgBusFields.REMOTE_IGP_ROUTER_ID.getName(),MsgBusFields.REMOTE_ROUTER_ID.getName(),MsgBusFields.LOCAL_NODE_ASN.getName(),
-                                      MsgBusFields.REMOTE_NODE_ASN.getName(),MsgBusFields.PEER_NODE_SID.getName()]
+            versionSpecificHeaders = [MsgBusFields.REMOTE_IGP_ROUTER_ID['name'],MsgBusFields.REMOTE_ROUTER_ID['name'],MsgBusFields.LOCAL_NODE_ASN['name'],
+                                      MsgBusFields.REMOTE_NODE_ASN['name'],MsgBusFields.PEER_NODE_SID['name']]
 
         else:
             versionSpecificHeaders = []
