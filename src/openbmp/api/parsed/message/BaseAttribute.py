@@ -9,6 +9,7 @@
 from Base import *
 from FieldProcessors import *
 from Message import *
+from MsgBusFields import MsgBusFields
 
 class BaseAttribute(Base):
     """
@@ -16,6 +17,13 @@ class BaseAttribute(Base):
 
     Schema Version: 1.2
     """
+
+    minimumHeaderNames = [MsgBusFields.ACTION['name'], MsgBusFields.SEQUENCE['name'], MsgBusFields.HASH['name'], MsgBusFields.ROUTER_HASH['name'],
+                            MsgBusFields.ROUTER_IP['name'], MsgBusFields.PEER_HASH['name'], MsgBusFields.PEER_IP['name'], MsgBusFields.PEER_ASN['name'], 
+                            MsgBusFields.TIMESTAMP['name'], MsgBusFields.ORIGIN['name'], MsgBusFields.AS_PATH['name'], MsgBusFields.AS_PATH_COUNT['name'], 
+                            MsgBusFields.ORIGIN_AS['name'], MsgBusFields.NEXTHOP['name'], MsgBusFields.MED['name'], MsgBusFields.LOCAL_PREF['name'], 
+                            MsgBusFields.AGGREGATOR['name'], MsgBusFields.COMMUNITY_LIST['name'], MsgBusFields.EXT_COMMUNITY_LIST['name'], 
+                            MsgBusFields.CLUSTER_LIST['name'], MsgBusFields.ISATOMICAGG['name'], MsgBusFields.IS_NEXTHOP_IPV4['name'], MsgBusFields.ORIGINATOR_ID['name']]
 
     def __init__(self, message):
         """
@@ -30,10 +38,7 @@ class BaseAttribute(Base):
 
         super(BaseAttribute, self).__init__()
 
-        self.headerNames = ["action", "seq", "hash", "router_hash", "router_ip", "peer_hash", "peer_ip",
-            "peer_asn", "timestamp", "origin", "as_path", "as_path_count", "origin_as",
-            "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
-            "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id"]
+        self.headerNames = BaseAttribute.minimumHeaderNames
 
         self.parse(Base.spec_version, data);
 

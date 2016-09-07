@@ -9,6 +9,7 @@
 from Base import *
 from FieldProcessors import *
 from Message import *
+from MsgBusFields import MsgBusFields
 
 class BmpStat(Base):
     """
@@ -16,6 +17,14 @@ class BmpStat(Base):
 
         Schema Version: 1.2
     """
+
+    minimumHeaderNames = [MsgBusFields.ACTION['name'],MsgBusFields.SEQUENCE['name'],MsgBusFields.ROUTER_HASH['name'],
+                          MsgBusFields.ROUTER_IP['name'], MsgBusFields.PEER_HASH['name'],MsgBusFields.PEER_IP['name'],
+                          MsgBusFields.PEER_ASN['name'],MsgBusFields.TIMESTAMP['name'],MsgBusFields.REJECTED['name'],
+                          MsgBusFields.KNOWN_DUP_UPDATES['name'],MsgBusFields.KNOWN_DUP_WITHDRAWS['name'],
+                          MsgBusFields.INVALID_CLUSTER_LIST['name'],MsgBusFields.INVALID_AS_PATH['name'],
+                          MsgBusFields.INVALID_ORIGINATOR['name'],MsgBusFields.INVALID_AS_CONFED['name'],
+                          MsgBusFields.PRE_POLICY['name'],MsgBusFields.POST_POLICY['name']]
 
     def __init__(self, message):
         """
@@ -29,10 +38,7 @@ class BmpStat(Base):
         data = message.getContent()
 
         super(BmpStat, self).__init__()
-        self.headerNames = ["action", "seq", "router_hash", "router_ip", "peer_hash", "peer_ip",
-            "peer_asn", "timestamp", "rejected", "known_dup_updates", "known_dup_withdraws",
-            "invalid_cluster_list", "invalid_as_path", "invalid_originator",
-            "invalid_as_confed", "pre_policy", "post_policy"]
+        self.headerNames = BmpStat.minimumHeaderNames
 
         self.parse(Base.spec_version, data)
 

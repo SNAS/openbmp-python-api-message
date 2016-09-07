@@ -11,6 +11,7 @@ import socket
 import kafka
 import traceback
 
+
 def processMessage(msg):
     """ Process the message
 
