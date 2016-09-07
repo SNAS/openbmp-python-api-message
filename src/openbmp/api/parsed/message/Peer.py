@@ -8,6 +8,7 @@
 from Base import *
 from FieldProcessors import *
 from Message import *
+from MsgBusFields import MsgBusFields
 
 class Peer(Base):
     """
@@ -15,6 +16,15 @@ class Peer(Base):
 
         Schema Version: 1.3
     """
+
+    minimumHeaderNames = [MsgBusFields.ACTION['name'],MsgBusFields.SEQUENCE['name'],MsgBusFields.HASH['name'],MsgBusFields.ROUTER_HASH['name'],MsgBusFields.NAME['name'],
+                            MsgBusFields.REMOTE_BGP_ID['name'],MsgBusFields.ROUTER_IP['name'],MsgBusFields.TIMESTAMP['name'],MsgBusFields.REMOTE_ASN['name'],
+                            MsgBusFields.REMOTE_IP['name'],MsgBusFields.PEER_RD['name'],MsgBusFields.REMOTE_PORT['name'],MsgBusFields.LOCAL_ASN['name'],
+                            MsgBusFields.LOCAL_IP['name'],MsgBusFields.LOCAL_PORT['name'],MsgBusFields.LOCAL_BGP_ID['name'],MsgBusFields.INFO_DATA['name'],MsgBusFields.ADV_CAP['name'],
+                            MsgBusFields.RECV_CAP['name'],MsgBusFields.REMOTE_HOLDDOWN['name'],MsgBusFields.ADV_HOLDDOWN['name'],MsgBusFields.BMP_REASON['name'],
+                            MsgBusFields.BGP_ERROR_CODE['name'],MsgBusFields.BGP_ERROR_SUB_CODE['name'],MsgBusFields.ERROR_TEXT['name'],MsgBusFields.IS_L3VPN['name'],
+                            MsgBusFields.ISPREPOLICY['name'],MsgBusFields.IS_IPV4['name']]
+
 
     def __init__(self, message):
         """
@@ -29,11 +39,7 @@ class Peer(Base):
 
         super(Peer, self).__init__()
 
-        self.headerNames = ["action", "seq", "hash", "router_hash", "name", "remote_bgp_id", "router_ip",
-            "timestamp", "remote_asn", "remote_ip", "peer_rd", "remote_port", "local_asn",
-            "local_ip", "local_port", "local_bgp_id", "info_data", "adv_cap", "recv_cap",
-            "remote_holddown", "adv_holddown", "bmp_reason", "bgp_error_code",
-            "bgp_error_sub_code", "error_text", "isL3VPN", "isPrePolicy", "isIPv4"]
+        self.headerNames = Peer.minimumHeaderNames
 
         self.parse(Base.spec_version, data)
 
