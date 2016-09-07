@@ -8,6 +8,7 @@
 from Base import *
 from FieldProcessors import *
 from Message import *
+from MsgBusFields import MsgBusFields
 
 class LsPrefix(Base):
     """
@@ -15,6 +16,14 @@ class LsPrefix(Base):
 
         Schema Version: 1.2
     """
+
+    minimumHeaderNames = [MsgBusFields.ACTION['name'],MsgBusFields.SEQUENCE['name'],MsgBusFields.HASH['name'],MsgBusFields.BASE_ATTR_HASH['name'],MsgBusFields.ROUTER_HASH['name'],
+                            MsgBusFields.ROUTER_IP['name'],MsgBusFields.PEER_HASH['name'],MsgBusFields.PEER_IP['name'],MsgBusFields.PEER_ASN['name'],MsgBusFields.TIMESTAMP['name'],
+                            MsgBusFields.IGP_ROUTER_ID['name'],MsgBusFields.ROUTER_ID['name'],MsgBusFields.ROUTING_ID['name'],MsgBusFields.LS_ID['name'],MsgBusFields.OSPF_AREA_ID['name'],
+                            MsgBusFields.ISIS_AREA_ID['name'],MsgBusFields.PROTOCOL['name'],MsgBusFields.AS_PATH['name'],MsgBusFields.LOCAL_PREF['name'],MsgBusFields.MED['name'],
+                            MsgBusFields.NEXTHOP['name'],MsgBusFields.LOCAL_NODE_HASH['name'],MsgBusFields.MT_ID['name'],MsgBusFields.OSPF_ROUTE_TYPE['name'],MsgBusFields.IGP_FLAGS['name'],
+                            MsgBusFields.ROUTE_TAG['name'],MsgBusFields.EXT_ROUTE_TAG['name'],MsgBusFields.OSPF_FWD_ADDR['name'],MsgBusFields.IGP_METRIC['name'],MsgBusFields.PREFIX['name'],
+                            MsgBusFields.PREFIX_LEN['name']]
 
     def __init__(self, message):
         """
@@ -33,21 +42,14 @@ class LsPrefix(Base):
 
         if version >= float(1.3):
 
-            self.headerNames = ["action", "seq", "hash", "base_attr_hash", "router_hash", "router_ip", "peer_hash", "peer_ip",
-                "peer_asn", "timestamp", "igp_router_id", "router_id", "routing_id", "ls_id",
-                "ospf_area_id", "isis_area_id", "protocol", "as_path", "local_pref", "med", "nexthop",
-                "local_node_hash", "mt_id", "ospf_route_type", "igp_flags", "route_tag",
-                "ext_route_tag", "ospf_fwd_addr", "igp_metric", "prefix", "prefix_len",
-                "isPrePolicy", "isAdjRibIn"]
+            versionSpecificHeaders = [MsgBusFields.ISPREPOLICY['name'],MsgBusFields.IS_ADJ_RIB_IN['name']]
 
         else:
 
-            self.headerNames = ["action", "seq", "hash", "base_attr_hash", "router_hash", "router_ip", "peer_hash", "peer_ip",
-                "peer_asn", "timestamp", "igp_router_id", "router_id", "routing_id", "ls_id",
-                "ospf_area_id", "isis_area_id", "protocol", "as_path", "local_pref", "med", "nexthop",
-                "local_node_hash", "mt_id", "ospf_route_type", "igp_flags", "route_tag",
-                "ext_route_tag", "ospf_fwd_addr", "igp_metric", "prefix", "prefix_len"]
+            versionSpecificHeaders = []
 
+        # Concatenate minimum header names and version specific header names.
+        self.headerNames = LsPrefix.minimumHeaderNames + versionSpecificHeaders
         self.parse(version, data)
 
     def getProcessors(self):
@@ -58,82 +60,51 @@ class LsPrefix(Base):
         :return: array of cell processors.
         """
 
-        processors = None
+        defaultCellProcessors = [
+
+            NotNull(),  # action
+            ParseLong(),  # seq
+            NotNull(),  # hash
+            NotNull(),  # base_hash
+            NotNull(),  # router_hash
+            NotNull(),  # router_ip
+            NotNull(),  # peer_hash
+            NotNull(),  # peer_ip
+            ParseLong(),  # peer_asn
+            ParseTimestamp(),  # timestamp
+            ParseNullAsEmpty(),  # igp_router_id
+            ParseNullAsEmpty(),  # router_id
+            ParseNullAsEmpty(),  # routing_id
+            ParseLongEmptyAsZero(),  # ls_id
+            ParseNullAsEmpty(),  # ospf_area_id
+            ParseNullAsEmpty(),  # isis_area_id
+            ParseNullAsEmpty(),  # protocol
+            ParseNullAsEmpty(),  # as_path
+            ParseLongEmptyAsZero(),  # local_pref
+            ParseLongEmptyAsZero(),  # med
+            ParseNullAsEmpty(),  # nexthop
+            ParseNullAsEmpty(),  # local_node_hash
+            ParseNullAsEmpty(),  # mt_id
+            ParseNullAsEmpty(),  # ospf_route_type
+            ParseNullAsEmpty(),  # igp_flags
+            ParseLongEmptyAsZero(),  # route_tag
+            ParseLongEmptyAsZero(),  # ext_route_tag
+            ParseNullAsEmpty(),  # ospf_fwd_addr
+            ParseLongEmptyAsZero(),  # igp_metric
+            NotNull(),  # prefix
+            ParseInt(),  # prefix_len
+        ]
 
         if self.spec_version >= float(1.3):
 
-            processors = [
+            versionSpecificProcessors = [
 
-                NotNull(), # action
-                ParseLong(), # seq
-                NotNull(), # hash
-                NotNull(), # base_hash
-                NotNull(), # router_hash
-                NotNull(), # router_ip
-                NotNull(), # peer_hash
-                NotNull(), # peer_ip
-                ParseLong(), # peer_asn
-                ParseTimestamp(), # timestamp
-                ParseNullAsEmpty(), # igp_router_id
-                ParseNullAsEmpty(), # router_id
-                ParseNullAsEmpty(), # routing_id
-                ParseLongEmptyAsZero(), # ls_id
-                ParseNullAsEmpty(), # ospf_area_id
-                ParseNullAsEmpty(), # isis_area_id
-                ParseNullAsEmpty(), # protocol
-                ParseNullAsEmpty(), # as_path
-                ParseLongEmptyAsZero(), # local_pref
-                ParseLongEmptyAsZero(), # med
-                ParseNullAsEmpty(), # nexthop
-                ParseNullAsEmpty(), # local_node_hash
-                ParseNullAsEmpty(), # mt_id
-                ParseNullAsEmpty(), # ospf_route_type
-                ParseNullAsEmpty(), # igp_flags
-                ParseLongEmptyAsZero(), # route_tag
-                ParseLongEmptyAsZero(), # ext_route_tag
-                ParseNullAsEmpty(), # ospf_fwd_addr
-                ParseLongEmptyAsZero(), # igp_metric
-                NotNull(), # prefix
-                ParseInt(), # prefix_len
-                ParseLongEmptyAsZero(), # isPrePolicy
-                ParseLongEmptyAsZero() # isAdjRibIn
+                ParseLongEmptyAsZero(),  # isPrePolicy
+                ParseLongEmptyAsZero()  # isAdjRibIn
             ]
 
         else:
 
-            processors = [
+            versionSpecificProcessors = []
 
-                NotNull(), # action
-                ParseLong(), # seq
-                NotNull(), # hash
-                NotNull(), # base_hash
-                NotNull(), # router_hash
-                NotNull(), # router_ip
-                NotNull(), # peer_hash
-                NotNull(), # peer_ip
-                ParseLong(), # peer_asn
-                ParseTimestamp(), # timestamp
-                ParseNullAsEmpty(), # igp_router_id
-                ParseNullAsEmpty(), # router_id
-                ParseNullAsEmpty(), # routing_id
-                ParseLongEmptyAsZero(), # ls_id
-                ParseNullAsEmpty(), # ospf_area_id
-                ParseNullAsEmpty(), # isis_area_id
-                ParseNullAsEmpty(), # protocol
-                ParseNullAsEmpty(), # as_path
-                ParseLongEmptyAsZero(), # local_pref
-                ParseLongEmptyAsZero(), # med
-                ParseNullAsEmpty(), # nexthop
-                ParseNullAsEmpty(), # local_node_hash
-                ParseNullAsEmpty(), # mt_id
-                ParseNullAsEmpty(), # ospf_route_type
-                ParseNullAsEmpty(), # igp_flags
-                ParseLongEmptyAsZero(), # route_tag
-                ParseLongEmptyAsZero(), # ext_route_tag
-                ParseNullAsEmpty(), # ospf_fwd_addr
-                ParseLongEmptyAsZero(), # igp_metric
-                NotNull(), # prefix
-                ParseInt() # prefix_len
-            ]
-
-        return processors
+        return defaultCellProcessors + versionSpecificProcessors
