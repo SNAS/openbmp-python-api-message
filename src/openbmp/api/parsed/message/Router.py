@@ -8,6 +8,7 @@
 from Base import *
 from FieldProcessors import *
 from Message import *
+from MsgBusFields import MsgBusFields
 
 class Router(Base):
     """
@@ -15,6 +16,10 @@ class Router(Base):
 
         Schema Version: 1.2
     """
+
+    minimumHeaderNames = [MsgBusFields.ACTION["name"],MsgBusFields.SEQUENCE["name"],MsgBusFields.NAME["name"],MsgBusFields.HASH["name"],MsgBusFields.IP_ADDRESS["name"],
+                            MsgBusFields.DESCRIPTION["name"],MsgBusFields.TERM_CODE["name"],MsgBusFields.TERM_REASON["name"],MsgBusFields.INIT_DATA["name"],MsgBusFields.TERM_DATA["name"],
+                            MsgBusFields.TIMESTAMP["name"]]
 
     def __init__(self, message):
         """
@@ -33,14 +38,14 @@ class Router(Base):
 
         if version >= float(1.2):
 
-            self.headerNames = ["action", "seq", "name", "hash", "ip_address", "description", "term_code",
-                "term_reason", "init_data", "term_data", "timestamp", "bgp_id"]
+            versionSpecificHeaders = [MsgBusFields.BGP_ID["name"]]
 
         else:
 
-            self.headerNames = ["action", "seq", "name", "hash", "ip_address", "description", "term_code",
-                "term_reason", "init_data", "term_data", "timestamp"]
+            versionSpecificHeaders = []
 
+        # Concatenate minimum header names and version specific header names.
+        self.headerNames = Router.minimumHeaderNames + versionSpecificHeaders
         self.parse(version, data)
 
     def getProcessors(self):
@@ -51,41 +56,30 @@ class Router(Base):
         :return: array of cell processors.
         """
 
-        processors = None
+        defaultCellProcessors = [
+
+            NotNull(),  # action
+            ParseLong(),  # seq
+            ParseNullAsEmpty(),  # name
+            NotNull(),  # hash
+            NotNull(),  # IP Address
+            ParseNullAsEmpty(),  # Description
+            ParseInt(),  # Term code
+            ParseNullAsEmpty(),  # Term reason
+            ParseNullAsEmpty(),  # Init data
+            ParseNullAsEmpty(),  # Term data
+            ParseTimestamp()  # Timestamp
+        ]
 
         if self.spec_version >= float(1.2):
 
-            processors = [
+            versionSpecificProcessors = [
 
-                NotNull(), # action
-                ParseLong(), # seq
-                ParseNullAsEmpty(), # name
-                NotNull(), # hash
-                NotNull(), # IP Address
-                ParseNullAsEmpty(), # Description
-                ParseInt(), # Term code
-                ParseNullAsEmpty(), # Term reason
-                ParseNullAsEmpty(), # Init data
-                ParseNullAsEmpty(), # Term data
-                ParseTimestamp(), # Timestamp
-                ParseNullAsEmpty() # Global BGP - ID for router
+                ParseNullAsEmpty()  # Global BGP - ID for router
             ]
 
         else:
 
-            processors = [
+            versionSpecificProcessors = []
 
-                NotNull(), # action
-                ParseLong(), # seq
-                ParseNullAsEmpty(), # name
-                NotNull(), # hash
-                NotNull(), # IP Address
-                ParseNullAsEmpty(), # Description
-                ParseInt(), # Term code
-                ParseNullAsEmpty(), # Term reason
-                ParseNullAsEmpty(), # Init data
-                ParseNullAsEmpty(), # Term data
-                ParseTimestamp() # Timestamp
-            ]
-
-        return processors
+        return defaultCellProcessors + versionSpecificProcessors

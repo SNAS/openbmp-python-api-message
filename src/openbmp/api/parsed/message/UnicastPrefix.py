@@ -8,6 +8,7 @@
 from Base import *
 from FieldProcessors import *
 from Message import *
+from MsgBusFields import MsgBusFields
 
 class UnicastPrefix(Base):
     """
@@ -15,6 +16,13 @@ class UnicastPrefix(Base):
 
         Schema Version: 1.3
     """
+
+    minimumHeaderNames = [MsgBusFields.ACTION["name"],MsgBusFields.SEQUENCE["name"],MsgBusFields.HASH["name"],MsgBusFields.ROUTER_HASH["name"],MsgBusFields.ROUTER_IP["name"],
+                            MsgBusFields.BASE_ATTR_HASH["name"],MsgBusFields.PEER_HASH["name"],MsgBusFields.PEER_IP["name"],MsgBusFields.PEER_ASN["name"],MsgBusFields.TIMESTAMP["name"],
+                            MsgBusFields.PREFIX["name"],MsgBusFields.PREFIX_LEN["name"],MsgBusFields.IS_IPV4["name"],MsgBusFields.ORIGIN["name"],MsgBusFields.AS_PATH["name"],
+                            MsgBusFields.AS_PATH_COUNT["name"],MsgBusFields.ORIGIN_AS["name"],MsgBusFields.NEXTHOP["name"],MsgBusFields.MED["name"],MsgBusFields.LOCAL_PREF["name"],
+                            MsgBusFields.AGGREGATOR["name"],MsgBusFields.COMMUNITY_LIST["name"],MsgBusFields.EXT_COMMUNITY_LIST["name"],MsgBusFields.CLUSTER_LIST["name"],MsgBusFields.ISATOMICAGG["name"],
+                            MsgBusFields.IS_NEXTHOP_IPV4["name"],MsgBusFields.ORIGINATOR_ID["name"]]
 
     def __init__(self, message):
         """
@@ -33,30 +41,18 @@ class UnicastPrefix(Base):
 
         if version >= float(1.3):
 
-            self.headerNames = ["action", "seq", "hash", "router_hash", "router_ip", "base_attr_hash", "peer_hash",
-                "peer_ip", "peer_asn", "timestamp", "prefix", "prefix_len", "isIPv4",
-                "origin", "as_path", "as_path_count", "origin_as",
-                "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
-                "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id",
-                "path_id", "labels", "isPrePolicy", "isAdjRibIn"]
+            versionSpecificHeaders = [MsgBusFields.PATH_ID["name"],MsgBusFields.LABELS["name"],MsgBusFields.ISPREPOLICY["name"],MsgBusFields.IS_ADJ_RIB_IN["name"]]
 
         elif version >= float(1.1):
 
-            self.headerNames = ["action", "seq", "hash", "router_hash", "router_ip", "base_attr_hash", "peer_hash",
-                "peer_ip", "peer_asn", "timestamp", "prefix", "prefix_len", "isIPv4",
-                "origin", "as_path", "as_path_count", "origin_as",
-                "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
-                "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id",
-                "path_id", "labels"]
+            versionSpecificHeaders = [MsgBusFields.PATH_ID["name"],MsgBusFields.LABELS["name"]]
 
         else:
 
-            self.headerNames = ["action", "seq", "hash", "router_hash", "router_ip", "base_attr_hash", "peer_hash",
-                "peer_ip", "peer_asn", "timestamp", "prefix", "prefix_len", "isIPv4",
-                "origin", "as_path", "as_path_count", "origin_as",
-                "nexthop", "med", "local_pref", "aggregator", "community_list", "ext_community_list",
-                "cluster_list", "isAtomicAgg", "isNexthopIPv4", "originator_id"]
+            versionSpecificHeaders = []
 
+        # Concatenate minimum header names and version specific header names.
+        self.headerNames = UnicastPrefix.minimumHeaderNames + versionSpecificHeaders
         self.parse(version, data)
 
     def getProcessors(self):
@@ -67,39 +63,41 @@ class UnicastPrefix(Base):
         :return: array of cell processors.
         """
 
-        processors = None
+        defaultCellProcessors = [
+
+            NotNull(),  # action
+            ParseLong(),  # seq
+            NotNull(),  # hash
+            NotNull(),  # router hash
+            NotNull(),  # router_ip
+            ParseNullAsEmpty(),  # base_attr_hash
+            NotNull(),  # peer_hash
+            NotNull(),  # peer_ip
+            ParseLong(),  # peer_asn
+            ParseTimestamp(),  # timestamp
+            NotNull(),  # prefix
+            ParseInt(),  # prefix_len
+            ParseInt(),  # isIPv4
+            ParseNullAsEmpty(),  # origin
+            ParseNullAsEmpty(),  # as_path
+            ParseLongEmptyAsZero(),  # as_path_count
+            ParseLongEmptyAsZero(),  # origin_as
+            ParseNullAsEmpty(),  # nexthop
+            ParseLongEmptyAsZero(),  # med
+            ParseLongEmptyAsZero(),  # local_pref
+            ParseNullAsEmpty(),  # aggregator
+            ParseNullAsEmpty(),  # community_list
+            ParseNullAsEmpty(),  # ext_community_list
+            ParseNullAsEmpty(),  # cluster_list
+            ParseLongEmptyAsZero(),  # isAtomicAgg
+            ParseLongEmptyAsZero(),  # isNexthopIPv4
+            ParseNullAsEmpty(),  # originator_id
+        ]
 
         if self.spec_version >= float(1.3):
 
-            processors = [
+            versionSpecificProcessors = [
 
-                NotNull(), # action
-                ParseLong(), # seq
-                NotNull(), # hash
-                NotNull(), # router hash
-                NotNull(), # router_ip
-                ParseNullAsEmpty(), # base_attr_hash
-                NotNull(), # peer_hash
-                NotNull(), # peer_ip
-                ParseLong(), # peer_asn
-                ParseTimestamp(), # timestamp
-                NotNull(), # prefix
-                ParseInt(), # prefix_len
-                ParseInt(), # isIPv4
-                ParseNullAsEmpty(), # origin
-                ParseNullAsEmpty(), # as_path
-                ParseLongEmptyAsZero(), # as_path_count
-                ParseLongEmptyAsZero(), # origin_as
-                ParseNullAsEmpty(), # nexthop
-                ParseLongEmptyAsZero(), # med
-                ParseLongEmptyAsZero(), # local_pref
-                ParseNullAsEmpty(), # aggregator
-                ParseNullAsEmpty(), # community_list
-                ParseNullAsEmpty(), # ext_community_list
-                ParseNullAsEmpty(), # cluster_list
-                ParseLongEmptyAsZero(), # isAtomicAgg
-                ParseLongEmptyAsZero(), # isNexthopIPv4
-                ParseNullAsEmpty(), # originator_id
                 ParseLongEmptyAsZero(), # Path ID
                 ParseNullAsEmpty(), # Labels
                 ParseLongEmptyAsZero(), # isPrePolicy
@@ -108,70 +106,14 @@ class UnicastPrefix(Base):
 
         elif self.spec_version >= float(1.1):
 
-            processors = [
+            versionSpecificProcessors = [
 
-                NotNull(), # action
-                ParseLong(), # seq
-                NotNull(), # hash
-                NotNull(), # router hash
-                NotNull(), # router_ip
-                ParseNullAsEmpty(), # base_attr_hash
-                NotNull(), # peer_hash
-                NotNull(), # peer_ip
-                ParseLong(), # peer_asn
-                ParseTimestamp(), # timestamp
-                NotNull(), # prefix
-                ParseInt(), # prefix_len
-                ParseInt(), # isIPv4
-                ParseNullAsEmpty(), # origin
-                ParseNullAsEmpty(), # as_path
-                ParseLongEmptyAsZero(), # as_path_count
-                ParseLongEmptyAsZero(), # origin_as
-                ParseNullAsEmpty(), # nexthop
-                ParseLongEmptyAsZero(), # med
-                ParseLongEmptyAsZero(), # local_pref
-                ParseNullAsEmpty(), # aggregator
-                ParseNullAsEmpty(), # community_list
-                ParseNullAsEmpty(), # ext_community_list
-                ParseNullAsEmpty(), # cluster_list
-                ParseLongEmptyAsZero(), # isAtomicAgg
-                ParseLongEmptyAsZero(), # isNexthopIPv4
-                ParseNullAsEmpty(), # originator_id
-                ParseLongEmptyAsZero(), # Path ID
-                ParseNullAsEmpty() # Labels
+                ParseLongEmptyAsZero(),  # Path ID
+                ParseNullAsEmpty(),  # Labels
             ]
 
         else:
 
-            processors = [
+            versionSpecificProcessors = []
 
-                NotNull(), # action
-                ParseLong(), # seq
-                NotNull(), # hash
-                NotNull(), # router hash
-                NotNull(), # router_ip
-                ParseNullAsEmpty(), # base_attr_hash
-                NotNull(), # peer_hash
-                NotNull(), # peer_ip
-                ParseLong(), # peer_asn
-                ParseTimestamp(), # timestamp
-                NotNull(), # prefix
-                ParseInt(), # prefix_len
-                ParseInt(), # isIPv4
-                ParseNullAsEmpty(), # origin
-                ParseNullAsEmpty(), # as_path
-                ParseLongEmptyAsZero(), # as_path_count
-                ParseLongEmptyAsZero(), # origin_as
-                ParseNullAsEmpty(), # nexthop
-                ParseLongEmptyAsZero(), # med
-                ParseLongEmptyAsZero(), # local_pref
-                ParseNullAsEmpty(), # aggregator
-                ParseNullAsEmpty(), # community_list
-                ParseNullAsEmpty(), # ext_community_list
-                ParseNullAsEmpty(), # cluster_list
-                ParseLongEmptyAsZero(), # isAtomicAgg
-                ParseLongEmptyAsZero(), # isNexthopIPv4
-                ParseNullAsEmpty() # originator_id
-            ]
-
-        return processors
+        return defaultCellProcessors + versionSpecificProcessors

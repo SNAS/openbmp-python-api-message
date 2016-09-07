@@ -14,7 +14,7 @@ class LsPrefix(Base):
     """
         Format class for ls_prefix parsed messages (openbmp.parsed.ls_prefix)
 
-        Schema Version: 1.2
+        Schema Version: 1.3
     """
 
     minimumHeaderNames = [MsgBusFields.ACTION['name'],MsgBusFields.SEQUENCE['name'],MsgBusFields.HASH['name'],MsgBusFields.BASE_ATTR_HASH['name'],MsgBusFields.ROUTER_HASH['name'],
