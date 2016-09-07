@@ -8,6 +8,7 @@
 from Base import *
 from FieldProcessors import *
 from Message import *
+from MsgBusFields import MsgBusFields
 
 class Collector(Base):
     """
@@ -15,6 +16,11 @@ class Collector(Base):
 
         Schema Version: 1.2
     """
+
+    minimumHeaderNames = [MsgBusFields.ACTION['name'],MsgBusFields.SEQUENCE['name'],MsgBusFields.ADMIN_ID['name'],
+                          MsgBusFields.HASH['name'],MsgBusFields.ROUTERS['name'],MsgBusFields.ROUTER_COUNT['name'],
+                          MsgBusFields.TIMESTAMP['name']]
+
 
     def __init__(self, message):
         """
@@ -28,7 +34,7 @@ class Collector(Base):
         data = message.getContent()
 
         super(Collector, self).__init__()
-        self.headerNames = ["action", "seq", "admin_id", "hash", "routers", "router_count", "timestamp"]
+        self.headerNames = Collector.minimumHeaderNames
 
         # Change below to supply version when version is required
         self.parse(Base.spec_version, data)
