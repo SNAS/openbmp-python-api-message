@@ -1,15 +1,7 @@
 #!/usr/bin/env python
 
 import time
-import datetime
-import calendar
-import getopt
-import sys
-import os
-import yaml
-import socket
 import kafka
-import traceback
 
 
 def processMessage(msg):
