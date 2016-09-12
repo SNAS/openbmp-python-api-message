@@ -37,7 +37,7 @@ class Collector(Base):
         self.headerNames = Collector.minimumHeaderNames
 
         # Change below to supply version when version is required
-        self.parse(Base.spec_version, data)
+        self.parse(self.spec_version, data)
 
     def getProcessors(self):
         """

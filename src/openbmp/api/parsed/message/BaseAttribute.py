@@ -40,7 +40,7 @@ class BaseAttribute(Base):
 
         self.headerNames = BaseAttribute.minimumHeaderNames
 
-        self.parse(Base.spec_version, data);
+        self.parse(self.spec_version, data);
 
     def getProcessors(self):
         """
