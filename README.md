@@ -14,15 +14,7 @@ Use this library in any existing python project.
 
 ```python
 from openbmp.api.parsed.message import Message
-from openbmp.api.parsed.message import BaseAttribute
-from openbmp.api.parsed.message import BmpStat
-from openbmp.api.parsed.message import Collector
-from openbmp.api.parsed.message import LsLink
-from openbmp.api.parsed.message import LsNode
-from openbmp.api.parsed.message import LsPrefix
 from openbmp.api.parsed.message import Peer
-from openbmp.api.parsed.message import Router
-from openbmp.api.parsed.message import UnicastPrefix
 
 raw_kafka_message_data = '...';
 
