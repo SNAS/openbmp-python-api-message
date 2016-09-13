@@ -8,9 +8,9 @@ Messages from kafka (headers and content) are parsed and made available in ```Ma
 
 ## Install 
 
-    git clone 
-    cd openbmp-python-api-message
-    python setup.py install
+    $ git clone 
+    $ cd openbmp-python-api-message
+    $ python setup.py install
     
 ## Usage
  
