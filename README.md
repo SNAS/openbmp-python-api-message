@@ -39,7 +39,7 @@ will parse the headers and content data.
 
 
 #### Message Specific Classes
-Each message type, such as ***Router***, ***Peer***, ... are parsed based on  [MESSAGE_BUS_API.md](http://openbmp.org/#!docs/MESSAGE_BUS_API.md).  This is why
+Each message type, such as ***Router***, ***Peer***, ***UnicastPrefix***, ***LsPrefix***, ***LsNode***, ***LsLink***, ***Collector***, ***BmpStat***, ***BaseAttribute*** are parsed based on  [MESSAGE_BUS_API.md](http://openbmp.org/#!docs/MESSAGE_BUS_API.md).  This is why
 there is a separate class for each type.  All classes return the same data for use by your application.  
 
 ```python
