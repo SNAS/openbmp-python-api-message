@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(name='openbmp-python-api-message',
       version='1.0',
@@ -9,5 +9,5 @@ setup(name='openbmp-python-api-message',
       license='MIT',
       install_requires=[],
       packages=['openbmp', 'openbmp.api', 'openbmp.api.parsed', 'openbmp.api.parsed.message'],
-      package_dir={'openbmp': '../src/openbmp', 'openbmp.api': '../src/openbmp/api', 'openbmp.api.parsed': '../src/openbmp/api/parsed', 'openbmp.api.parsed.message': '../src/openbmp/api/parsed/message'},
+      package_dir={'openbmp': 'src/openbmp', 'openbmp.api': 'src/openbmp/api', 'openbmp.api.parsed': 'src/openbmp/api/parsed', 'openbmp.api.parsed.message': 'src/openbmp/api/parsed/message'},
       zip_safe=False)

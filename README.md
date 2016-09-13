@@ -6,6 +6,12 @@ Messages from kafka (headers and content) are parsed and made available in ```Ma
 > ### API supports Python 2.7
 > ### Current Schema supported is 1.3
 
+## Install 
+
+    git clone 
+    cd openbmp-python-api-message
+    python setup.py install
+    
 ## Usage
  
 Use this library in any existing python project.
