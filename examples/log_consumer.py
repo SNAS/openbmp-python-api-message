@@ -51,7 +51,7 @@ def processMessage(msg):
 
     elif t == "openbmp.parsed.unicast_prefix":
         unicastPrefix = UnicastPrefix(m)
-        print '\n' + t_stamp + ' : ' + m_tag + '(V:' + str(m.version) + ')'
+        print '\n' + 'Received Message (' + t_stamp + ') : ' + m_tag + '(V: ' + str(m.version) + ')'
         print unicastPrefix.toJsonPretty()
 
     elif t == "openbmp.parsed.ls_node":
