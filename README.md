@@ -8,15 +8,19 @@ Messages from kafka (headers and content) are parsed and made available in ```Ma
 
 ## Install 
 
-    $ git clone 
+### For Mac & Linux & Windows
+
+    $ git clone
     $ cd openbmp-python-api-message
-    $ python setup.py install
+    $ python setup.py bdist_wheel
+    $ cd dist
+    $ pip install openbmp_python_api_message-1.0-py2-none-any.whl
     
 ## Usage
  
 Use this library in any existing python project.
 
-### Code
+## Code
 
 ```python
 from openbmp.api.parsed.message import Message
