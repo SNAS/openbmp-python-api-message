@@ -17,13 +17,13 @@ class Peer(Base):
         Schema Version: 1.3
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION['name'],MsgBusFields.SEQUENCE['name'],MsgBusFields.HASH['name'],MsgBusFields.ROUTER_HASH['name'],MsgBusFields.NAME['name'],
-                            MsgBusFields.REMOTE_BGP_ID['name'],MsgBusFields.ROUTER_IP['name'],MsgBusFields.TIMESTAMP['name'],MsgBusFields.REMOTE_ASN['name'],
-                            MsgBusFields.REMOTE_IP['name'],MsgBusFields.PEER_RD['name'],MsgBusFields.REMOTE_PORT['name'],MsgBusFields.LOCAL_ASN['name'],
-                            MsgBusFields.LOCAL_IP['name'],MsgBusFields.LOCAL_PORT['name'],MsgBusFields.LOCAL_BGP_ID['name'],MsgBusFields.INFO_DATA['name'],MsgBusFields.ADV_CAP['name'],
-                            MsgBusFields.RECV_CAP['name'],MsgBusFields.REMOTE_HOLDDOWN['name'],MsgBusFields.ADV_HOLDDOWN['name'],MsgBusFields.BMP_REASON['name'],
-                            MsgBusFields.BGP_ERROR_CODE['name'],MsgBusFields.BGP_ERROR_SUB_CODE['name'],MsgBusFields.ERROR_TEXT['name'],MsgBusFields.IS_L3VPN['name'],
-                            MsgBusFields.ISPREPOLICY['name'],MsgBusFields.IS_IPV4['name']]
+    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.HASH.getName(),MsgBusFields.ROUTER_HASH.getName(),MsgBusFields.NAME.getName(),
+                            MsgBusFields.REMOTE_BGP_ID.getName(),MsgBusFields.ROUTER_IP.getName(),MsgBusFields.TIMESTAMP.getName(),MsgBusFields.REMOTE_ASN.getName(),
+                            MsgBusFields.REMOTE_IP.getName(),MsgBusFields.PEER_RD.getName(),MsgBusFields.REMOTE_PORT.getName(),MsgBusFields.LOCAL_ASN.getName(),
+                            MsgBusFields.LOCAL_IP.getName(),MsgBusFields.LOCAL_PORT.getName(),MsgBusFields.LOCAL_BGP_ID.getName(),MsgBusFields.INFO_DATA.getName(),MsgBusFields.ADV_CAP.getName(),
+                            MsgBusFields.RECV_CAP.getName(),MsgBusFields.REMOTE_HOLDDOWN.getName(),MsgBusFields.ADV_HOLDDOWN.getName(),MsgBusFields.BMP_REASON.getName(),
+                            MsgBusFields.BGP_ERROR_CODE.getName(),MsgBusFields.BGP_ERROR_SUB_CODE.getName(),MsgBusFields.ERROR_TEXT.getName(),MsgBusFields.IS_L3VPN.getName(),
+                            MsgBusFields.ISPREPOLICY.getName(),MsgBusFields.IS_IPV4.getName()]
 
 
     def __init__(self, message):

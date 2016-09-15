@@ -17,9 +17,9 @@ class Collector(Base):
         Schema Version: 1.2
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION['name'],MsgBusFields.SEQUENCE['name'],MsgBusFields.ADMIN_ID['name'],
-                          MsgBusFields.HASH['name'],MsgBusFields.ROUTERS['name'],MsgBusFields.ROUTER_COUNT['name'],
-                          MsgBusFields.TIMESTAMP['name']]
+    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.ADMIN_ID.getName(),
+                          MsgBusFields.HASH.getName(),MsgBusFields.ROUTERS.getName(),MsgBusFields.ROUTER_COUNT.getName(),
+                          MsgBusFields.TIMESTAMP.getName()]
 
 
     def __init__(self, message):

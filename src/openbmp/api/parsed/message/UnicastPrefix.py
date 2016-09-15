@@ -17,12 +17,12 @@ class UnicastPrefix(Base):
         Schema Version: 1.3
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION["name"],MsgBusFields.SEQUENCE["name"],MsgBusFields.HASH["name"],MsgBusFields.ROUTER_HASH["name"],MsgBusFields.ROUTER_IP["name"],
-                            MsgBusFields.BASE_ATTR_HASH["name"],MsgBusFields.PEER_HASH["name"],MsgBusFields.PEER_IP["name"],MsgBusFields.PEER_ASN["name"],MsgBusFields.TIMESTAMP["name"],
-                            MsgBusFields.PREFIX["name"],MsgBusFields.PREFIX_LEN["name"],MsgBusFields.IS_IPV4["name"],MsgBusFields.ORIGIN["name"],MsgBusFields.AS_PATH["name"],
-                            MsgBusFields.AS_PATH_COUNT["name"],MsgBusFields.ORIGIN_AS["name"],MsgBusFields.NEXTHOP["name"],MsgBusFields.MED["name"],MsgBusFields.LOCAL_PREF["name"],
-                            MsgBusFields.AGGREGATOR["name"],MsgBusFields.COMMUNITY_LIST["name"],MsgBusFields.EXT_COMMUNITY_LIST["name"],MsgBusFields.CLUSTER_LIST["name"],MsgBusFields.ISATOMICAGG["name"],
-                            MsgBusFields.IS_NEXTHOP_IPV4["name"],MsgBusFields.ORIGINATOR_ID["name"]]
+    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.HASH.getName(),MsgBusFields.ROUTER_HASH.getName(),MsgBusFields.ROUTER_IP.getName(),
+                            MsgBusFields.BASE_ATTR_HASH.getName(),MsgBusFields.PEER_HASH.getName(),MsgBusFields.PEER_IP.getName(),MsgBusFields.PEER_ASN.getName(),MsgBusFields.TIMESTAMP.getName(),
+                            MsgBusFields.PREFIX.getName(),MsgBusFields.PREFIX_LEN.getName(),MsgBusFields.IS_IPV4.getName(),MsgBusFields.ORIGIN.getName(),MsgBusFields.AS_PATH.getName(),
+                            MsgBusFields.AS_PATH_COUNT.getName(),MsgBusFields.ORIGIN_AS.getName(),MsgBusFields.NEXTHOP.getName(),MsgBusFields.MED.getName(),MsgBusFields.LOCAL_PREF.getName(),
+                            MsgBusFields.AGGREGATOR.getName(),MsgBusFields.COMMUNITY_LIST.getName(),MsgBusFields.EXT_COMMUNITY_LIST.getName(),MsgBusFields.CLUSTER_LIST.getName(),MsgBusFields.ISATOMICAGG.getName(),
+                            MsgBusFields.IS_NEXTHOP_IPV4.getName(),MsgBusFields.ORIGINATOR_ID.getName()]
 
     def __init__(self, message):
         """
@@ -41,11 +41,11 @@ class UnicastPrefix(Base):
 
         if version >= float(1.3):
 
-            versionSpecificHeaders = [MsgBusFields.PATH_ID["name"],MsgBusFields.LABELS["name"],MsgBusFields.ISPREPOLICY["name"],MsgBusFields.IS_ADJ_RIB_IN["name"]]
+            versionSpecificHeaders = [MsgBusFields.PATH_ID.getName(),MsgBusFields.LABELS.getName(),MsgBusFields.ISPREPOLICY.getName(),MsgBusFields.IS_ADJ_RIB_IN.getName()]
 
         elif version >= float(1.1):
 
-            versionSpecificHeaders = [MsgBusFields.PATH_ID["name"],MsgBusFields.LABELS["name"]]
+            versionSpecificHeaders = [MsgBusFields.PATH_ID.getName(),MsgBusFields.LABELS.getName()]
 
         else:
 

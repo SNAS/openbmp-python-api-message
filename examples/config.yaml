@@ -1,0 +1,1 @@
+bootstrap_servers: kafka-int.openbmp.org # Kafka server address.

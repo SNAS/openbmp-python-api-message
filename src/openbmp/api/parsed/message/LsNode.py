@@ -17,11 +17,11 @@ class LsNode(Base):
         Schema Version: 1.3
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION['name'],MsgBusFields.SEQUENCE['name'],MsgBusFields.HASH['name'],MsgBusFields.BASE_ATTR_HASH['name'],MsgBusFields.ROUTER_HASH['name'],
-                            MsgBusFields.ROUTER_IP['name'],MsgBusFields.PEER_HASH['name'],MsgBusFields.PEER_IP['name'],MsgBusFields.PEER_ASN['name'],MsgBusFields.TIMESTAMP['name'],
-                            MsgBusFields.IGP_ROUTER_ID['name'],MsgBusFields.ROUTER_ID['name'],MsgBusFields.ROUTING_ID['name'],MsgBusFields.LS_ID['name'],MsgBusFields.MT_ID['name'],
-                            MsgBusFields.OSPF_AREA_ID['name'],MsgBusFields.ISIS_AREA_ID['name'],MsgBusFields.PROTOCOL['name'],MsgBusFields.FLAGS['name'],MsgBusFields.AS_PATH['name'],
-                            MsgBusFields.LOCAL_PREF['name'],MsgBusFields.MED['name'],MsgBusFields.NEXTHOP['name'],MsgBusFields.NAME['name']]
+    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.HASH.getName(),MsgBusFields.BASE_ATTR_HASH.getName(),MsgBusFields.ROUTER_HASH.getName(),
+                            MsgBusFields.ROUTER_IP.getName(),MsgBusFields.PEER_HASH.getName(),MsgBusFields.PEER_IP.getName(),MsgBusFields.PEER_ASN.getName(),MsgBusFields.TIMESTAMP.getName(),
+                            MsgBusFields.IGP_ROUTER_ID.getName(),MsgBusFields.ROUTER_ID.getName(),MsgBusFields.ROUTING_ID.getName(),MsgBusFields.LS_ID.getName(),MsgBusFields.MT_ID.getName(),
+                            MsgBusFields.OSPF_AREA_ID.getName(),MsgBusFields.ISIS_AREA_ID.getName(),MsgBusFields.PROTOCOL.getName(),MsgBusFields.FLAGS.getName(),MsgBusFields.AS_PATH.getName(),
+                            MsgBusFields.LOCAL_PREF.getName(),MsgBusFields.MED.getName(),MsgBusFields.NEXTHOP.getName(),MsgBusFields.NAME.getName()]
 
     def __init__(self, message):
         """
@@ -40,7 +40,7 @@ class LsNode(Base):
 
         if version >= float(1.3):
 
-            versionSpecificHeaders = [MsgBusFields.ISPREPOLICY['name'],MsgBusFields.IS_ADJ_RIB_IN['name']]
+            versionSpecificHeaders = [MsgBusFields.ISPREPOLICY.getName(),MsgBusFields.IS_ADJ_RIB_IN.getName()]
 
         else:
 

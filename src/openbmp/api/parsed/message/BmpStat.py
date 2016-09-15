@@ -18,13 +18,13 @@ class BmpStat(Base):
         Schema Version: 1.2
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION['name'],MsgBusFields.SEQUENCE['name'],MsgBusFields.ROUTER_HASH['name'],
-                          MsgBusFields.ROUTER_IP['name'], MsgBusFields.PEER_HASH['name'],MsgBusFields.PEER_IP['name'],
-                          MsgBusFields.PEER_ASN['name'],MsgBusFields.TIMESTAMP['name'],MsgBusFields.REJECTED['name'],
-                          MsgBusFields.KNOWN_DUP_UPDATES['name'],MsgBusFields.KNOWN_DUP_WITHDRAWS['name'],
-                          MsgBusFields.INVALID_CLUSTER_LIST['name'],MsgBusFields.INVALID_AS_PATH['name'],
-                          MsgBusFields.INVALID_ORIGINATOR['name'],MsgBusFields.INVALID_AS_CONFED['name'],
-                          MsgBusFields.PRE_POLICY['name'],MsgBusFields.POST_POLICY['name']]
+    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.ROUTER_HASH.getName(),
+                          MsgBusFields.ROUTER_IP.getName(), MsgBusFields.PEER_HASH.getName(),MsgBusFields.PEER_IP.getName(),
+                          MsgBusFields.PEER_ASN.getName(),MsgBusFields.TIMESTAMP.getName(),MsgBusFields.REJECTED.getName(),
+                          MsgBusFields.KNOWN_DUP_UPDATES.getName(),MsgBusFields.KNOWN_DUP_WITHDRAWS.getName(),
+                          MsgBusFields.INVALID_CLUSTER_LIST.getName(),MsgBusFields.INVALID_AS_PATH.getName(),
+                          MsgBusFields.INVALID_ORIGINATOR.getName(),MsgBusFields.INVALID_AS_CONFED.getName(),
+                          MsgBusFields.PRE_POLICY.getName(),MsgBusFields.POST_POLICY.getName()]
 
     def __init__(self, message):
         """

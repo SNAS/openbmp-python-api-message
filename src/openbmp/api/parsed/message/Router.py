@@ -17,9 +17,9 @@ class Router(Base):
         Schema Version: 1.2
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION["name"],MsgBusFields.SEQUENCE["name"],MsgBusFields.NAME["name"],MsgBusFields.HASH["name"],MsgBusFields.IP_ADDRESS["name"],
-                            MsgBusFields.DESCRIPTION["name"],MsgBusFields.TERM_CODE["name"],MsgBusFields.TERM_REASON["name"],MsgBusFields.INIT_DATA["name"],MsgBusFields.TERM_DATA["name"],
-                            MsgBusFields.TIMESTAMP["name"]]
+    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.NAME.getName(),MsgBusFields.HASH.getName(),MsgBusFields.IP_ADDRESS.getName(),
+                            MsgBusFields.DESCRIPTION.getName(),MsgBusFields.TERM_CODE.getName(),MsgBusFields.TERM_REASON.getName(),MsgBusFields.INIT_DATA.getName(),MsgBusFields.TERM_DATA.getName(),
+                            MsgBusFields.TIMESTAMP.getName()]
 
     def __init__(self, message):
         """
@@ -38,7 +38,7 @@ class Router(Base):
 
         if version >= float(1.2):
 
-            versionSpecificHeaders = [MsgBusFields.BGP_ID["name"]]
+            versionSpecificHeaders = [MsgBusFields.BGP_ID.getName()]
 
         else:
 

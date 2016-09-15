@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import yaml
+import datetime
 import time
 import kafka
 
@@ -24,64 +26,68 @@ def processMessage(msg):
 
     m = Message(msg.value) # Gets body of kafka message.
     t = msg.topic # Gets topic of kafka message.
+    m_tag = t.split('.')[2].upper()
+    t_stamp = str(datetime.datetime.now())
 
     if t == "openbmp.parsed.router":
         router = Router(m)
-        print t + '\n'
+        print '\n' + t_stamp + ' : ' + m_tag + '(' + str(m.version) + ')'
         print router.toJsonPretty()
 
     elif t == "openbmp.parsed.peer":
         peer = Peer(m)
-        print t + '\n'
+        print '\n' + t_stamp + ' : ' + m_tag + '(' + str(m.version) + ')'
         print peer.toJsonPretty()
 
     elif t == "openbmp.parsed.collector":
         collector = Collector(m)
-        print t + '\n'
+        print '\n' + t_stamp + ' : ' + m_tag + '(' + str(m.version) + ')'
         print collector.toJsonPretty()
 
     elif t == "openbmp.parsed.bmp_stat":
         bmp_stat = BmpStat(m)
-        print t + '\n'
+        print '\n' + t_stamp + ' : ' + m_tag + '(' + str(m.version) + ')'
         print bmp_stat.toJsonPretty()
 
     elif t == "openbmp.parsed.unicast_prefix":
         unicastPrefix = UnicastPrefix(m)
-        print t + '\n'
+        print '\n' + t_stamp + ' : ' + m_tag + '(' + str(m.version) + ')'
         print unicastPrefix.toJsonPretty()
-
-    elif t == "openbmp.parsed.base_attribute":
-        base_attribute = BaseAttribute(m)
-        #print t + '\n'
-        ##print base_attribute.toJsonPretty()
 
     elif t == "openbmp.parsed.ls_node":
         ls_node = LsNode(m)
-        print t + '\n'
+        print '\n' + t_stamp + ' : ' + m_tag + '(' + str(m.version) + ')'
         print ls_node.toJsonPretty()
 
     elif t == "openbmp.parsed.ls_link":
         ls_link = LsLink(m)
-        print t + '\n'
+        print '\n' + t_stamp + ' : ' + m_tag + '(' + str(m.version) + ')'
         print ls_link.toJsonPretty()
 
     elif t == "openbmp.parsed.ls_prefix":
         ls_prefix = LsPrefix(m)
-        print t + '\n'
+        print '\n' + t_stamp + ' : ' + m_tag + '(' + str(m.version) + ')'
         print ls_prefix.toJsonPretty()
+
 
 def main():
     # Enable to topics/feeds
     topics = [ 'openbmp.parsed.router', 'openbmp.parsed.peer', 'openbmp.parsed.collector',
-               'openbmp.parsed.bmp_stat', 'openbmp.parsed.unicast_prefix', 'openbmp.parsed.base_attribute',
-               'openbmp.parsed.ls_node', 'openbmp.parsed.ls_link', 'openbmp.parsed.ls_prefix' ]
+               'openbmp.parsed.bmp_stat', 'openbmp.parsed.unicast_prefix', 'openbmp.parsed.ls_node',
+               'openbmp.parsed.ls_link', 'openbmp.parsed.ls_prefix' ]
+
+    # Read config file
+    with open('config.yaml', 'r') as f:
+        config_content = yaml.load(f)
+
+    bootstrap_server = config_content['bootstrap_servers']
 
     try:
         # connect and bind to topics
         print "Connecting to kafka... takes a minute to load offsets and topics, please wait"
         consumer = kafka.KafkaConsumer(
                             *topics,
-                            bootstrap_servers="kafka-int.openbmp.org",
+                            bootstrap_servers=bootstrap_server,
                             client_id="dev-testing" + str(time.time()),
                             group_id="dev-testing" + str(time.time()),
                             enable_auto_commit=True,

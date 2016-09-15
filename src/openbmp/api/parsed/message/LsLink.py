@@ -17,14 +17,14 @@ class LsLink(Base):
         Schema Version: 1.3
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION['name'],MsgBusFields.SEQUENCE['name'],MsgBusFields.HASH['name'],MsgBusFields.BASE_ATTR_HASH['name'],MsgBusFields.ROUTER_HASH['name'],
-                            MsgBusFields.ROUTER_IP['name'],MsgBusFields.PEER_HASH['name'],MsgBusFields.PEER_IP['name'],MsgBusFields.PEER_ASN['name'],MsgBusFields.TIMESTAMP['name'],
-                            MsgBusFields.IGP_ROUTER_ID['name'],MsgBusFields.ROUTER_ID['name'],MsgBusFields.ROUTING_ID['name'],MsgBusFields.LS_ID['name'],MsgBusFields.OSPF_AREA_ID['name'],
-                            MsgBusFields.ISIS_AREA_ID['name'],MsgBusFields.PROTOCOL['name'],MsgBusFields.AS_PATH['name'],MsgBusFields.LOCAL_PREF['name'],MsgBusFields.MED['name'],
-                            MsgBusFields.NEXTHOP['name'],MsgBusFields.MT_ID['name'],MsgBusFields.LOCAL_LINK_ID['name'],MsgBusFields.REMOTE_LINK_ID['name'],MsgBusFields.INTF_IP['name'],
-                            MsgBusFields.NEI_IP['name'],MsgBusFields.IGP_METRIC['name'],MsgBusFields.ADMIN_GROUP['name'],MsgBusFields.MAX_LINK_BW['name'],MsgBusFields.MAX_RESV_BW['name'],
-                            MsgBusFields.UNRESV_BW['name'],MsgBusFields.TE_DEFAULT_METRIC['name'],MsgBusFields.LINK_PROTECTION['name'],MsgBusFields.MPLS_PROTO_MASK['name'],
-                            MsgBusFields.SRLG['name'],MsgBusFields.LINK_NAME['name'],MsgBusFields.REMOTE_NODE_HASH['name'],MsgBusFields.LOCAL_NODE_HASH['name']]
+    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.HASH.getName(),MsgBusFields.BASE_ATTR_HASH.getName(),MsgBusFields.ROUTER_HASH.getName(),
+                            MsgBusFields.ROUTER_IP.getName(),MsgBusFields.PEER_HASH.getName(),MsgBusFields.PEER_IP.getName(),MsgBusFields.PEER_ASN.getName(),MsgBusFields.TIMESTAMP.getName(),
+                            MsgBusFields.IGP_ROUTER_ID.getName(),MsgBusFields.ROUTER_ID.getName(),MsgBusFields.ROUTING_ID.getName(),MsgBusFields.LS_ID.getName(),MsgBusFields.OSPF_AREA_ID.getName(),
+                            MsgBusFields.ISIS_AREA_ID.getName(),MsgBusFields.PROTOCOL.getName(),MsgBusFields.AS_PATH.getName(),MsgBusFields.LOCAL_PREF.getName(),MsgBusFields.MED.getName(),
+                            MsgBusFields.NEXTHOP.getName(),MsgBusFields.MT_ID.getName(),MsgBusFields.LOCAL_LINK_ID.getName(),MsgBusFields.REMOTE_LINK_ID.getName(),MsgBusFields.INTF_IP.getName(),
+                            MsgBusFields.NEI_IP.getName(),MsgBusFields.IGP_METRIC.getName(),MsgBusFields.ADMIN_GROUP.getName(),MsgBusFields.MAX_LINK_BW.getName(),MsgBusFields.MAX_RESV_BW.getName(),
+                            MsgBusFields.UNRESV_BW.getName(),MsgBusFields.TE_DEFAULT_METRIC.getName(),MsgBusFields.LINK_PROTECTION.getName(),MsgBusFields.MPLS_PROTO_MASK.getName(),
+                            MsgBusFields.SRLG.getName(),MsgBusFields.LINK_NAME.getName(),MsgBusFields.REMOTE_NODE_HASH.getName(),MsgBusFields.LOCAL_NODE_HASH.getName()]
 
     def __init__(self, message):
         """
@@ -42,12 +42,12 @@ class LsLink(Base):
         self.spec_version = version
 
         if version >= float(1.3):
-            versionSpecificHeaders = [MsgBusFields.REMOTE_IGP_ROUTER_ID['name'],MsgBusFields.REMOTE_ROUTER_ID['name'],MsgBusFields.LOCAL_NODE_ASN['name'],MsgBusFields.REMOTE_NODE_ASN['name'],
-                                      MsgBusFields.PEER_NODE_SID['name'],MsgBusFields.ISPREPOLICY['name'],MsgBusFields.IS_ADJ_RIB_IN['name']]
+            versionSpecificHeaders = [MsgBusFields.REMOTE_IGP_ROUTER_ID.getName(),MsgBusFields.REMOTE_ROUTER_ID.getName(),MsgBusFields.LOCAL_NODE_ASN.getName(),MsgBusFields.REMOTE_NODE_ASN.getName(),
+                                      MsgBusFields.PEER_NODE_SID.getName(),MsgBusFields.ISPREPOLICY.getName(),MsgBusFields.IS_ADJ_RIB_IN.getName()]
 
         elif version >= float(1.2):
-            versionSpecificHeaders = [MsgBusFields.REMOTE_IGP_ROUTER_ID['name'],MsgBusFields.REMOTE_ROUTER_ID['name'],MsgBusFields.LOCAL_NODE_ASN['name'],
-                                      MsgBusFields.REMOTE_NODE_ASN['name'],MsgBusFields.PEER_NODE_SID['name']]
+            versionSpecificHeaders = [MsgBusFields.REMOTE_IGP_ROUTER_ID.getName(),MsgBusFields.REMOTE_ROUTER_ID.getName(),MsgBusFields.LOCAL_NODE_ASN.getName(),
+                                      MsgBusFields.REMOTE_NODE_ASN.getName(),MsgBusFields.PEER_NODE_SID.getName()]
 
         else:
             versionSpecificHeaders = []
