@@ -28,6 +28,7 @@ class Message(object):
         self.router_hash_id = str()
         self.content = str()
         self.content_pos = int()
+        self.router_ip = str()
 
         self.__parse(data)
 
@@ -66,6 +67,9 @@ class Message(object):
             elif attr == "R_HASH_ID":
                 self.router_hash_id = value
 
+            elif attr == "R_IP":
+                self.router_ip = value
+
     # Getters
     def getVersion(self):
         return self.version
@@ -81,6 +85,9 @@ class Message(object):
 
     def getRouter_hash_id(self):
         return self.router_hash_id
+
+    def getRouterIp(self):
+        return self.router_ip
 
     def getContentPos(self):
         return self.content_pos
