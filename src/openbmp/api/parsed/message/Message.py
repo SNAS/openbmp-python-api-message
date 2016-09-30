@@ -39,7 +39,7 @@ class Message(object):
         :param data: Raw Kafka message as string.
         """
 
-        data_end_pos = data.rfind("\n\n")
+        data_end_pos = data.find("\n\n")
         header_data = data[:data_end_pos]
 
         self.content_pos = data_end_pos + 2;
