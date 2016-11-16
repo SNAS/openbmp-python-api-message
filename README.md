@@ -6,15 +6,34 @@ Messages from kafka (headers and content) are parsed and made available in ```Ma
 > ### API supports Python 2.7
 > ### Current Schema supported is 1.3
 
-## Install 
+## Install Dependencies:
 
-### For Mac & Linux & Windows
+```sh
+sudo apt-get install python-dev python-pip libsnappy-dev
+sudo pip install python-snappy
+sudo pip install kafka-python
+sudo pip install pyyaml
+``` 
 
-    $ git clone
-    $ cd openbmp-python-api-message
-    $ python setup.py bdist_wheel
-    $ cd dist
-    $ pip install openbmp_python_api_message-1.0-py2-none-any.whl
+### Python2 and Python3
+```sh
+git clone https://github.com/OpenBMP/openbmp-python-api-message.git
+cd openbmp-python-api-message
+sudo pip install .
+
+### You can also use the below instead of pip install:
+#sudo python setup.py install
+```
+
+#### Package for install or distribution (Python3)
+
+```sh
+git clone https://github.com/OpenBMP/openbmp-python-api-message.git
+cd openbmp-python-api-message
+python setup.py bdist_wheel
+cd dist
+pip install openbmp_python_api_message-1.0-py2-none-any.whl   
+```
     
 ## Usage
  

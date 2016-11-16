@@ -10,19 +10,20 @@ from FieldProcessors import *
 from Message import *
 from MsgBusFields import MsgBusFields
 
+
 class UnicastPrefix(Base):
     """
         Format class for unicast_prefix parsed messages (openbmp.parsed.unicast_prefix)
 
-        Schema Version: 1.3
+        Schema Version: 1.4
     """
 
     minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.HASH.getName(),MsgBusFields.ROUTER_HASH.getName(),MsgBusFields.ROUTER_IP.getName(),
-                            MsgBusFields.BASE_ATTR_HASH.getName(),MsgBusFields.PEER_HASH.getName(),MsgBusFields.PEER_IP.getName(),MsgBusFields.PEER_ASN.getName(),MsgBusFields.TIMESTAMP.getName(),
-                            MsgBusFields.PREFIX.getName(),MsgBusFields.PREFIX_LEN.getName(),MsgBusFields.IS_IPV4.getName(),MsgBusFields.ORIGIN.getName(),MsgBusFields.AS_PATH.getName(),
-                            MsgBusFields.AS_PATH_COUNT.getName(),MsgBusFields.ORIGIN_AS.getName(),MsgBusFields.NEXTHOP.getName(),MsgBusFields.MED.getName(),MsgBusFields.LOCAL_PREF.getName(),
-                            MsgBusFields.AGGREGATOR.getName(),MsgBusFields.COMMUNITY_LIST.getName(),MsgBusFields.EXT_COMMUNITY_LIST.getName(),MsgBusFields.CLUSTER_LIST.getName(),MsgBusFields.ISATOMICAGG.getName(),
-                            MsgBusFields.IS_NEXTHOP_IPV4.getName(),MsgBusFields.ORIGINATOR_ID.getName()]
+                          MsgBusFields.BASE_ATTR_HASH.getName(),MsgBusFields.PEER_HASH.getName(),MsgBusFields.PEER_IP.getName(),MsgBusFields.PEER_ASN.getName(),MsgBusFields.TIMESTAMP.getName(),
+                          MsgBusFields.PREFIX.getName(),MsgBusFields.PREFIX_LEN.getName(),MsgBusFields.IS_IPV4.getName(),MsgBusFields.ORIGIN.getName(),MsgBusFields.AS_PATH.getName(),
+                          MsgBusFields.AS_PATH_COUNT.getName(),MsgBusFields.ORIGIN_AS.getName(),MsgBusFields.NEXTHOP.getName(),MsgBusFields.MED.getName(),MsgBusFields.LOCAL_PREF.getName(),
+                          MsgBusFields.AGGREGATOR.getName(),MsgBusFields.COMMUNITY_LIST.getName(),MsgBusFields.EXT_COMMUNITY_LIST.getName(),MsgBusFields.CLUSTER_LIST.getName(),MsgBusFields.ISATOMICAGG.getName(),
+                          MsgBusFields.IS_NEXTHOP_IPV4.getName(),MsgBusFields.ORIGINATOR_ID.getName()]
 
     def __init__(self, message):
         """

@@ -14,14 +14,19 @@ class LsNode(Base):
     """
         Format class for ls_node parsed messages (openbmp.parsed.ls_node)
 
-        Schema Version: 1.3
+        Schema Version: 1.4
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.HASH.getName(),MsgBusFields.BASE_ATTR_HASH.getName(),MsgBusFields.ROUTER_HASH.getName(),
-                            MsgBusFields.ROUTER_IP.getName(),MsgBusFields.PEER_HASH.getName(),MsgBusFields.PEER_IP.getName(),MsgBusFields.PEER_ASN.getName(),MsgBusFields.TIMESTAMP.getName(),
-                            MsgBusFields.IGP_ROUTER_ID.getName(),MsgBusFields.ROUTER_ID.getName(),MsgBusFields.ROUTING_ID.getName(),MsgBusFields.LS_ID.getName(),MsgBusFields.MT_ID.getName(),
-                            MsgBusFields.OSPF_AREA_ID.getName(),MsgBusFields.ISIS_AREA_ID.getName(),MsgBusFields.PROTOCOL.getName(),MsgBusFields.FLAGS.getName(),MsgBusFields.AS_PATH.getName(),
-                            MsgBusFields.LOCAL_PREF.getName(),MsgBusFields.MED.getName(),MsgBusFields.NEXTHOP.getName(),MsgBusFields.NAME.getName()]
+    minimumHeaderNames = [MsgBusFields.ACTION.getName(), MsgBusFields.SEQUENCE.getName(), MsgBusFields.HASH.getName(),
+                          MsgBusFields.BASE_ATTR_HASH.getName(), MsgBusFields.ROUTER_HASH.getName(),
+                          MsgBusFields.ROUTER_IP.getName(), MsgBusFields.PEER_HASH.getName(), MsgBusFields.PEER_IP.getName(),
+                          MsgBusFields.PEER_ASN.getName(), MsgBusFields.TIMESTAMP.getName(),
+                          MsgBusFields.IGP_ROUTER_ID.getName(), MsgBusFields.ROUTER_ID.getName(),
+                          MsgBusFields.ROUTING_ID.getName(), MsgBusFields.LS_ID.getName(), MsgBusFields.MT_ID.getName(),
+                          MsgBusFields.OSPF_AREA_ID.getName(), MsgBusFields.ISIS_AREA_ID.getName(), MsgBusFields.PROTOCOL.getName(),
+                          MsgBusFields.FLAGS.getName(), MsgBusFields.AS_PATH.getName(),
+                          MsgBusFields.LOCAL_PREF.getName(), MsgBusFields.MED.getName(), MsgBusFields.NEXTHOP.getName(),
+                          MsgBusFields.NAME.getName()]
 
     def __init__(self, message):
         """
@@ -38,13 +43,13 @@ class LsNode(Base):
         super(LsNode, self).__init__()
         self.spec_version = version
 
+        versionSpecificHeaders = []
+
         if version >= float(1.3):
+            versionSpecificHeaders += [MsgBusFields.ISPREPOLICY.getName(), MsgBusFields.IS_ADJ_RIB_IN.getName()]
 
-            versionSpecificHeaders = [MsgBusFields.ISPREPOLICY.getName(),MsgBusFields.IS_ADJ_RIB_IN.getName()]
-
-        else:
-
-            versionSpecificHeaders = []
+        if version >= float(1.4):
+            versionSpecificHeaders += [MsgBusFields.LS_SR_CAPABILITIES.getName()]
 
         # Concatenate minimum header names and version specific header names.
         self.headerNames = LsNode.minimumHeaderNames + versionSpecificHeaders
@@ -86,16 +91,20 @@ class LsNode(Base):
             ParseNullAsEmpty(),  # name
         ]
 
+        versionSpecificProcessors = []
+
         if self.spec_version >= float(1.3):
 
-            versionSpecificProcessors = [
-
+            versionSpecificProcessors += [
                 ParseLongEmptyAsZero(),  # isPrePolicy
                 ParseLongEmptyAsZero()  # isAdjRibIn
             ]
 
-        else:
+        if self.spec_version >= float(1.4):
 
-            versionSpecificProcessors = []
+            versionSpecificProcessors += [
+                ParseNullAsEmpty()  # SR Capabilities
+            ]
+
 
         return defaultCellProcessors + versionSpecificProcessors

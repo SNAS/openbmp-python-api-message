@@ -6,6 +6,7 @@
     and is available at http://www.eclipse.org/legal/epl-v10.html
 """
 
+
 class Message(object):
     """
         Kafka Message class. This class processes header of raw Kafka messages.

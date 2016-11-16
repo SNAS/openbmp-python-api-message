@@ -6,6 +6,7 @@
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
 
+
 class MsgBusField:
     """
     Class to look up the default values for a single field.
@@ -21,6 +22,7 @@ class MsgBusField:
 
     def getDefaultValue(self):
         return self.defaultValue
+
 
 class MsgBusFields:
     """
@@ -134,3 +136,6 @@ class MsgBusFields:
     BGP_ID = MsgBusField({"name": "bgp_id", "defaultValue": ""})
     PATH_ID = MsgBusField({"name": "path_id", "defaultValue": 0})
     LABELS = MsgBusField({"name": "labels", "defaultValue": ""})
+    LS_SR_CAPABILITIES = MsgBusField({"name": "sr_capabilities", "defaultValue": ""})
+    LS_ADJACENCY_SID = MsgBusField({"name": "sr_adjacency_sid", "defaultValue": ""})
+    LS_PREFIX_SID = MsgBusField({"name": "sr_prefix_sid", "defaultValue": ""})

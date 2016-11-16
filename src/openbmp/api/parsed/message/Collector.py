@@ -10,17 +10,17 @@ from FieldProcessors import *
 from Message import *
 from MsgBusFields import MsgBusFields
 
+
 class Collector(Base):
     """
         Format class for collector parsed messages (openbmp.parsed.collector)
 
-        Schema Version: 1.2
+        Schema Version: 1.4
     """
 
     minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.ADMIN_ID.getName(),
                           MsgBusFields.HASH.getName(),MsgBusFields.ROUTERS.getName(),MsgBusFields.ROUTER_COUNT.getName(),
                           MsgBusFields.TIMESTAMP.getName()]
-
 
     def __init__(self, message):
         """

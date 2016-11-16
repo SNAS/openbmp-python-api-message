@@ -16,6 +16,7 @@ from openbmp.api.parsed.message import Peer
 from openbmp.api.parsed.message import Router
 from openbmp.api.parsed.message import UnicastPrefix
 
+
 def processMessage(msg):
     """ Process the message
 

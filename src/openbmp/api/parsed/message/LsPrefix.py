@@ -14,16 +14,22 @@ class LsPrefix(Base):
     """
         Format class for ls_prefix parsed messages (openbmp.parsed.ls_prefix)
 
-        Schema Version: 1.3
+        Schema Version: 1.4
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.HASH.getName(),MsgBusFields.BASE_ATTR_HASH.getName(),MsgBusFields.ROUTER_HASH.getName(),
-                            MsgBusFields.ROUTER_IP.getName(),MsgBusFields.PEER_HASH.getName(),MsgBusFields.PEER_IP.getName(),MsgBusFields.PEER_ASN.getName(),MsgBusFields.TIMESTAMP.getName(),
-                            MsgBusFields.IGP_ROUTER_ID.getName(),MsgBusFields.ROUTER_ID.getName(),MsgBusFields.ROUTING_ID.getName(),MsgBusFields.LS_ID.getName(),MsgBusFields.OSPF_AREA_ID.getName(),
-                            MsgBusFields.ISIS_AREA_ID.getName(),MsgBusFields.PROTOCOL.getName(),MsgBusFields.AS_PATH.getName(),MsgBusFields.LOCAL_PREF.getName(),MsgBusFields.MED.getName(),
-                            MsgBusFields.NEXTHOP.getName(),MsgBusFields.LOCAL_NODE_HASH.getName(),MsgBusFields.MT_ID.getName(),MsgBusFields.OSPF_ROUTE_TYPE.getName(),MsgBusFields.IGP_FLAGS.getName(),
-                            MsgBusFields.ROUTE_TAG.getName(),MsgBusFields.EXT_ROUTE_TAG.getName(),MsgBusFields.OSPF_FWD_ADDR.getName(),MsgBusFields.IGP_METRIC.getName(),MsgBusFields.PREFIX.getName(),
-                            MsgBusFields.PREFIX_LEN.getName()]
+    minimumHeaderNames = [MsgBusFields.ACTION.getName(), MsgBusFields.SEQUENCE.getName(), MsgBusFields.HASH.getName(),
+                          MsgBusFields.BASE_ATTR_HASH.getName(), MsgBusFields.ROUTER_HASH.getName(),
+                          MsgBusFields.ROUTER_IP.getName(), MsgBusFields.PEER_HASH.getName(),
+                          MsgBusFields.PEER_IP.getName(), MsgBusFields.PEER_ASN.getName(), MsgBusFields.TIMESTAMP.getName(),
+                          MsgBusFields.IGP_ROUTER_ID.getName(), MsgBusFields.ROUTER_ID.getName(),
+                          MsgBusFields.ROUTING_ID.getName(), MsgBusFields.LS_ID.getName(), MsgBusFields.OSPF_AREA_ID.getName(),
+                          MsgBusFields.ISIS_AREA_ID.getName(), MsgBusFields.PROTOCOL.getName(), MsgBusFields.AS_PATH.getName(),
+                          MsgBusFields.LOCAL_PREF.getName(), MsgBusFields.MED.getName(),
+                          MsgBusFields.NEXTHOP.getName(), MsgBusFields.LOCAL_NODE_HASH.getName(), MsgBusFields.MT_ID.getName(),
+                          MsgBusFields.OSPF_ROUTE_TYPE.getName(), MsgBusFields.IGP_FLAGS.getName(),
+                          MsgBusFields.ROUTE_TAG.getName(), MsgBusFields.EXT_ROUTE_TAG.getName(),
+                          MsgBusFields.OSPF_FWD_ADDR.getName(), MsgBusFields.IGP_METRIC.getName(),
+                          MsgBusFields.PREFIX.getName(), MsgBusFields.PREFIX_LEN.getName()]
 
     def __init__(self, message):
         """
@@ -40,13 +46,13 @@ class LsPrefix(Base):
         super(LsPrefix, self).__init__()
         self.spec_version = version
 
+        versionSpecificHeaders = []
+
         if version >= float(1.3):
+            versionSpecificHeaders += [MsgBusFields.ISPREPOLICY.getName(), MsgBusFields.IS_ADJ_RIB_IN.getName()]
 
-            versionSpecificHeaders = [MsgBusFields.ISPREPOLICY.getName(),MsgBusFields.IS_ADJ_RIB_IN.getName()]
-
-        else:
-
-            versionSpecificHeaders = []
+        if version >= float(1.4):
+            versionSpecificHeaders += [MsgBusFields.LS_PREFIX_SID.getName()]
 
         # Concatenate minimum header names and version specific header names.
         self.headerNames = LsPrefix.minimumHeaderNames + versionSpecificHeaders
@@ -95,16 +101,19 @@ class LsPrefix(Base):
             ParseInt(),  # prefix_len
         ]
 
-        if self.spec_version >= float(1.3):
+        versionSpecificProcessors = []
 
-            versionSpecificProcessors = [
+        if self.spec_version >= float(1.3):
+            versionSpecificProcessors += [
 
                 ParseLongEmptyAsZero(),  # isPrePolicy
                 ParseLongEmptyAsZero()  # isAdjRibIn
             ]
 
-        else:
+        if self.spec_version >= float(1.3):
+            versionSpecificProcessors += [
 
-            versionSpecificProcessors = []
+                ParseNullAsEmpty()  # LS Prefix SID
+            ]
 
         return defaultCellProcessors + versionSpecificProcessors

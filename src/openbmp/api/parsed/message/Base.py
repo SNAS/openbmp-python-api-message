@@ -15,7 +15,7 @@ class Base(object):
 
     See http://openbmp.org/#!docs/MESSAGE_BUS_API.md for more details.
 
-    Schema Version: 1.3
+    Schema Version: 1.4
 
     The schema version is the max version supported.  Each extended class is responsible for handling
         backwards compatibility.
@@ -25,7 +25,7 @@ class Base(object):
 
     def __init__(self):
         """Initializes the class variables."""
-        self.spec_version = float(1.3) # Default message bus specification version (max) supported
+        self.spec_version = float(1.4) # Default message bus specification version (max) supported
         self.headerNames = [] # Column field header names will be the MAP key for fields, order matters and must match TSV order of fields.
         self.rowMap = [] # List of records as dictionaries of records.
 

@@ -9,6 +9,7 @@
 from abc import ABCMeta, abstractmethod
 import time
 
+
 class BaseFieldProcessor(object):
     """
     Parent class of field processors.

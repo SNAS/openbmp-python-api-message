@@ -11,11 +11,12 @@ from FieldProcessors import *
 from Message import *
 from MsgBusFields import MsgBusFields
 
+
 class BmpStat(Base):
     """
         Format class for bmp_stat parsed messages (openbmp.parsed.bmp_stat)
 
-        Schema Version: 1.2
+        Schema Version: 1.4
     """
 
     minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.ROUTER_HASH.getName(),

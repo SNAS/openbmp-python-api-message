@@ -10,16 +10,17 @@ from FieldProcessors import *
 from Message import *
 from MsgBusFields import MsgBusFields
 
+
 class Router(Base):
     """
         Format class for router parsed messages (openbmp.parsed.router)
 
-        Schema Version: 1.2
+        Schema Version: 1.4
     """
 
     minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.NAME.getName(),MsgBusFields.HASH.getName(),MsgBusFields.IP_ADDRESS.getName(),
-                            MsgBusFields.DESCRIPTION.getName(),MsgBusFields.TERM_CODE.getName(),MsgBusFields.TERM_REASON.getName(),MsgBusFields.INIT_DATA.getName(),MsgBusFields.TERM_DATA.getName(),
-                            MsgBusFields.TIMESTAMP.getName()]
+                          MsgBusFields.DESCRIPTION.getName(),MsgBusFields.TERM_CODE.getName(),MsgBusFields.TERM_REASON.getName(),MsgBusFields.INIT_DATA.getName(),MsgBusFields.TERM_DATA.getName(),
+                          MsgBusFields.TIMESTAMP.getName()]
 
     def __init__(self, message):
         """
