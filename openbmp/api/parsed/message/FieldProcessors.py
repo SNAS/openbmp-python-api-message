@@ -116,6 +116,9 @@ class ParseTimestamp(BaseFieldProcessor):
         :return: Processed and validated data.
         """
 
+        if fieldToProcess == "":
+            return ""
+
         return int(time.mktime(time.strptime(fieldToProcess, '%Y-%m-%d %H:%M:%S.%f')) * 1000)
 
 class ParseInt(BaseFieldProcessor):
