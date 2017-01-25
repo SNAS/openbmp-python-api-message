@@ -79,7 +79,7 @@ class UnicastPrefix(Base):
             version_specific_headers = []
 
         # Concatenate minimum header names and version specific header names.
-        self.headerNames = UnicastPrefix.minimum_header_names + version_specific_headers
+        self.header_names = UnicastPrefix.minimum_header_names + version_specific_headers
         self.parse(version, data)
 
     def get_processors(self):

@@ -76,7 +76,7 @@ class LsPrefix(Base):
             version_specific_headers += [MsgBusFields.LS_PREFIX_SID.get_name()]
 
         # Concatenate minimum header names and version specific header names.
-        self.headerNames = LsPrefix.minimum_header_names + version_specific_headers
+        self.header_names = LsPrefix.minimum_header_names + version_specific_headers
         self.parse(version, data)
 
     def get_processors(self):

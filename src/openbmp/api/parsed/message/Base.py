@@ -67,6 +67,9 @@ class Base(object):
 
         self.spec_version = float(version)
 
+        if len(self.header_names) == 0:
+            raise Exception("header_names should be overriden.")
+
         records = data.splitlines()  # Splits data into records.
 
         # Splits each record into fields.

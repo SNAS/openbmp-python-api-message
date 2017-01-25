@@ -87,7 +87,7 @@ class LsLink(Base):
             version_specific_headers += [MsgBusFields.LS_ADJACENCY_SID.get_name()]
 
         # Concatenate minimum header names and version specific header names.
-        self.headerNames = LsLink.minimum_header_names + version_specific_headers
+        self.header_names = LsLink.minimum_header_names + version_specific_headers
         self.parse(version, data)
 
     def get_processors(self):

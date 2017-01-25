@@ -62,7 +62,7 @@ class Peer(Base):
 
         super(Peer, self).__init__()
 
-        self.headerNames = Peer.minimum_header_names
+        self.header_names = Peer.minimum_header_names
 
         self.parse(self.spec_version, data)
 

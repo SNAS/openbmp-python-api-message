@@ -40,7 +40,7 @@ class Collector(Base):
         data = message.get_content()
 
         super(Collector, self).__init__()
-        self.headerNames = Collector.minimum_header_names
+        self.header_names = Collector.minimum_header_names
 
         # Change below to supply version when version is required
         self.parse(self.spec_version, data)
