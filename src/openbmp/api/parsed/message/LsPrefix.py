@@ -5,16 +5,17 @@
     terms of the Eclipse Public License v1.0 which accompanies this distribution,
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
-from Base import *
-from FieldProcessors import *
-from Message import *
+from Base import Base
+from FieldProcessors import ParseNullAsEmpty, ParseLongEmptyAsZero, NotNull, ParseInt, ParseLong, ParseTimestamp
+from Message import Message
 from MsgBusFields import MsgBusFields
+
 
 class LsPrefix(Base):
     """
-        Format class for ls_prefix parsed messages (openbmp.parsed.ls_prefix)
+    Format class for ls_prefix parsed messages (openbmp.parsed.ls_prefix)
 
-        Schema Version: 1.4
+    Schema Version: 1.4
     """
 
     minimumHeaderNames = [MsgBusFields.ACTION.getName(), MsgBusFields.SEQUENCE.getName(), MsgBusFields.HASH.getName(),
@@ -67,7 +68,6 @@ class LsPrefix(Base):
         """
 
         defaultCellProcessors = [
-
             NotNull(),  # action
             ParseLong(),  # seq
             NotNull(),  # hash
@@ -105,7 +105,6 @@ class LsPrefix(Base):
 
         if self.spec_version >= float(1.3):
             versionSpecificProcessors += [
-
                 ParseLongEmptyAsZero(),  # isPrePolicy
                 ParseLongEmptyAsZero()  # isAdjRibIn
             ]

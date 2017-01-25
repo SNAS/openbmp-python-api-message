@@ -9,7 +9,7 @@
 
 class Message(object):
     """
-        Kafka Message class. This class processes header of raw Kafka messages.
+    Kafka Message class. This class processes header of raw Kafka messages.
     """
 
     def __init__(self, data):
@@ -19,7 +19,7 @@ class Message(object):
         :param data: Raw Kafka message as string.
         """
 
-        if not data.strip(): # If "data" is not string, throws error.
+        if not data.strip():  # If "data" is not string, throws error.
             raise "Invalid data!", data
 
         self.version = float()
@@ -43,18 +43,18 @@ class Message(object):
         data_end_pos = data.find("\n\n")
         header_data = data[:data_end_pos]
 
-        self.content_pos = data_end_pos + 2;
+        self.content_pos = data_end_pos + 2
         self.content = data[self.content_pos:]
 
-        headers = header_data.split("\n");
+        headers = header_data.split("\n")
 
         for header in headers:
-            value = header.split(":")[1].strip();
-            attr = header.split(":")[0].strip();
+            value = header.split(":")[1].strip()
+            attr = header.split(":")[0].strip()
 
             # Attribute names are from http://openbmp.org/#!docs/MESSAGE_BUS_API.md headers
             if attr == "V":
-                self.version = float(value);
+                self.version = float(value)
 
             elif attr == "C_HASH_ID":
                 self.collector_hash_id = value

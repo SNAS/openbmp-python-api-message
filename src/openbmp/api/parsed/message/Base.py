@@ -9,6 +9,7 @@
 from abc import ABCMeta, abstractmethod
 import json
 
+
 class Base(object):
     """
     Base class for parsing openbmp.parsed.* messages.
@@ -25,9 +26,9 @@ class Base(object):
 
     def __init__(self):
         """Initializes the class variables."""
-        self.spec_version = float(1.4) # Default message bus specification version (max) supported
-        self.headerNames = [] # Column field header names will be the MAP key for fields, order matters and must match TSV order of fields.
-        self.rowMap = [] # List of records as dictionaries of records.
+        self.spec_version = float(1.4)  # Default message bus specification version (max) supported
+        self.headerNames = []  # Column field header names will be the MAP key for fields, order matters and must match TSV order of fields.
+        self.rowMap = []  # List of records as dictionaries of records.
 
     @abstractmethod
     def getProcessors(self):
@@ -58,12 +59,12 @@ class Base(object):
 
         :return:  True if error, False if no errors
         """
-        if not data.strip(): # If "data" is not string, throws error.
+        if not data.strip():  # If "data" is not string, throws error.
             raise "Invalid data!", data
 
         self.spec_version = float(version)
 
-        records = data.splitlines() # Splits data into records.
+        records = data.splitlines()  # Splits data into records.
 
         # Splits each record into fields.
         for r in records:

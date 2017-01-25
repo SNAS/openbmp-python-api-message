@@ -5,22 +5,28 @@
     terms of the Eclipse Public License v1.0 which accompanies this distribution,
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
-from Base import *
-from FieldProcessors import *
-from Message import *
+from Base import Base
+from FieldProcessors import ParseTimestamp, ParseInt, ParseNullAsEmpty, NotNull, ParseLong
+from Message import Message
 from MsgBusFields import MsgBusFields
 
 
 class Collector(Base):
     """
-        Format class for collector parsed messages (openbmp.parsed.collector)
+    Format class for collector parsed messages (openbmp.parsed.collector)
 
-        Schema Version: 1.4
+    Schema Version: 1.4
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.ADMIN_ID.getName(),
-                          MsgBusFields.HASH.getName(),MsgBusFields.ROUTERS.getName(),MsgBusFields.ROUTER_COUNT.getName(),
-                          MsgBusFields.TIMESTAMP.getName()]
+    minimumHeaderNames = [
+        MsgBusFields.ACTION.getName(),
+        MsgBusFields.SEQUENCE.getName(),
+        MsgBusFields.ADMIN_ID.getName(),
+        MsgBusFields.HASH.getName(),
+        MsgBusFields.ROUTERS.getName(),
+        MsgBusFields.ROUTER_COUNT.getName(),
+        MsgBusFields.TIMESTAMP.getName()
+    ]
 
     def __init__(self, message):
         """
@@ -49,13 +55,13 @@ class Collector(Base):
 
         processors = [
 
-            NotNull(), # action
-            ParseLong(), # seq
-            NotNull(), # admin
-            NotNull(), # hash
-            ParseNullAsEmpty(), # routers
-            ParseInt(), # router count
-            ParseTimestamp() # Timestamp
+            NotNull(),  # action
+            ParseLong(),  # seq
+            NotNull(),  # admin
+            NotNull(),  # hash
+            ParseNullAsEmpty(),  # routers
+            ParseInt(),  # router count
+            ParseTimestamp()  # Timestamp
         ]
 
         return processors

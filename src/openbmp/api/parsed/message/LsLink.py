@@ -5,34 +5,58 @@
     terms of the Eclipse Public License v1.0 which accompanies this distribution,
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
-from Base import *
-from FieldProcessors import *
-from Message import *
+from Base import Base
+from FieldProcessors import ParseNullAsEmpty, ParseLongEmptyAsZero, ParseTimestamp, ParseLong, NotNull
+from Message import Message
 from MsgBusFields import MsgBusFields
+
 
 class LsLink(Base):
     """
-        Format class for ls_link parsed messages (openbmp.parsed.ls_link)
+    Format class for ls_link parsed messages (openbmp.parsed.ls_link)
 
-        Schema Version: 1.4
+    Schema Version: 1.4
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION.getName(), MsgBusFields.SEQUENCE.getName(), MsgBusFields.HASH.getName(),
-                          MsgBusFields.BASE_ATTR_HASH.getName(), MsgBusFields.ROUTER_HASH.getName(),
-                          MsgBusFields.ROUTER_IP.getName(), MsgBusFields.PEER_HASH.getName(),MsgBusFields.PEER_IP.getName(),
-                          MsgBusFields.PEER_ASN.getName(), MsgBusFields.TIMESTAMP.getName(),
-                          MsgBusFields.IGP_ROUTER_ID.getName(), MsgBusFields.ROUTER_ID.getName(), MsgBusFields.ROUTING_ID.getName(),
-                          MsgBusFields.LS_ID.getName(), MsgBusFields.OSPF_AREA_ID.getName(),
-                          MsgBusFields.ISIS_AREA_ID.getName(), MsgBusFields.PROTOCOL.getName(), MsgBusFields.AS_PATH.getName(),
-                          MsgBusFields.LOCAL_PREF.getName(), MsgBusFields.MED.getName(),
-                          MsgBusFields.NEXTHOP.getName(), MsgBusFields.MT_ID.getName(), MsgBusFields.LOCAL_LINK_ID.getName(),
-                          MsgBusFields.REMOTE_LINK_ID.getName(), MsgBusFields.INTF_IP.getName(),
-                          MsgBusFields.NEI_IP.getName(), MsgBusFields.IGP_METRIC.getName(), MsgBusFields.ADMIN_GROUP.getName(),
-                          MsgBusFields.MAX_LINK_BW.getName(), MsgBusFields.MAX_RESV_BW.getName(),
-                          MsgBusFields.UNRESV_BW.getName(), MsgBusFields.TE_DEFAULT_METRIC.getName(),
-                          MsgBusFields.LINK_PROTECTION.getName(), MsgBusFields.MPLS_PROTO_MASK.getName(),
-                          MsgBusFields.SRLG.getName(), MsgBusFields.LINK_NAME.getName(), MsgBusFields.REMOTE_NODE_HASH.getName(),
-                          MsgBusFields.LOCAL_NODE_HASH.getName()]
+    minimumHeaderNames = [
+        MsgBusFields.ACTION.getName(),
+        MsgBusFields.SEQUENCE.getName(), MsgBusFields.HASH.getName(),
+        MsgBusFields.BASE_ATTR_HASH.getName(),
+        MsgBusFields.ROUTER_HASH.getName(),
+        MsgBusFields.ROUTER_IP.getName(),
+        MsgBusFields.PEER_HASH.getName(),
+        MsgBusFields.PEER_IP.getName(),
+        MsgBusFields.PEER_ASN.getName(),
+        MsgBusFields.TIMESTAMP.getName(),
+        MsgBusFields.IGP_ROUTER_ID.getName(),
+        MsgBusFields.ROUTER_ID.getName(),
+        MsgBusFields.ROUTING_ID.getName(),
+        MsgBusFields.LS_ID.getName(),
+        MsgBusFields.OSPF_AREA_ID.getName(),
+        MsgBusFields.ISIS_AREA_ID.getName(),
+        MsgBusFields.PROTOCOL.getName(),
+        MsgBusFields.AS_PATH.getName(),
+        MsgBusFields.LOCAL_PREF.getName(),
+        MsgBusFields.MED.getName(),
+        MsgBusFields.NEXTHOP.getName(),
+        MsgBusFields.MT_ID.getName(),
+        MsgBusFields.LOCAL_LINK_ID.getName(),
+        MsgBusFields.REMOTE_LINK_ID.getName(),
+        MsgBusFields.INTF_IP.getName(),
+        MsgBusFields.NEI_IP.getName(),
+        MsgBusFields.IGP_METRIC.getName(),
+        MsgBusFields.ADMIN_GROUP.getName(),
+        MsgBusFields.MAX_LINK_BW.getName(),
+        MsgBusFields.MAX_RESV_BW.getName(),
+        MsgBusFields.UNRESV_BW.getName(),
+        MsgBusFields.TE_DEFAULT_METRIC.getName(),
+        MsgBusFields.LINK_PROTECTION.getName(),
+        MsgBusFields.MPLS_PROTO_MASK.getName(),
+        MsgBusFields.SRLG.getName(),
+        MsgBusFields.LINK_NAME.getName(),
+        MsgBusFields.REMOTE_NODE_HASH.getName(),
+        MsgBusFields.LOCAL_NODE_HASH.getName()
+    ]
 
     def __init__(self, message):
         """
@@ -75,7 +99,6 @@ class LsLink(Base):
         """
 
         defaultCellProcessors = [
-
             NotNull(),  # action
             ParseLong(),  # seq
             NotNull(),  # hash

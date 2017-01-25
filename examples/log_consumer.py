@@ -6,7 +6,6 @@ import time
 import kafka
 
 from openbmp.api.parsed.message import Message
-from openbmp.api.parsed.message import BaseAttribute
 from openbmp.api.parsed.message import BmpStat
 from openbmp.api.parsed.message import Collector
 from openbmp.api.parsed.message import LsLink
@@ -25,8 +24,8 @@ def processMessage(msg):
     :return:
     """
 
-    m = Message(msg.value) # Gets body of kafka message.
-    t = msg.topic # Gets topic of kafka message.
+    m = Message(msg.value)  # Gets body of kafka message.
+    t = msg.topic  # Gets topic of kafka message.
     m_tag = t.split('.')[2].upper()
     t_stamp = str(datetime.datetime.now())
 
@@ -73,9 +72,11 @@ def processMessage(msg):
 
 def main():
     # Enable to topics/feeds
-    topics = [ 'openbmp.parsed.router', 'openbmp.parsed.peer', 'openbmp.parsed.collector',
-               'openbmp.parsed.bmp_stat', 'openbmp.parsed.unicast_prefix', 'openbmp.parsed.ls_node',
-               'openbmp.parsed.ls_link', 'openbmp.parsed.ls_prefix' ]
+    topics = [
+        'openbmp.parsed.router', 'openbmp.parsed.peer', 'openbmp.parsed.collector',
+        'openbmp.parsed.bmp_stat', 'openbmp.parsed.unicast_prefix', 'openbmp.parsed.ls_node',
+        'openbmp.parsed.ls_link', 'openbmp.parsed.ls_prefix'
+    ]
 
     # Read config file
     with open('config.yaml', 'r') as f:
@@ -87,13 +88,14 @@ def main():
         # connect and bind to topics
         print "Connecting to kafka... takes a minute to load offsets and topics, please wait"
         consumer = kafka.KafkaConsumer(
-                            *topics,
-                            bootstrap_servers=bootstrap_server,
-                            client_id="dev-testing" + str(time.time()),
-                            group_id="dev-testing" + str(time.time()),
-                            enable_auto_commit=True,
-                            auto_commit_interval_ms=1000,
-                            auto_offset_reset="largest")
+            *topics,
+            bootstrap_servers=bootstrap_server,
+            client_id="dev-testing" + str(time.time()),
+            group_id="dev-testing" + str(time.time()),
+            enable_auto_commit=True,
+            auto_commit_interval_ms=1000,
+            auto_offset_reset="largest"
+        )
 
         print "Now consuming/waiting for messages..."
         for m in consumer:
@@ -104,6 +106,7 @@ def main():
 
     except KeyboardInterrupt:
         print "User stop requested"
+
 
 if __name__ == '__main__':
     main()

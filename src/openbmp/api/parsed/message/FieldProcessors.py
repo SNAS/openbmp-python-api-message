@@ -30,6 +30,7 @@ class BaseFieldProcessor(object):
         value = fieldToProcess
         return value
 
+
 class NotNull(BaseFieldProcessor):
     """
     A field processor type and extends "BaseFieldProcessor".
@@ -51,6 +52,7 @@ class NotNull(BaseFieldProcessor):
             value = ""
 
         return str(value)
+
 
 class ParseLong(BaseFieldProcessor):
     """
@@ -78,6 +80,7 @@ class ParseLong(BaseFieldProcessor):
 
         return value
 
+
 class ParseNullAsEmpty(BaseFieldProcessor):
     """
     A field processor type and extends "BaseFieldProcessor".
@@ -100,6 +103,7 @@ class ParseNullAsEmpty(BaseFieldProcessor):
 
         return str(value)
 
+
 class ParseTimestamp(BaseFieldProcessor):
     """
     A field processor type and extends "BaseFieldProcessor".
@@ -117,6 +121,7 @@ class ParseTimestamp(BaseFieldProcessor):
         """
 
         return int(time.mktime(time.strptime(fieldToProcess, '%Y-%m-%d %H:%M:%S.%f')) * 1000)
+
 
 class ParseInt(BaseFieldProcessor):
     """
@@ -144,6 +149,7 @@ class ParseInt(BaseFieldProcessor):
             value = int(0)
 
         return value
+
 
 class ParseLongEmptyAsZero(BaseFieldProcessor):
     """
