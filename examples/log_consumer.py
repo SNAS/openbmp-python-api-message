@@ -16,7 +16,7 @@ from openbmp.api.parsed.message import Router
 from openbmp.api.parsed.message import UnicastPrefix
 
 
-def processMessage(msg):
+def process_message(msg):
     """ Process the message
 
     :param msg:     Message consumed
@@ -32,42 +32,42 @@ def processMessage(msg):
     if t == "openbmp.parsed.router":
         router = Router(m)
         print '\n' + 'Received Message (' + t_stamp + ') : ' + m_tag + '(V: ' + str(m.version) + ')'
-        print router.toJsonPretty()
+        print router.to_json_pretty()
 
     elif t == "openbmp.parsed.peer":
         peer = Peer(m)
         print '\n' + 'Received Message (' + t_stamp + ') : ' + m_tag + '(V: ' + str(m.version) + ')'
-        print peer.toJsonPretty()
+        print peer.to_json_pretty()
 
     elif t == "openbmp.parsed.collector":
         collector = Collector(m)
         print '\n' + 'Received Message (' + t_stamp + ') : ' + m_tag + '(V: ' + str(m.version) + ')'
-        print collector.toJsonPretty()
+        print collector.to_json_pretty()
 
     elif t == "openbmp.parsed.bmp_stat":
         bmp_stat = BmpStat(m)
         print '\n' + 'Received Message (' + t_stamp + ') : ' + m_tag + '(V: ' + str(m.version) + ')'
-        print bmp_stat.toJsonPretty()
+        print bmp_stat.to_json_pretty()
 
     elif t == "openbmp.parsed.unicast_prefix":
-        unicastPrefix = UnicastPrefix(m)
+        unicast_prefix = UnicastPrefix(m)
         print '\n' + 'Received Message (' + t_stamp + ') : ' + m_tag + '(V: ' + str(m.version) + ')'
-        print unicastPrefix.toJsonPretty()
+        print unicast_prefix.to_json_pretty()
 
     elif t == "openbmp.parsed.ls_node":
         ls_node = LsNode(m)
         print '\n' + 'Received Message (' + t_stamp + ') : ' + m_tag + '(V: ' + str(m.version) + ')'
-        print ls_node.toJsonPretty()
+        print ls_node.to_json_pretty()
 
     elif t == "openbmp.parsed.ls_link":
         ls_link = LsLink(m)
         print '\n' + 'Received Message (' + t_stamp + ') : ' + m_tag + '(V: ' + str(m.version) + ')'
-        print ls_link.toJsonPretty()
+        print ls_link.to_json_pretty()
 
     elif t == "openbmp.parsed.ls_prefix":
         ls_prefix = LsPrefix(m)
         print '\n' + 'Received Message (' + t_stamp + ') : ' + m_tag + '(V: ' + str(m.version) + ')'
-        print ls_prefix.toJsonPretty()
+        print ls_prefix.to_json_pretty()
 
 
 def main():
@@ -99,7 +99,7 @@ def main():
 
         print "Now consuming/waiting for messages..."
         for m in consumer:
-            processMessage(m)
+            process_message(m)
 
     except kafka.common.KafkaUnavailableError as err:
         print "Kafka Error: %s" % str(err)

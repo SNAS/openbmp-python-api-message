@@ -13,15 +13,15 @@ class MsgBusField:
     'name' is the name of corresponding field.
     'defaultValue' is the default value of corresponding field.
     """
-    def __init__(self, fieldDict):
-        self.name = fieldDict['name']
-        self.defaultValue = fieldDict['defaultValue']
+    def __init__(self, field_dict):
+        self.name = field_dict['name']
+        self.default_value = field_dict['defaultValue']
 
-    def getName(self):
+    def get_name(self):
         return self.name
 
-    def getDefaultValue(self):
-        return self.defaultValue
+    def get_default_value(self):
+        return self.default_value
 
 
 class MsgBusFields:

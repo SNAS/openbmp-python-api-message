@@ -71,27 +71,26 @@ class Message(object):
             elif attr == "R_IP":
                 self.router_ip = value
 
-    # Getters
-    def getVersion(self):
+    def get_version(self):
         return self.version
 
-    def getCollector_hash_id(self):
+    def get_collector_hash_id(self):
         return self.collector_hash_id
 
-    def getLength(self):
+    def get_length(self):
         return self.length
 
-    def getRecords(self):
+    def get_records(self):
         return self.records
 
-    def getRouter_hash_id(self):
+    def get_router_hash_id(self):
         return self.router_hash_id
 
-    def getRouterIp(self):
+    def get_router_ip(self):
         return self.router_ip
 
-    def getContentPos(self):
+    def get_content_pos(self):
         return self.content_pos
 
-    def getContent(self):
+    def get_content(self):
         return self.content

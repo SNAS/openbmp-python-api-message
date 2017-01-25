@@ -18,44 +18,44 @@ class LsLink(Base):
     Schema Version: 1.4
     """
 
-    minimumHeaderNames = [
-        MsgBusFields.ACTION.getName(),
-        MsgBusFields.SEQUENCE.getName(), MsgBusFields.HASH.getName(),
-        MsgBusFields.BASE_ATTR_HASH.getName(),
-        MsgBusFields.ROUTER_HASH.getName(),
-        MsgBusFields.ROUTER_IP.getName(),
-        MsgBusFields.PEER_HASH.getName(),
-        MsgBusFields.PEER_IP.getName(),
-        MsgBusFields.PEER_ASN.getName(),
-        MsgBusFields.TIMESTAMP.getName(),
-        MsgBusFields.IGP_ROUTER_ID.getName(),
-        MsgBusFields.ROUTER_ID.getName(),
-        MsgBusFields.ROUTING_ID.getName(),
-        MsgBusFields.LS_ID.getName(),
-        MsgBusFields.OSPF_AREA_ID.getName(),
-        MsgBusFields.ISIS_AREA_ID.getName(),
-        MsgBusFields.PROTOCOL.getName(),
-        MsgBusFields.AS_PATH.getName(),
-        MsgBusFields.LOCAL_PREF.getName(),
-        MsgBusFields.MED.getName(),
-        MsgBusFields.NEXTHOP.getName(),
-        MsgBusFields.MT_ID.getName(),
-        MsgBusFields.LOCAL_LINK_ID.getName(),
-        MsgBusFields.REMOTE_LINK_ID.getName(),
-        MsgBusFields.INTF_IP.getName(),
-        MsgBusFields.NEI_IP.getName(),
-        MsgBusFields.IGP_METRIC.getName(),
-        MsgBusFields.ADMIN_GROUP.getName(),
-        MsgBusFields.MAX_LINK_BW.getName(),
-        MsgBusFields.MAX_RESV_BW.getName(),
-        MsgBusFields.UNRESV_BW.getName(),
-        MsgBusFields.TE_DEFAULT_METRIC.getName(),
-        MsgBusFields.LINK_PROTECTION.getName(),
-        MsgBusFields.MPLS_PROTO_MASK.getName(),
-        MsgBusFields.SRLG.getName(),
-        MsgBusFields.LINK_NAME.getName(),
-        MsgBusFields.REMOTE_NODE_HASH.getName(),
-        MsgBusFields.LOCAL_NODE_HASH.getName()
+    minimum_header_names = [
+        MsgBusFields.ACTION.get_name(),
+        MsgBusFields.SEQUENCE.get_name(), MsgBusFields.HASH.get_name(),
+        MsgBusFields.BASE_ATTR_HASH.get_name(),
+        MsgBusFields.ROUTER_HASH.get_name(),
+        MsgBusFields.ROUTER_IP.get_name(),
+        MsgBusFields.PEER_HASH.get_name(),
+        MsgBusFields.PEER_IP.get_name(),
+        MsgBusFields.PEER_ASN.get_name(),
+        MsgBusFields.TIMESTAMP.get_name(),
+        MsgBusFields.IGP_ROUTER_ID.get_name(),
+        MsgBusFields.ROUTER_ID.get_name(),
+        MsgBusFields.ROUTING_ID.get_name(),
+        MsgBusFields.LS_ID.get_name(),
+        MsgBusFields.OSPF_AREA_ID.get_name(),
+        MsgBusFields.ISIS_AREA_ID.get_name(),
+        MsgBusFields.PROTOCOL.get_name(),
+        MsgBusFields.AS_PATH.get_name(),
+        MsgBusFields.LOCAL_PREF.get_name(),
+        MsgBusFields.MED.get_name(),
+        MsgBusFields.NEXTHOP.get_name(),
+        MsgBusFields.MT_ID.get_name(),
+        MsgBusFields.LOCAL_LINK_ID.get_name(),
+        MsgBusFields.REMOTE_LINK_ID.get_name(),
+        MsgBusFields.INTF_IP.get_name(),
+        MsgBusFields.NEI_IP.get_name(),
+        MsgBusFields.IGP_METRIC.get_name(),
+        MsgBusFields.ADMIN_GROUP.get_name(),
+        MsgBusFields.MAX_LINK_BW.get_name(),
+        MsgBusFields.MAX_RESV_BW.get_name(),
+        MsgBusFields.UNRESV_BW.get_name(),
+        MsgBusFields.TE_DEFAULT_METRIC.get_name(),
+        MsgBusFields.LINK_PROTECTION.get_name(),
+        MsgBusFields.MPLS_PROTO_MASK.get_name(),
+        MsgBusFields.SRLG.get_name(),
+        MsgBusFields.LINK_NAME.get_name(),
+        MsgBusFields.REMOTE_NODE_HASH.get_name(),
+        MsgBusFields.LOCAL_NODE_HASH.get_name()
     ]
 
     def __init__(self, message):
@@ -67,30 +67,30 @@ class LsLink(Base):
         if not isinstance(message, Message):
             raise TypeError("Expected Message object instead of type " + type(message))
 
-        data = message.getContent()
-        version = message.getVersion()
+        data = message.get_content()
+        version = message.get_version()
 
         super(LsLink, self).__init__()
         self.spec_version = version
 
-        versionSpecificHeaders = []
+        version_specific_headers = []
 
         if version >= float(1.2):
-            versionSpecificHeaders += [MsgBusFields.REMOTE_IGP_ROUTER_ID.getName(),
-                                       MsgBusFields.REMOTE_ROUTER_ID.getName(), MsgBusFields.LOCAL_NODE_ASN.getName(),
-                                       MsgBusFields.REMOTE_NODE_ASN.getName(), MsgBusFields.PEER_NODE_SID.getName()]
+            version_specific_headers += [MsgBusFields.REMOTE_IGP_ROUTER_ID.get_name(),
+                                         MsgBusFields.REMOTE_ROUTER_ID.get_name(), MsgBusFields.LOCAL_NODE_ASN.get_name(),
+                                         MsgBusFields.REMOTE_NODE_ASN.get_name(), MsgBusFields.PEER_NODE_SID.get_name()]
 
         if version >= float(1.3):
-            versionSpecificHeaders += [MsgBusFields.ISPREPOLICY.getName(), MsgBusFields.IS_ADJ_RIB_IN.getName()]
+            version_specific_headers += [MsgBusFields.ISPREPOLICY.get_name(), MsgBusFields.IS_ADJ_RIB_IN.get_name()]
 
         if version >= float(1.4):
-            versionSpecificHeaders += [MsgBusFields.LS_ADJACENCY_SID.getName()]
+            version_specific_headers += [MsgBusFields.LS_ADJACENCY_SID.get_name()]
 
         # Concatenate minimum header names and version specific header names.
-        self.headerNames = LsLink.minimumHeaderNames + versionSpecificHeaders
+        self.headerNames = LsLink.minimum_header_names + version_specific_headers
         self.parse(version, data)
 
-    def getProcessors(self):
+    def get_processors(self):
         """
         Processors used for each field.
         Order matters and must match the same order as defined in headerNames
@@ -98,7 +98,7 @@ class LsLink(Base):
         :return: array of cell processors.
         """
 
-        defaultCellProcessors = [
+        default_cell_processors = [
             NotNull(),  # action
             ParseLong(),  # seq
             NotNull(),  # hash
@@ -139,11 +139,10 @@ class LsLink(Base):
             ParseNullAsEmpty(),  # local_node_hash
         ]
 
-        versionSpecificProcessors = []
+        version_specific_processors = []
 
         if self.spec_version >= float(1.2):
-
-            versionSpecificProcessors += [
+            version_specific_processors += [
                 ParseNullAsEmpty(),  # remote_igp_router_id
                 ParseNullAsEmpty(),  # remote_router_id
                 ParseLongEmptyAsZero(),  # local_node_asn
@@ -152,16 +151,14 @@ class LsLink(Base):
             ]
 
         if self.spec_version >= float(1.3):
-
-            versionSpecificProcessors += [
+            version_specific_processors += [
                 ParseLongEmptyAsZero(),  # isPrePolicy
                 ParseLongEmptyAsZero()  # isAdjRibIn
             ]
 
         if self.spec_version >= float(1.4):
-
-            versionSpecificProcessors += [
+            version_specific_processors += [
                 ParseNullAsEmpty(),  # SR Adjacency SID list
             ]
 
-        return defaultCellProcessors + versionSpecificProcessors
+        return default_cell_processors + version_specific_processors

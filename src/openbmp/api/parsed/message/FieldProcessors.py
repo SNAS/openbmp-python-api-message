@@ -20,14 +20,14 @@ class BaseFieldProcessor(object):
         pass
 
     @abstractmethod
-    def processValue(self, fieldToProcess):
+    def process_value(self, field_to_process):
         """
         Parses and validates the input field.
 
-        :param fieldToProcess: Data to process and validate.
+        :param field_to_process: Data to process and validate.
         :return: Processed and validated data.
         """
-        value = fieldToProcess
+        value = field_to_process
         return value
 
 
@@ -39,16 +39,16 @@ class NotNull(BaseFieldProcessor):
     def __init__(self):
         pass
 
-    def processValue(self, fieldToProcess):
+    def process_value(self, field_to_process):
         """
         Validates the input by checking if data is null or empty.
 
-        :param fieldToProcess: Data to process and validate.
+        :param field_to_process: Data to process and validate.
         :return: Processed and validated data.
         """
-        value = fieldToProcess
+        value = field_to_process
 
-        if fieldToProcess is None or fieldToProcess.strip() == "":
+        if field_to_process is None or field_to_process.strip() == "":
             value = ""
 
         return str(value)
@@ -62,17 +62,17 @@ class ParseLong(BaseFieldProcessor):
     def __init__(self):
         pass
 
-    def processValue(self, fieldToProcess):
+    def process_value(self, field_to_process):
         """
         Validates the input by checking if data is long and if it is not returns 0.
 
-        :param fieldToProcess: Data to process and validate.
+        :param field_to_process: Data to process and validate.
         :return: Processed and validated data.
         """
         value = None
 
         try:
-            value = long(fieldToProcess)
+            value = long(field_to_process)
 
         except ValueError:
             # Handle the exception
@@ -89,16 +89,16 @@ class ParseNullAsEmpty(BaseFieldProcessor):
     def __init__(self):
         pass
 
-    def processValue(self, fieldToProcess):
+    def process_value(self, field_to_process):
         """
         Validates the input by checking if data is null or empty.
 
-        :param fieldToProcess: Data to process and validate.
+        :param field_to_process: Data to process and validate.
         :return: Processed and validated data.
         """
-        value = fieldToProcess
+        value = field_to_process
 
-        if fieldToProcess is None or fieldToProcess.strip() == "":
+        if field_to_process is None or field_to_process.strip() == "":
             value = ""
 
         return str(value)
@@ -112,15 +112,15 @@ class ParseTimestamp(BaseFieldProcessor):
     def __init__(self):
         pass
 
-    def processValue(self, fieldToProcess):
+    def process_value(self, field_to_process):
         """
         Validates the input by checking if data is a timestamp and returns in timestamp format.
 
-        :param fieldToProcess: Data to process and validate.
+        :param field_to_process: Data to process and validate.
         :return: Processed and validated data.
         """
 
-        return int(time.mktime(time.strptime(fieldToProcess, '%Y-%m-%d %H:%M:%S.%f')) * 1000)
+        return int(time.mktime(time.strptime(field_to_process, '%Y-%m-%d %H:%M:%S.%f')) * 1000)
 
 
 class ParseInt(BaseFieldProcessor):
@@ -131,18 +131,18 @@ class ParseInt(BaseFieldProcessor):
     def __init__(self):
         pass
 
-    def processValue(self, fieldToProcess):
+    def process_value(self, field_to_process):
         """
         Validates the input by checking if data is an integer or not.
 
-        :param fieldToProcess: Data to process and validate.
+        :param field_to_process: Data to process and validate.
         :return: Processed and validated data.
         """
 
         value = None
 
         try:
-            value = int(fieldToProcess)
+            value = int(field_to_process)
 
         except ValueError:
             # Handle the exception
@@ -159,18 +159,18 @@ class ParseLongEmptyAsZero(BaseFieldProcessor):
     def __init__(self):
         pass
 
-    def processValue(self, fieldToProcess):
+    def process_value(self, field_to_process):
         """
         Validates the input by checking if data is an long or not.
 
-        :param fieldToProcess: Data to process and validate.
+        :param field_to_process: Data to process and validate.
         :return: Processed and validated data.
         """
 
         value = None
 
         try:
-            value = long(fieldToProcess)
+            value = long(field_to_process)
 
         except ValueError:
             # Handle the exception

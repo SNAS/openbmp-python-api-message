@@ -19,19 +19,22 @@ class Base(object):
     Schema Version: 1.4
 
     The schema version is the max version supported.  Each extended class is responsible for handling
-        backwards compatibility.
+    backwards compatibility.
     """
 
     __metaclass__ = ABCMeta
 
     def __init__(self):
         """Initializes the class variables."""
-        self.spec_version = float(1.4)  # Default message bus specification version (max) supported
-        self.headerNames = []  # Column field header names will be the MAP key for fields, order matters and must match TSV order of fields.
-        self.rowMap = []  # List of records as dictionaries of records.
+        # Default message bus specification version (max) supported
+        self.spec_version = float(1.4)
+        # Column field header names will be the MAP key for fields, order matters and must match TSV order of fields.
+        self.header_names = []
+        # List of records as dictionaries of records.
+        self.rowMap = []
 
     @abstractmethod
-    def getProcessors(self):
+    def get_processors(self):
         """
         Processors used for each field.
 
@@ -41,7 +44,7 @@ class Base(object):
         """
         pass
 
-    def getRowMap(self):
+    def get_row_map(self):
         """
         Get rowMap as array of dictionaries.
 
@@ -70,15 +73,15 @@ class Base(object):
         for r in records:
             fields = r.split('\t')  # Fields of a record as array.
 
-            fieldsMap = dict(zip(self.headerNames, fields))
+            fields_map = dict(zip(self.header_names, fields))
 
             # Process and validate each field with its corresponding processor.
-            for (f, p, h) in zip(fields, self.getProcessors(), self.headerNames):
-                fieldsMap[h] = p.processValue(f)
+            for (f, p, h) in zip(fields, self.get_processors(), self.header_names):
+                fields_map[h] = p.process_value(f)
 
-            self.rowMap.append(fieldsMap)
+            self.rowMap.append(fields_map)
 
-    def toJson(self):
+    def to_json(self):
         """
         Get rowMap as Json
 
@@ -86,7 +89,7 @@ class Base(object):
         """
         return json.dumps(self.rowMap)
 
-    def toJsonPretty(self):
+    def to_json_pretty(self):
         """
         Get rowMap as Pretty Json.
 
