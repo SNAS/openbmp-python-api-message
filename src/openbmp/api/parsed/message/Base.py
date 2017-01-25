@@ -31,7 +31,7 @@ class Base(object):
         # Column field header names will be the MAP key for fields, order matters and must match TSV order of fields.
         self.header_names = []
         # List of records as dictionaries of records.
-        self.rowMap = []
+        self.row_map = []
 
     @abstractmethod
     def get_processors(self):
@@ -50,7 +50,7 @@ class Base(object):
 
         :return: parsed rowMap is returned as an array of dictionaries.
         """
-        return self.rowMap
+        return self.row_map
 
     def parse(self, version, data):
         """
@@ -79,7 +79,7 @@ class Base(object):
             for (f, p, h) in zip(fields, self.get_processors(), self.header_names):
                 fields_map[h] = p.process_value(f)
 
-            self.rowMap.append(fields_map)
+            self.row_map.append(fields_map)
 
     def to_json(self):
         """
@@ -87,7 +87,7 @@ class Base(object):
 
         :return: JSON String representing the parsed rowMap
         """
-        return json.dumps(self.rowMap)
+        return json.dumps(self.row_map)
 
     def to_json_pretty(self):
         """
@@ -95,4 +95,4 @@ class Base(object):
 
         :return: Pretty formatted JSON String representing the parsed rowMap.
         """
-        return json.dumps(self.rowMap, indent=4, sort_keys=False)
+        return json.dumps(self.row_map, indent=4, sort_keys=False)
