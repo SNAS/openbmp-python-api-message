@@ -23,7 +23,7 @@ class Message(object):
         """
 
         if not data.strip(): # If "data" is not string, throws error.
-            raise "Invalid data!", data
+            raise ValueError("Invalid data!", data)
 
         self.version = float()
         self.type = str()
