@@ -1,0 +1,29 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "d62d17ec0c0b0296c3dc9287b932c66a97c1dfb2d53a8f7ec1cca95f3c83ef8b"
+        },
+        "requires": {},
+        "sources": [
+            {
+                "url": "https://pypi.python.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "PyYAML": {
+            "hash": "sha256:592766c6303207a20efc445587778322d7f73b161bd994f227adaa341ba212ab",
+            "version": "==3.12"
+        },
+        "kafka-python": {
+            "hash": "sha256:c7c281299ed44b86f9a17ed55d9aac38eb5a2089962bc63f703faa67ff2f959b",
+            "version": "==1.3.3"
+        },
+        "python-snappy": {
+            "hash": "sha256:c7fe37679ebfc73840c7cc83657a76bc1ac978efa286b8ac3569fd0630d2b80d",
+            "version": "==0.5"
+        }
+    },
+    "develop": {}
+}

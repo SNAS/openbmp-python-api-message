@@ -1,0 +1,3 @@
+PyYAML==3.12
+kafka-python==1.3.3
+python-snappy==0.5
