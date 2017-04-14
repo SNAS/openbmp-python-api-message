@@ -62,8 +62,9 @@ class Base(object):
 
         :return:  True if error, False if no errors
         """
+
         if not data.strip():  # If "data" is not string, throws error.
-            raise "Invalid data!", data
+            raise ValueError("Invalid data!", data)
 
         self.spec_version = float(version)
 

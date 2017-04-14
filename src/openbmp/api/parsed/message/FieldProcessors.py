@@ -120,7 +120,10 @@ class ParseTimestamp(BaseFieldProcessor):
         :return: Processed and validated data.
         """
 
-        return int(time.mktime(time.strptime(field_to_process, '%Y-%m-%d %H:%M:%S.%f')) * 1000)
+        try:
+            return int(time.mktime(time.strptime(field_to_process, '%Y-%m-%d %H:%M:%S.%f')) * 1000)
+        except ValueError:
+            return 0
 
 
 class ParseInt(BaseFieldProcessor):

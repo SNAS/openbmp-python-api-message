@@ -12,6 +12,9 @@ class Message(object):
     Kafka Message class. This class processes header of raw Kafka messages.
     """
 
+    TYPE_PEER = "PEER"
+    TYPE_ROUTER = "ROUTER"
+
     def __init__(self, data):
         """
         Handle the message by parsing header of it.
@@ -19,10 +22,11 @@ class Message(object):
         :param data: Raw Kafka message as string.
         """
 
-        if not data.strip():  # If "data" is not string, throws error.
-            raise "Invalid data!", data
+        if not data.strip(): # If "data" is not string, throws error.
+            raise ValueError("Invalid data!", data)
 
         self.version = float()
+        self.type = str()
         self.collector_hash_id = str()
         self.length = long()
         self.records = long()
@@ -58,6 +62,9 @@ class Message(object):
 
             elif attr == "C_HASH_ID":
                 self.collector_hash_id = value
+
+            elif attr == "T":
+                self.type = value
 
             elif attr == "L":
                 self.length = long(value)
