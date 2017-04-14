@@ -6,26 +6,38 @@
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
 
-from Base import *
-from FieldProcessors import *
-from Message import *
+from Base import Base
+from FieldProcessors import NotNull, ParseTimestamp, ParseLong
+from Message import Message
 from MsgBusFields import MsgBusFields
 
 
 class BmpStat(Base):
     """
-        Format class for bmp_stat parsed messages (openbmp.parsed.bmp_stat)
+    Format class for bmp_stat parsed messages (openbmp.parsed.bmp_stat)
 
-        Schema Version: 1.4
+    Schema Version: 1.4
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.ROUTER_HASH.getName(),
-                          MsgBusFields.ROUTER_IP.getName(), MsgBusFields.PEER_HASH.getName(),MsgBusFields.PEER_IP.getName(),
-                          MsgBusFields.PEER_ASN.getName(),MsgBusFields.TIMESTAMP.getName(),MsgBusFields.REJECTED.getName(),
-                          MsgBusFields.KNOWN_DUP_UPDATES.getName(),MsgBusFields.KNOWN_DUP_WITHDRAWS.getName(),
-                          MsgBusFields.INVALID_CLUSTER_LIST.getName(),MsgBusFields.INVALID_AS_PATH.getName(),
-                          MsgBusFields.INVALID_ORIGINATOR.getName(),MsgBusFields.INVALID_AS_CONFED.getName(),
-                          MsgBusFields.PRE_POLICY.getName(),MsgBusFields.POST_POLICY.getName()]
+    minimum_header_names = [
+        MsgBusFields.ACTION.get_name(),
+        MsgBusFields.SEQUENCE.get_name(),
+        MsgBusFields.ROUTER_HASH.get_name(),
+        MsgBusFields.ROUTER_IP.get_name(),
+        MsgBusFields.PEER_HASH.get_name(),
+        MsgBusFields.PEER_IP.get_name(),
+        MsgBusFields.PEER_ASN.get_name(),
+        MsgBusFields.TIMESTAMP.get_name(),
+        MsgBusFields.REJECTED.get_name(),
+        MsgBusFields.KNOWN_DUP_UPDATES.get_name(),
+        MsgBusFields.KNOWN_DUP_WITHDRAWS.get_name(),
+        MsgBusFields.INVALID_CLUSTER_LIST.get_name(),
+        MsgBusFields.INVALID_AS_PATH.get_name(),
+        MsgBusFields.INVALID_ORIGINATOR.get_name(),
+        MsgBusFields.INVALID_AS_CONFED.get_name(),
+        MsgBusFields.PRE_POLICY.get_name(),
+        MsgBusFields.POST_POLICY.get_name()
+    ]
 
     def __init__(self, message):
         """
@@ -36,14 +48,14 @@ class BmpStat(Base):
         if not isinstance(message, Message):
             raise TypeError("Expected Message object instead of type " + type(message))
 
-        data = message.getContent()
+        data = message.get_content()
 
         super(BmpStat, self).__init__()
-        self.headerNames = BmpStat.minimumHeaderNames
+        self.header_names = BmpStat.minimum_header_names
 
         self.parse(self.spec_version, data)
 
-    def getProcessors(self):
+    def get_processors(self):
         """
         Processors used for each field.
         Order matters and must match the same order as defined in headerNames
@@ -52,24 +64,23 @@ class BmpStat(Base):
         """
 
         processors = [
-
-            NotNull(), # action
-            ParseLong(), # seq
-            NotNull(), # hash
-            NotNull(), # router_ip
-            NotNull(), # peer_hash
-            NotNull(), # peer_ip,
-            ParseLong(), # peer_asn
-            ParseTimestamp(), # Timestamp
-            NotNull(), # rejected
-            NotNull(), # known_dup_updates
-            NotNull(), # known_dup_withdraws
-            NotNull(), # invalid_cluster_list
-            NotNull(), # invalid_as_path
-            NotNull(), # invalid_originator
-            NotNull(), # invalid_as_confed
-            NotNull(), # pre_policy
-            NotNull() # post_policy
+            NotNull(),  # action
+            ParseLong(),  # seq
+            NotNull(),  # hash
+            NotNull(),  # router_ip
+            NotNull(),  # peer_hash
+            NotNull(),  # peer_ip,
+            ParseLong(),  # peer_asn
+            ParseTimestamp(),  # Timestamp
+            NotNull(),  # rejected
+            NotNull(),  # known_dup_updates
+            NotNull(),  # known_dup_withdraws
+            NotNull(),  # invalid_cluster_list
+            NotNull(),  # invalid_as_path
+            NotNull(),  # invalid_originator
+            NotNull(),  # invalid_as_confed
+            NotNull(),  # pre_policy
+            NotNull()  # post_policy
         ]
 
         return processors

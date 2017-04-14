@@ -9,7 +9,7 @@
 
 class Message(object):
     """
-        Kafka Message class. This class processes header of raw Kafka messages.
+    Kafka Message class. This class processes header of raw Kafka messages.
     """
 
     TYPE_PEER = "PEER"
@@ -47,18 +47,18 @@ class Message(object):
         data_end_pos = data.find("\n\n")
         header_data = data[:data_end_pos]
 
-        self.content_pos = data_end_pos + 2;
+        self.content_pos = data_end_pos + 2
         self.content = data[self.content_pos:]
 
-        headers = header_data.split("\n");
+        headers = header_data.split("\n")
 
         for header in headers:
-            value = header.split(":")[1].strip();
-            attr = header.split(":")[0].strip();
+            value = header.split(":")[1].strip()
+            attr = header.split(":")[0].strip()
 
             # Attribute names are from http://openbmp.org/#!docs/MESSAGE_BUS_API.md headers
             if attr == "V":
-                self.version = float(value);
+                self.version = float(value)
 
             elif attr == "C_HASH_ID":
                 self.collector_hash_id = value
@@ -78,27 +78,26 @@ class Message(object):
             elif attr == "R_IP":
                 self.router_ip = value
 
-    # Getters
-    def getVersion(self):
+    def get_version(self):
         return self.version
 
-    def getCollector_hash_id(self):
+    def get_collector_hash_id(self):
         return self.collector_hash_id
 
-    def getLength(self):
+    def get_length(self):
         return self.length
 
-    def getRecords(self):
+    def get_records(self):
         return self.records
 
-    def getRouter_hash_id(self):
+    def get_router_hash_id(self):
         return self.router_hash_id
 
-    def getRouterIp(self):
+    def get_router_ip(self):
         return self.router_ip
 
-    def getContentPos(self):
+    def get_content_pos(self):
         return self.content_pos
 
-    def getContent(self):
+    def get_content(self):
         return self.content

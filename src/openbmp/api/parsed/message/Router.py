@@ -5,22 +5,32 @@
     terms of the Eclipse Public License v1.0 which accompanies this distribution,
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
-from Base import *
-from FieldProcessors import *
-from Message import *
+from Base import Base
+from FieldProcessors import ParseNullAsEmpty, ParseTimestamp, ParseInt, NotNull, ParseLong
+from Message import Message
 from MsgBusFields import MsgBusFields
 
 
 class Router(Base):
     """
-        Format class for router parsed messages (openbmp.parsed.router)
+    Format class for router parsed messages (openbmp.parsed.router)
 
-        Schema Version: 1.4
+    Schema Version: 1.4
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.NAME.getName(),MsgBusFields.HASH.getName(),MsgBusFields.IP_ADDRESS.getName(),
-                          MsgBusFields.DESCRIPTION.getName(),MsgBusFields.TERM_CODE.getName(),MsgBusFields.TERM_REASON.getName(),MsgBusFields.INIT_DATA.getName(),MsgBusFields.TERM_DATA.getName(),
-                          MsgBusFields.TIMESTAMP.getName()]
+    minimum_header_names = [
+        MsgBusFields.ACTION.get_name(),
+        MsgBusFields.SEQUENCE.get_name(),
+        MsgBusFields.NAME.get_name(),
+        MsgBusFields.HASH.get_name(),
+        MsgBusFields.IP_ADDRESS.get_name(),
+        MsgBusFields.DESCRIPTION.get_name(),
+        MsgBusFields.TERM_CODE.get_name(),
+        MsgBusFields.TERM_REASON.get_name(),
+        MsgBusFields.INIT_DATA.get_name(),
+        MsgBusFields.TERM_DATA.get_name(),
+        MsgBusFields.TIMESTAMP.get_name()
+    ]
 
     def __init__(self, message):
         """
@@ -31,25 +41,22 @@ class Router(Base):
         if not isinstance(message, Message):
             raise TypeError("Expected Message object instead of type " + type(message))
 
-        version = message.getVersion()
-        data = message.getContent()
+        version = message.get_version()
+        data = message.get_content()
 
         super(Router, self).__init__()
         self.spec_version = version
 
         if version >= float(1.2):
-
-            versionSpecificHeaders = [MsgBusFields.BGP_ID.getName()]
-
+            version_specific_headers = [MsgBusFields.BGP_ID.get_name()]
         else:
-
-            versionSpecificHeaders = []
+            version_specific_headers = []
 
         # Concatenate minimum header names and version specific header names.
-        self.headerNames = Router.minimumHeaderNames + versionSpecificHeaders
+        self.header_names = Router.minimum_header_names + version_specific_headers
         self.parse(version, data)
 
-    def getProcessors(self):
+    def get_processors(self):
         """
         Processors used for each field.
         Order matters and must match the same order as defined in headerNames
@@ -57,8 +64,7 @@ class Router(Base):
         :return: array of cell processors.
         """
 
-        defaultCellProcessors = [
-
+        default_cell_processors = [
             NotNull(),  # action
             ParseLong(),  # seq
             ParseNullAsEmpty(),  # name
@@ -73,14 +79,10 @@ class Router(Base):
         ]
 
         if self.spec_version >= float(1.2):
-
-            versionSpecificProcessors = [
-
+            version_specific_processors = [
                 ParseNullAsEmpty()  # Global BGP - ID for router
             ]
-
         else:
+            version_specific_processors = []
 
-            versionSpecificProcessors = []
-
-        return defaultCellProcessors + versionSpecificProcessors
+        return default_cell_processors + version_specific_processors

@@ -5,28 +5,45 @@
     terms of the Eclipse Public License v1.0 which accompanies this distribution,
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
-from Base import *
-from FieldProcessors import *
-from Message import *
+from Base import Base
+from FieldProcessors import ParseNullAsEmpty, ParseLongEmptyAsZero, ParseTimestamp, ParseLong, NotNull
+from Message import Message
 from MsgBusFields import MsgBusFields
+
 
 class LsNode(Base):
     """
-        Format class for ls_node parsed messages (openbmp.parsed.ls_node)
+    Format class for ls_node parsed messages (openbmp.parsed.ls_node)
 
-        Schema Version: 1.4
+    Schema Version: 1.4
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION.getName(), MsgBusFields.SEQUENCE.getName(), MsgBusFields.HASH.getName(),
-                          MsgBusFields.BASE_ATTR_HASH.getName(), MsgBusFields.ROUTER_HASH.getName(),
-                          MsgBusFields.ROUTER_IP.getName(), MsgBusFields.PEER_HASH.getName(), MsgBusFields.PEER_IP.getName(),
-                          MsgBusFields.PEER_ASN.getName(), MsgBusFields.TIMESTAMP.getName(),
-                          MsgBusFields.IGP_ROUTER_ID.getName(), MsgBusFields.ROUTER_ID.getName(),
-                          MsgBusFields.ROUTING_ID.getName(), MsgBusFields.LS_ID.getName(), MsgBusFields.MT_ID.getName(),
-                          MsgBusFields.OSPF_AREA_ID.getName(), MsgBusFields.ISIS_AREA_ID.getName(), MsgBusFields.PROTOCOL.getName(),
-                          MsgBusFields.FLAGS.getName(), MsgBusFields.AS_PATH.getName(),
-                          MsgBusFields.LOCAL_PREF.getName(), MsgBusFields.MED.getName(), MsgBusFields.NEXTHOP.getName(),
-                          MsgBusFields.NAME.getName()]
+    minimum_header_names = [
+        MsgBusFields.ACTION.get_name(),
+        MsgBusFields.SEQUENCE.get_name(),
+        MsgBusFields.HASH.get_name(),
+        MsgBusFields.BASE_ATTR_HASH.get_name(),
+        MsgBusFields.ROUTER_HASH.get_name(),
+        MsgBusFields.ROUTER_IP.get_name(),
+        MsgBusFields.PEER_HASH.get_name(),
+        MsgBusFields.PEER_IP.get_name(),
+        MsgBusFields.PEER_ASN.get_name(),
+        MsgBusFields.TIMESTAMP.get_name(),
+        MsgBusFields.IGP_ROUTER_ID.get_name(),
+        MsgBusFields.ROUTER_ID.get_name(),
+        MsgBusFields.ROUTING_ID.get_name(),
+        MsgBusFields.LS_ID.get_name(),
+        MsgBusFields.MT_ID.get_name(),
+        MsgBusFields.OSPF_AREA_ID.get_name(),
+        MsgBusFields.ISIS_AREA_ID.get_name(),
+        MsgBusFields.PROTOCOL.get_name(),
+        MsgBusFields.FLAGS.get_name(),
+        MsgBusFields.AS_PATH.get_name(),
+        MsgBusFields.LOCAL_PREF.get_name(),
+        MsgBusFields.MED.get_name(),
+        MsgBusFields.NEXTHOP.get_name(),
+        MsgBusFields.NAME.get_name()
+    ]
 
     def __init__(self, message):
         """
@@ -37,25 +54,25 @@ class LsNode(Base):
         if not isinstance(message, Message):
             raise TypeError("Expected Message object instead of type " + type(message))
 
-        data = message.getContent()
-        version = message.getVersion()
+        data = message.get_content()
+        version = message.get_version()
 
         super(LsNode, self).__init__()
         self.spec_version = version
 
-        versionSpecificHeaders = []
+        version_specific_headers = []
 
         if version >= float(1.3):
-            versionSpecificHeaders += [MsgBusFields.ISPREPOLICY.getName(), MsgBusFields.IS_ADJ_RIB_IN.getName()]
+            version_specific_headers += [MsgBusFields.ISPREPOLICY.get_name(), MsgBusFields.IS_ADJ_RIB_IN.get_name()]
 
         if version >= float(1.4):
-            versionSpecificHeaders += [MsgBusFields.LS_SR_CAPABILITIES.getName()]
+            version_specific_headers += [MsgBusFields.LS_SR_CAPABILITIES.get_name()]
 
         # Concatenate minimum header names and version specific header names.
-        self.headerNames = LsNode.minimumHeaderNames + versionSpecificHeaders
+        self.header_names = LsNode.minimum_header_names + version_specific_headers
         self.parse(version, data)
 
-    def getProcessors(self):
+    def get_processors(self):
         """
         Processors used for each field.
         Order matters and must match the same order as defined in headerNames
@@ -63,8 +80,7 @@ class LsNode(Base):
         :return: array of cell processors.
         """
 
-        defaultCellProcessors = [
-
+        default_cell_processors = [
             NotNull(),  # action
             ParseLong(),  # seq
             NotNull(),  # hash
@@ -91,20 +107,17 @@ class LsNode(Base):
             ParseNullAsEmpty(),  # name
         ]
 
-        versionSpecificProcessors = []
+        version_specific_processors = []
 
         if self.spec_version >= float(1.3):
-
-            versionSpecificProcessors += [
+            version_specific_processors += [
                 ParseLongEmptyAsZero(),  # isPrePolicy
                 ParseLongEmptyAsZero()  # isAdjRibIn
             ]
 
         if self.spec_version >= float(1.4):
-
-            versionSpecificProcessors += [
+            version_specific_processors += [
                 ParseNullAsEmpty()  # SR Capabilities
             ]
 
-
-        return defaultCellProcessors + versionSpecificProcessors
+        return default_cell_processors + version_specific_processors

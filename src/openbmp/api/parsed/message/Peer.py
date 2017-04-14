@@ -5,26 +5,49 @@
     terms of the Eclipse Public License v1.0 which accompanies this distribution,
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
-from Base import *
-from FieldProcessors import *
-from Message import *
+from Base import Base
+from FieldProcessors import ParseLongEmptyAsZero, ParseNullAsEmpty, NotNull, ParseLong, ParseTimestamp
+from Message import Message
 from MsgBusFields import MsgBusFields
 
 
 class Peer(Base):
     """
-        Format class for peer parsed messages (openbmp.parsed.peer)
+    Format class for peer parsed messages (openbmp.parsed.peer)
 
-        Schema Version: 1.4
+    Schema Version: 1.4
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.HASH.getName(),MsgBusFields.ROUTER_HASH.getName(),MsgBusFields.NAME.getName(),
-                          MsgBusFields.REMOTE_BGP_ID.getName(),MsgBusFields.ROUTER_IP.getName(),MsgBusFields.TIMESTAMP.getName(),MsgBusFields.REMOTE_ASN.getName(),
-                          MsgBusFields.REMOTE_IP.getName(),MsgBusFields.PEER_RD.getName(),MsgBusFields.REMOTE_PORT.getName(),MsgBusFields.LOCAL_ASN.getName(),
-                          MsgBusFields.LOCAL_IP.getName(),MsgBusFields.LOCAL_PORT.getName(),MsgBusFields.LOCAL_BGP_ID.getName(),MsgBusFields.INFO_DATA.getName(),MsgBusFields.ADV_CAP.getName(),
-                          MsgBusFields.RECV_CAP.getName(),MsgBusFields.REMOTE_HOLDDOWN.getName(),MsgBusFields.ADV_HOLDDOWN.getName(),MsgBusFields.BMP_REASON.getName(),
-                          MsgBusFields.BGP_ERROR_CODE.getName(),MsgBusFields.BGP_ERROR_SUB_CODE.getName(),MsgBusFields.ERROR_TEXT.getName(),MsgBusFields.IS_L3VPN.getName(),
-                          MsgBusFields.ISPREPOLICY.getName(),MsgBusFields.IS_IPV4.getName()]
+    minimum_header_names = [
+        MsgBusFields.ACTION.get_name(),
+        MsgBusFields.SEQUENCE.get_name(),
+        MsgBusFields.HASH.get_name(),
+        MsgBusFields.ROUTER_HASH.get_name(),
+        MsgBusFields.NAME.get_name(),
+        MsgBusFields.REMOTE_BGP_ID.get_name(),
+        MsgBusFields.ROUTER_IP.get_name(),
+        MsgBusFields.TIMESTAMP.get_name(),
+        MsgBusFields.REMOTE_ASN.get_name(),
+        MsgBusFields.REMOTE_IP.get_name(),
+        MsgBusFields.PEER_RD.get_name(),
+        MsgBusFields.REMOTE_PORT.get_name(),
+        MsgBusFields.LOCAL_ASN.get_name(),
+        MsgBusFields.LOCAL_IP.get_name(),
+        MsgBusFields.LOCAL_PORT.get_name(),
+        MsgBusFields.LOCAL_BGP_ID.get_name(),
+        MsgBusFields.INFO_DATA.get_name(),
+        MsgBusFields.ADV_CAP.get_name(),
+        MsgBusFields.RECV_CAP.get_name(),
+        MsgBusFields.REMOTE_HOLDDOWN.get_name(),
+        MsgBusFields.ADV_HOLDDOWN.get_name(),
+        MsgBusFields.BMP_REASON.get_name(),
+        MsgBusFields.BGP_ERROR_CODE.get_name(),
+        MsgBusFields.BGP_ERROR_SUB_CODE.get_name(),
+        MsgBusFields.ERROR_TEXT.get_name(),
+        MsgBusFields.IS_L3VPN.get_name(),
+        MsgBusFields.ISPREPOLICY.get_name(),
+        MsgBusFields.IS_IPV4.get_name()
+    ]
 
     def __init__(self, message):
         """
@@ -35,15 +58,15 @@ class Peer(Base):
         if not isinstance(message, Message):
             raise TypeError("Expected Message object instead of type " + type(message))
 
-        data = message.getContent()
+        data = message.get_content()
 
         super(Peer, self).__init__()
 
-        self.headerNames = Peer.minimumHeaderNames
+        self.header_names = Peer.minimum_header_names
 
         self.parse(self.spec_version, data)
 
-    def getProcessors(self):
+    def get_processors(self):
         """
         Processors used for each field.
         Order matters and must match the same order as defined in headerNames
@@ -52,35 +75,34 @@ class Peer(Base):
         """
 
         processors = [
-
-            NotNull(), # action
-            ParseLong(), # seq
-            NotNull(), # hash
-            NotNull(), # router hash
-            ParseNullAsEmpty(), # name
-            NotNull(), # remote_bgp_id
-            NotNull(), # router_ip
-            ParseTimestamp(), # Timestamp
-            ParseLong(), # remote_asn
-            NotNull(), # remote_ip
-            ParseNullAsEmpty(), # peer_rd
-            ParseLongEmptyAsZero(), # remote_port
-            ParseLongEmptyAsZero(), # local_asn
-            ParseNullAsEmpty(), # local_ip
-            ParseLongEmptyAsZero(), # local_port
-            ParseNullAsEmpty(), # local_bgp_id
-            ParseNullAsEmpty(), # info_data
-            ParseNullAsEmpty(), # adv_cap
-            ParseNullAsEmpty(), # recv_cap
-            ParseLongEmptyAsZero(), # remote_holddown
-            ParseLongEmptyAsZero(), # local_holddown
-            ParseLongEmptyAsZero(), # bmp_reason
-            ParseLongEmptyAsZero(), # bgp_error_code
-            ParseLongEmptyAsZero(), # bgp_error_sub_code
-            ParseNullAsEmpty(), # error_text
-            ParseLongEmptyAsZero(), # isL3VPN
-            ParseLongEmptyAsZero(), # isPrePolicy
-            ParseLongEmptyAsZero() # isIPv4
+            NotNull(),  # action
+            ParseLong(),  # seq
+            NotNull(),  # hash
+            NotNull(),  # router hash
+            ParseNullAsEmpty(),  # name
+            NotNull(),  # remote_bgp_id
+            NotNull(),  # router_ip
+            ParseTimestamp(),  # Timestamp
+            ParseLong(),  # remote_asn
+            NotNull(),  # remote_ip
+            ParseNullAsEmpty(),  # peer_rd
+            ParseLongEmptyAsZero(),  # remote_port
+            ParseLongEmptyAsZero(),  # local_asn
+            ParseNullAsEmpty(),  # local_ip
+            ParseLongEmptyAsZero(),  # local_port
+            ParseNullAsEmpty(),  # local_bgp_id
+            ParseNullAsEmpty(),  # info_data
+            ParseNullAsEmpty(),  # adv_cap
+            ParseNullAsEmpty(),  # recv_cap
+            ParseLongEmptyAsZero(),  # remote_holddown
+            ParseLongEmptyAsZero(),  # local_holddown
+            ParseLongEmptyAsZero(),  # bmp_reason
+            ParseLongEmptyAsZero(),  # bgp_error_code
+            ParseLongEmptyAsZero(),  # bgp_error_sub_code
+            ParseNullAsEmpty(),  # error_text
+            ParseLongEmptyAsZero(),  # isL3VPN
+            ParseLongEmptyAsZero(),  # isPrePolicy
+            ParseLongEmptyAsZero()  # isIPv4
         ]
 
         return processors

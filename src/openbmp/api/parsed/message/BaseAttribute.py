@@ -6,10 +6,11 @@
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
 
-from Base import *
-from FieldProcessors import *
-from Message import *
+from Base import Base
+from FieldProcessors import ParseNullAsEmpty, ParseLongEmptyAsZero, ParseLong, ParseTimestamp, NotNull
+from Message import Message
 from MsgBusFields import MsgBusFields
+
 
 class BaseAttribute(Base):
     """
@@ -18,13 +19,31 @@ class BaseAttribute(Base):
     Schema Version: 1.4
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION.getName(), MsgBusFields.SEQUENCE.getName(), MsgBusFields.HASH.getName(), MsgBusFields.ROUTER_HASH.getName(),
-                          MsgBusFields.ROUTER_IP.getName(), MsgBusFields.PEER_HASH.getName(), MsgBusFields.PEER_IP.getName(), MsgBusFields.PEER_ASN.getName(),
-                          MsgBusFields.TIMESTAMP.getName(), MsgBusFields.ORIGIN.getName(), MsgBusFields.AS_PATH.getName(), MsgBusFields.AS_PATH_COUNT.getName(),
-                          MsgBusFields.ORIGIN_AS.getName(), MsgBusFields.NEXTHOP.getName(), MsgBusFields.MED.getName(), MsgBusFields.LOCAL_PREF.getName(),
-                          MsgBusFields.AGGREGATOR.getName(), MsgBusFields.COMMUNITY_LIST.getName(), MsgBusFields.EXT_COMMUNITY_LIST.getName(),
-                          MsgBusFields.CLUSTER_LIST.getName(), MsgBusFields.ISATOMICAGG.getName(),
-                          MsgBusFields.IS_NEXTHOP_IPV4.getName(), MsgBusFields.ORIGINATOR_ID.getName()]
+    minimum_header_names = [
+        MsgBusFields.ACTION.get_name(),
+        MsgBusFields.SEQUENCE.get_name(),
+        MsgBusFields.HASH.get_name(),
+        MsgBusFields.ROUTER_HASH.get_name(),
+        MsgBusFields.ROUTER_IP.get_name(),
+        MsgBusFields.PEER_HASH.get_name(),
+        MsgBusFields.PEER_IP.get_name(),
+        MsgBusFields.PEER_ASN.get_name(),
+        MsgBusFields.TIMESTAMP.get_name(),
+        MsgBusFields.ORIGIN.get_name(),
+        MsgBusFields.AS_PATH.get_name(),
+        MsgBusFields.AS_PATH_COUNT.get_name(),
+        MsgBusFields.ORIGIN_AS.get_name(),
+        MsgBusFields.NEXTHOP.get_name(),
+        MsgBusFields.MED.get_name(),
+        MsgBusFields.LOCAL_PREF.get_name(),
+        MsgBusFields.AGGREGATOR.get_name(),
+        MsgBusFields.COMMUNITY_LIST.get_name(),
+        MsgBusFields.EXT_COMMUNITY_LIST.get_name(),
+        MsgBusFields.CLUSTER_LIST.get_name(),
+        MsgBusFields.ISATOMICAGG.get_name(),
+        MsgBusFields.IS_NEXTHOP_IPV4.get_name(),
+        MsgBusFields.ORIGINATOR_ID.get_name()
+    ]
 
     def __init__(self, message):
         """
@@ -35,15 +54,15 @@ class BaseAttribute(Base):
         if not isinstance(message, Message):
             raise TypeError("Expected Message object instead of type " + type(message))
 
-        data = message.getContent()
+        data = message.get_content()
 
         super(BaseAttribute, self).__init__()
 
-        self.headerNames = BaseAttribute.minimumHeaderNames
+        self.header_names = BaseAttribute.minimum_header_names
 
-        self.parse(self.spec_version, data);
+        self.parse(self.spec_version, data)
 
-    def getProcessors(self):
+    def get_processors(self):
         """
         Processors used for each field.
         Order matters and must match the same order as defined in headerNames
@@ -52,30 +71,29 @@ class BaseAttribute(Base):
         """
 
         processors = [
-
-            NotNull(), # action
-            ParseLong(), # seq
-            NotNull(), # hash
-            NotNull(), # router hash
-            NotNull(), # router_ip
-            NotNull(), # peer_hash
-            NotNull(), # peer_ip
-            ParseLong(), # peer_asn
-            ParseTimestamp(), # timestamp
-            ParseNullAsEmpty(), # origin
-            ParseNullAsEmpty(), # as_path
-            ParseLong(), # as_path_count
-            ParseLong(), # origin_as
-            ParseNullAsEmpty(), # nexthop
-            ParseLong(), # med
-            ParseLong(), # local_pref
-            ParseNullAsEmpty(), # aggregator
-            ParseNullAsEmpty(), # community_list
-            ParseNullAsEmpty(), # ext_community_list
-            ParseNullAsEmpty(), # cluster_list
-            ParseLongEmptyAsZero(), # isAtomicAgg
-            ParseLongEmptyAsZero(), # isNexthopIPv4
-            ParseNullAsEmpty() # originator_id
+            NotNull(),  # action
+            ParseLong(),  # seq
+            NotNull(),  # hash
+            NotNull(),  # router hash
+            NotNull(),  # router_ip
+            NotNull(),  # peer_hash
+            NotNull(),  # peer_ip
+            ParseLong(),  # peer_asn
+            ParseTimestamp(),  # timestamp
+            ParseNullAsEmpty(),  # origin
+            ParseNullAsEmpty(),  # as_path
+            ParseLong(),  # as_path_count
+            ParseLong(),  # origin_as
+            ParseNullAsEmpty(),  # nexthop
+            ParseLong(),  # med
+            ParseLong(),  # local_pref
+            ParseNullAsEmpty(),  # aggregator
+            ParseNullAsEmpty(),  # community_list
+            ParseNullAsEmpty(),  # ext_community_list
+            ParseNullAsEmpty(),  # cluster_list
+            ParseLongEmptyAsZero(),  # isAtomicAgg
+            ParseLongEmptyAsZero(),  # isNexthopIPv4
+            ParseNullAsEmpty()  # originator_id
         ]
 
         return processors

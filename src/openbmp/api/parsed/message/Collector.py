@@ -5,22 +5,28 @@
     terms of the Eclipse Public License v1.0 which accompanies this distribution,
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
-from Base import *
-from FieldProcessors import *
-from Message import *
+from Base import Base
+from FieldProcessors import ParseTimestamp, ParseInt, ParseNullAsEmpty, NotNull, ParseLong
+from Message import Message
 from MsgBusFields import MsgBusFields
 
 
 class Collector(Base):
     """
-        Format class for collector parsed messages (openbmp.parsed.collector)
+    Format class for collector parsed messages (openbmp.parsed.collector)
 
-        Schema Version: 1.4
+    Schema Version: 1.4
     """
 
-    minimumHeaderNames = [MsgBusFields.ACTION.getName(),MsgBusFields.SEQUENCE.getName(),MsgBusFields.ADMIN_ID.getName(),
-                          MsgBusFields.HASH.getName(),MsgBusFields.ROUTERS.getName(),MsgBusFields.ROUTER_COUNT.getName(),
-                          MsgBusFields.TIMESTAMP.getName()]
+    minimum_header_names = [
+        MsgBusFields.ACTION.get_name(),
+        MsgBusFields.SEQUENCE.get_name(),
+        MsgBusFields.ADMIN_ID.get_name(),
+        MsgBusFields.HASH.get_name(),
+        MsgBusFields.ROUTERS.get_name(),
+        MsgBusFields.ROUTER_COUNT.get_name(),
+        MsgBusFields.TIMESTAMP.get_name()
+    ]
 
     def __init__(self, message):
         """
@@ -31,15 +37,15 @@ class Collector(Base):
         if not isinstance(message, Message):
             raise TypeError("Expected Message object instead of type " + type(message))
 
-        data = message.getContent()
+        data = message.get_content()
 
         super(Collector, self).__init__()
-        self.headerNames = Collector.minimumHeaderNames
+        self.header_names = Collector.minimum_header_names
 
         # Change below to supply version when version is required
         self.parse(self.spec_version, data)
 
-    def getProcessors(self):
+    def get_processors(self):
         """
         Processors used for each field.
         Order matters and must match the same order as defined in headerNames
@@ -48,14 +54,13 @@ class Collector(Base):
         """
 
         processors = [
-
-            NotNull(), # action
-            ParseLong(), # seq
-            NotNull(), # admin
-            NotNull(), # hash
-            ParseNullAsEmpty(), # routers
-            ParseInt(), # router count
-            ParseTimestamp() # Timestamp
+            NotNull(),  # action
+            ParseLong(),  # seq
+            NotNull(),  # admin
+            NotNull(),  # hash
+            ParseNullAsEmpty(),  # routers
+            ParseInt(),  # router count
+            ParseTimestamp()  # Timestamp
         ]
 
         return processors
