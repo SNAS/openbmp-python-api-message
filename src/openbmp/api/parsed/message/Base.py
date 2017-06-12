@@ -8,6 +8,7 @@
 
 from abc import ABCMeta, abstractmethod
 import json
+import re
 
 
 class Base(object):
@@ -23,6 +24,24 @@ class Base(object):
     """
 
     __metaclass__ = ABCMeta
+
+    @staticmethod
+    def isplit(string, delimiter=None):
+        """Like string.split but returns an iterator (lazy)
+        Multiple character delimters are not handled.
+        """
+        if delimiter is None:
+            # Handle whitespace by default
+            delim = r"\s"
+
+        elif len(delimiter) != 1:
+            raise ValueError("Can only handle single character delimiters", delimiter)
+
+        else:
+            # Escape, incase it's "\", "*" etc.
+            delim = re.escape(delimiter)
+
+        return (x.group(0) for x in re.finditer(r"[^{}]+".format(delim), string))
 
     def __init__(self):
         """Initializes the class variables."""
@@ -52,13 +71,14 @@ class Base(object):
         """
         return self.row_map
 
-    def parse(self, version, data):
+    def parse(self, version, data, validate=True):
         """
         Parse TSV rows of data from message
 
         :param version: Float representation of maximum message bus specification version supported.
                             See http://openbmp.org/#!docs/MESSAGE_BUS_API.md for more details.
         :param data: TSV data (MUST not include the headers)
+        :param validate: If required to validate every field with its corresponding processor
 
         :return:  True if error, False if no errors
         """
@@ -71,17 +91,16 @@ class Base(object):
         if len(self.header_names) == 0:
             raise Exception("header_names should be overriden.")
 
-        records = data.splitlines()  # Splits data into records.
-
         # Splits each record into fields.
-        for r in records:
+        for r in Base.isplit(data, "\n"):
             fields = r.split('\t')  # Fields of a record as array.
 
             fields_map = dict(zip(self.header_names, fields))
 
-            # Process and validate each field with its corresponding processor.
-            for (f, p, h) in zip(fields, self.get_processors(), self.header_names):
-                fields_map[h] = p.process_value(f)
+            if validate:
+                # Process and validate each field with its corresponding processor.
+                for (f, p, h) in zip(fields, self.get_processors(), self.header_names):
+                    fields_map[h] = p.process_value(f)
 
             self.row_map.append(fields_map)
 
