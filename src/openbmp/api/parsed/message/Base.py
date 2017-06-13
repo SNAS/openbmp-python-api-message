@@ -33,6 +33,9 @@ class Base(object):
         # List of records as dictionaries of records.
         self.row_map = []
 
+        # List of cell processors
+        self.processors = []
+
     @abstractmethod
     def get_processors(self):
         """
@@ -62,6 +65,8 @@ class Base(object):
 
         :return:  True if error, False if no errors
         """
+        if not data:
+            return False
 
         if not data.strip():  # If "data" is not string, throws error.
             raise ValueError("Invalid data!", data)
@@ -71,19 +76,20 @@ class Base(object):
         if len(self.header_names) == 0:
             raise Exception("header_names should be overriden.")
 
-        records = data.splitlines()  # Splits data into records.
+        records = data.splitlines()
 
-        # Splits each record into fields.
+        # # Splits each record into fields.
         for r in records:
             fields = r.split('\t')  # Fields of a record as array.
 
-            fields_map = dict(zip(self.header_names, fields))
+            # # # Process and validate each field with its corresponding processor.
+            if len(fields) >= len(self.processors):
+                for i,processor in enumerate(self.processors):
+                    fields[i] = processor.process_value(fields[i])
 
-            # Process and validate each field with its corresponding processor.
-            for (f, p, h) in zip(fields, self.get_processors(), self.header_names):
-                fields_map[h] = p.process_value(f)
+            fields_dict = dict(zip(self.header_names, fields))
 
-            self.row_map.append(fields_map)
+            self.row_map.append(fields_dict)
 
     def to_json(self):
         """

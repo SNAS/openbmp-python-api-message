@@ -54,7 +54,12 @@ class Router(Base):
 
         # Concatenate minimum header names and version specific header names.
         self.header_names = Router.minimum_header_names + version_specific_headers
-        self.parse(version, data)
+
+        self.processors = self.get_processors()
+
+        if data:
+            self.parse(version, data)
+
 
     def get_processors(self):
         """

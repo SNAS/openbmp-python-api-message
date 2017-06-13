@@ -139,3 +139,5 @@ class MsgBusFields:
     LS_SR_CAPABILITIES = MsgBusField({"name": "sr_capabilities", "defaultValue": ""})
     LS_ADJACENCY_SID = MsgBusField({"name": "sr_adjacency_sid", "defaultValue": ""})
     LS_PREFIX_SID = MsgBusField({"name": "sr_prefix_sid", "defaultValue": ""})
+    VPN_RD = MsgBusField({"name": "vpn_rd", "defaultValue": ""})
+    VPN_RD_TYPE = MsgBusField({"name": "vpn_rd_type", "defaultValue": 0})

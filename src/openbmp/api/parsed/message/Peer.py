@@ -64,7 +64,11 @@ class Peer(Base):
 
         self.header_names = Peer.minimum_header_names
 
-        self.parse(self.spec_version, data)
+        self.processors = self.get_processors()
+
+        if data:
+            self.parse(self.spec_version, data)
+
 
     def get_processors(self):
         """

@@ -15,14 +15,14 @@ class Message(object):
     TYPE_PEER = "PEER"
     TYPE_ROUTER = "ROUTER"
 
-    def __init__(self, data):
+    def __init__(self, data=None):
         """
         Handle the message by parsing header of it.
 
         :param data: Raw Kafka message as string.
         """
 
-        if not data.strip(): # If "data" is not string, throws error.
+        if data and not data.strip(): # If "data" is not string, throws error.
             raise ValueError("Invalid data!", data)
 
         self.version = float()
@@ -35,7 +35,8 @@ class Message(object):
         self.content_pos = int()
         self.router_ip = str()
 
-        self.__parse(data)
+        if data:
+            self.__parse(data)
 
     def __parse(self, data):
         """
