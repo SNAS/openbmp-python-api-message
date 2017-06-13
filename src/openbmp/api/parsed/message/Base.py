@@ -71,7 +71,7 @@ class Base(object):
         """
         return self.row_map
 
-    def parse(self, version, data, validate=True):
+    def parse(self, version, data, validate=True, required_fields=None):
         """
         Parse TSV rows of data from message
 
@@ -95,12 +95,17 @@ class Base(object):
         for r in Base.isplit(data, "\n"):
             fields = r.split('\t')  # Fields of a record as array.
 
-            fields_map = dict(zip(self.header_names, fields))
+            fields_map = {}
 
-            if validate:
-                # Process and validate each field with its corresponding processor.
-                for (f, p, h) in zip(fields, self.get_processors(), self.header_names):
-                    fields_map[h] = p.process_value(f)
+            if required_fields:
+                for key in required_fields:
+                    fields_map[required_fields[key]] = fields[key]
+            else:
+                fields_map = dict(zip(self.header_names, fields))
+                if validate:
+                    # Process and validate each field with its corresponding processor.
+                    for (f, p, h) in zip(fields, self.get_processors(), self.header_names):
+                        fields_map[h] = p.process_value(f)
 
             self.row_map.append(fields_map)
 

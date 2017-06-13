@@ -15,7 +15,7 @@ class Message(object):
     TYPE_PEER = "PEER"
     TYPE_ROUTER = "ROUTER"
 
-    def __init__(self, data):
+    def __init__(self, data, parse_headers=True):
         """
         Handle the message by parsing header of it.
 
@@ -35,48 +35,51 @@ class Message(object):
         self.content_pos = int()
         self.router_ip = str()
 
-        self.__parse(data)
+        self.__parse(data, parse_headers)
 
-    def __parse(self, data):
+    def __parse(self, data, parse_headers=True):
         """
         Parses header of raw Kafka messages and set the version, length, number of records and router hash id.
 
         :param data: Raw Kafka message as string.
         """
 
-        data_end_pos = data.find("\n\n")
-        header_data = data[:data_end_pos]
+        if parse_headers:
+            data_end_pos = data.find("\n\n")
+            header_data = data[:data_end_pos]
 
-        self.content_pos = data_end_pos + 2
-        self.content = data[self.content_pos:]
+            self.content_pos = data_end_pos + 2
+            self.content = data[self.content_pos:]
 
-        headers = header_data.split("\n")
+            headers = header_data.split("\n")
 
-        for header in headers:
-            value = header.split(":")[1].strip()
-            attr = header.split(":")[0].strip()
+            for header in headers:
+                value = header.split(":")[1].strip()
+                attr = header.split(":")[0].strip()
 
-            # Attribute names are from http://openbmp.org/#!docs/MESSAGE_BUS_API.md headers
-            if attr == "V":
-                self.version = float(value)
+                # Attribute names are from http://openbmp.org/#!docs/MESSAGE_BUS_API.md headers
+                if attr == "V":
+                    self.version = float(value)
 
-            elif attr == "C_HASH_ID":
-                self.collector_hash_id = value
+                elif attr == "C_HASH_ID":
+                    self.collector_hash_id = value
 
-            elif attr == "T":
-                self.type = value
+                elif attr == "T":
+                    self.type = value
 
-            elif attr == "L":
-                self.length = long(value)
+                elif attr == "L":
+                    self.length = long(value)
 
-            elif attr == "R":
-                self.records = long(value)
+                elif attr == "R":
+                    self.records = long(value)
 
-            elif attr == "R_HASH_ID":
-                self.router_hash_id = value
+                elif attr == "R_HASH_ID":
+                    self.router_hash_id = value
 
-            elif attr == "R_IP":
-                self.router_ip = value
+                elif attr == "R_IP":
+                    self.router_ip = value
+        else:
+            self.content = data
 
     def get_version(self):
         return self.version

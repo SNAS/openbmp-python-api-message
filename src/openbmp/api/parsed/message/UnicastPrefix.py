@@ -48,7 +48,7 @@ class UnicastPrefix(Base):
         MsgBusFields.ORIGINATOR_ID.get_name()
     ]
 
-    def __init__(self, message, validate=True):
+    def __init__(self, message, validate=True, required_fields=None):
         """
         Handle the message by parsing it and storing the data in memory.
 
@@ -81,7 +81,7 @@ class UnicastPrefix(Base):
 
         # Concatenate minimum header names and version specific header names.
         self.header_names = UnicastPrefix.minimum_header_names + version_specific_headers
-        self.parse(version, data, validate=validate)
+        self.parse(version, data, validate=validate, required_fields=required_fields)
 
     def get_processors(self):
         """
