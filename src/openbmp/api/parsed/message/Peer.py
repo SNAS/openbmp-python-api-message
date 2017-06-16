@@ -15,7 +15,7 @@ class Peer(Base):
     """
     Format class for peer parsed messages (openbmp.parsed.peer)
 
-    Schema Version: 1.4
+    Schema Version: 1.6
     """
 
     minimum_header_names = [
@@ -58,17 +58,29 @@ class Peer(Base):
         if not isinstance(message, Message):
             raise TypeError("Expected Message object instead of type " + type(message))
 
+        version = message.get_version()
         data = message.get_content()
 
         super(Peer, self).__init__()
 
-        self.header_names = Peer.minimum_header_names
+        if version >= float(1.6):
+            version_specific_headers = [
+                MsgBusFields.IS_LOCRIB.get_name(),
+                MsgBusFields.IS_LOCRIB_FILTERED.get_name(),
+                MsgBusFields.TABLE_NAME.get_name()
+            ]
 
+        else:
+            version_specific_headers = []
+
+        # Concatenate minimum header names and version specific header names.
+        self.header_names = Peer.minimum_header_names + version_specific_headers
+
+        self.spec_version = version
         self.processors = self.get_processors()
 
         if data:
             self.parse(self.spec_version, data)
-
 
     def get_processors(self):
         """

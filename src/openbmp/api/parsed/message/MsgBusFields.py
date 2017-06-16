@@ -141,3 +141,6 @@ class MsgBusFields:
     LS_PREFIX_SID = MsgBusField({"name": "sr_prefix_sid", "defaultValue": ""})
     VPN_RD = MsgBusField({"name": "vpn_rd", "defaultValue": ""})
     VPN_RD_TYPE = MsgBusField({"name": "vpn_rd_type", "defaultValue": 0})
+    IS_LOCRIB = MsgBusField({"name": "isLocRib", "defaultValue": 0})
+    IS_LOCRIB_FILTERED = MsgBusField({"name": "isLocRibFiltered", "defaultValue": 0})
+    TABLE_NAME = MsgBusField({"name": "tableName", "defaultValue": ""})
