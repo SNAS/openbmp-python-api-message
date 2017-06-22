@@ -42,8 +42,10 @@ class Collector(Base):
         super(Collector, self).__init__()
         self.header_names = Collector.minimum_header_names
 
-        # Change below to supply version when version is required
-        self.parse(self.spec_version, data)
+        self.processors = self.get_processors()
+
+        if data:
+            self.parse(self.spec_version, data)
 
     def get_processors(self):
         """

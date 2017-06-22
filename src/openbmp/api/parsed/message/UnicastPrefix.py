@@ -67,7 +67,6 @@ class UnicastPrefix(Base):
         data = message.get_content()
 
         super(UnicastPrefix, self).__init__()
-        self.spec_version = version
 
         if version >= float(1.3):
             version_specific_headers = [
@@ -86,7 +85,12 @@ class UnicastPrefix(Base):
 
         # Concatenate minimum header names and version specific header names.
         self.header_names = UnicastPrefix.minimum_header_names + version_specific_headers
-        self.parse(version, data, validate=validate, required_fields=required_fields)
+
+        self.spec_version = version
+        self.processors = self.get_processors()
+
+        if data:
+            self.parse(version, data, validate=validate, required_fields=required_fields)
 
     def get_processors(self):
         """

@@ -53,7 +53,10 @@ class BmpStat(Base):
         super(BmpStat, self).__init__()
         self.header_names = BmpStat.minimum_header_names
 
-        self.parse(self.spec_version, data)
+        self.processors = self.get_processors()
+
+        if data:
+            self.parse(self.spec_version, data)
 
     def get_processors(self):
         """

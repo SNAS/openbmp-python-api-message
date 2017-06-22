@@ -28,7 +28,7 @@ class Base(object):
     @staticmethod
     def isplit(string, delimiter=None):
         """
-        Like string.split but returns an iterator (lazy)
+        Like string.split but returns an iterator (lazy and works a little bit faster)
         """
         if delimiter is None:
             # Handle whitespace by default
@@ -51,6 +51,9 @@ class Base(object):
         self.header_names = []
         # List of records as dictionaries of records.
         self.row_map = []
+
+        # List of cell processors
+        self.processors = []
 
     @abstractmethod
     def get_processors(self):
@@ -86,6 +89,8 @@ class Base(object):
 
         :return:  True if error, False if no errors
         """
+        if not data:
+            return False
 
         if not data.strip():  # If "data" is not string, throws error.
             raise ValueError("Invalid data!", data)
@@ -96,8 +101,8 @@ class Base(object):
             raise Exception("header_names should be overriden.")
 
         # Splits each record into fields.
-        for r in Base.isplit(data, "\n"):
-            fields = r.split('\t')  # Fields of a record as array.
+        for record in Base.isplit(data, "\n"):
+            fields = record.split('\t')  # Fields of a record as array.
 
             fields_map = {}
 
@@ -105,11 +110,12 @@ class Base(object):
                 for key in required_fields:
                     fields_map[required_fields[key]] = fields[key]
             else:
-                fields_map = dict(zip(self.header_names, fields))
-                if validate:
-                    # Process and validate each field with its corresponding processor.
-                    for (f, p, h) in zip(fields, self.get_processors(), self.header_names):
-                        fields_map[h] = p.process_value(f)
+                if len(fields) >= len(self.processors):
+                    fields_map = dict(zip(self.header_names, fields))
+                    if validate:
+                        # Process and validate each field with its corresponding processor.
+                        for (f, p, h) in zip(fields, self.get_processors(), self.header_names):
+                            fields_map[h] = p.process_value(f)
 
             self.row_map.append(fields_map)
 

@@ -14,6 +14,7 @@ from openbmp.api.parsed.message import LsPrefix
 from openbmp.api.parsed.message import Peer
 from openbmp.api.parsed.message import Router
 from openbmp.api.parsed.message import UnicastPrefix
+from openbmp.api.parsed.message import L3VpnPrefix
 
 
 def process_message(msg):
@@ -54,6 +55,11 @@ def process_message(msg):
         print '\n' + 'Received Message (' + t_stamp + ') : ' + m_tag + '(V: ' + str(m.version) + ')'
         print unicast_prefix.to_json_pretty()
 
+    elif t == "openbmp.parsed.l3vpn":
+        l3vpn_prefix = L3VpnPrefix(m)
+        print '\n' + 'Received Message (' + t_stamp + ') : ' + m_tag + '(V: ' + str(m.version) + ')'
+        print l3vpn_prefix.to_json_pretty()
+
     elif t == "openbmp.parsed.ls_node":
         ls_node = LsNode(m)
         print '\n' + 'Received Message (' + t_stamp + ') : ' + m_tag + '(V: ' + str(m.version) + ')'
@@ -75,7 +81,7 @@ def main():
     topics = [
         'openbmp.parsed.router', 'openbmp.parsed.peer', 'openbmp.parsed.collector',
         'openbmp.parsed.bmp_stat', 'openbmp.parsed.unicast_prefix', 'openbmp.parsed.ls_node',
-        'openbmp.parsed.ls_link', 'openbmp.parsed.ls_prefix'
+        'openbmp.parsed.ls_link', 'openbmp.parsed.ls_prefix', 'openbmp.parsed.l3vpn'
     ]
 
     # Read config file

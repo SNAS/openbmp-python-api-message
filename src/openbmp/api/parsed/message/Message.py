@@ -15,7 +15,7 @@ class Message(object):
     TYPE_PEER = "PEER"
     TYPE_ROUTER = "ROUTER"
 
-    def __init__(self, data, parse_headers=True):
+    def __init__(self, data=None, parse_headers=True):
         """
         Handle the message by parsing header of it.
 
@@ -23,7 +23,7 @@ class Message(object):
         :param parse_headers: If headers parsing is required. May be disabled to speed up.
         """
 
-        if not data.strip(): # If "data" is not string, throws error.
+        if data and not data.strip(): # If "data" is not string, throws error.
             raise ValueError("Invalid data!", data)
 
         self.version = float()
@@ -37,6 +37,9 @@ class Message(object):
         self.router_ip = str()
 
         self.__parse(data, parse_headers)
+
+        if data:
+            self.__parse(data, parse_headers)
 
     def __parse(self, data, parse_headers=True):
         """
