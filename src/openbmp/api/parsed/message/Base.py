@@ -27,8 +27,8 @@ class Base(object):
 
     @staticmethod
     def isplit(string, delimiter=None):
-        """Like string.split but returns an iterator (lazy)
-        Multiple character delimters are not handled.
+        """
+        Like string.split but returns an iterator (lazy)
         """
         if delimiter is None:
             # Handle whitespace by default
@@ -79,6 +79,10 @@ class Base(object):
                             See http://openbmp.org/#!docs/MESSAGE_BUS_API.md for more details.
         :param data: TSV data (MUST not include the headers)
         :param validate: If required to validate every field with its corresponding processor
+        :param required_fields: If needed to parse only feq fields ans speed up parsing.
+            Example: {10: 'prefix', 11: "prefix_len"} where:
+             "10" and "11" - positions of fields in MESSAGE_BUS_API,
+             "prefix" and "prefix_len" - name of parsed fields in resulting dictionary.
 
         :return:  True if error, False if no errors
         """

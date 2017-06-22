@@ -53,7 +53,12 @@ class UnicastPrefix(Base):
         Handle the message by parsing it and storing the data in memory.
 
         :param message: 'Message' object.
-        :param message: If required to validate every field with its corresponding processor
+        :param validate: If required to validate every field with its corresponding processor
+        :param validate: If required to validate every field with its corresponding processor
+        :param required_fields: If needed to parse only feq fields ans speed up parsing.
+            Example: {10: 'prefix', 11: "prefix_len"} where:
+             "10" and "11" - positions of fields in MESSAGE_BUS_API,
+             "prefix" and "prefix_len" - name of parsed fields in resulting dictionary.
         """
         if not isinstance(message, Message):
             raise TypeError("Expected Message object instead of type " + type(message))

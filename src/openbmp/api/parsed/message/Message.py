@@ -20,6 +20,7 @@ class Message(object):
         Handle the message by parsing header of it.
 
         :param data: Raw Kafka message as string.
+        :param parse_headers: If headers parsing is required. May be disabled to speed up.
         """
 
         if not data.strip(): # If "data" is not string, throws error.
@@ -42,6 +43,7 @@ class Message(object):
         Parses header of raw Kafka messages and set the version, length, number of records and router hash id.
 
         :param data: Raw Kafka message as string.
+        :param parse_headers: If headers parsing is required. May be disabled to speed up.
         """
 
         if parse_headers:
