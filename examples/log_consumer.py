@@ -53,8 +53,9 @@ def process_message(msg):
     elif t == "openbmp.parsed.unicast_prefix":
         unicast_prefix = UnicastPrefix(m)
 
-        with open('temp', "w") as file:
-            file.write(msg.value + '\n')
+        # Optional fixture writer
+        # with open('unicast_prefixes_message', "w+") as file:
+        #     file.write(msg.value + '\n')
 
         print '\n' + 'Received Message (' + t_stamp + ') : ' + m_tag + '(V: ' + str(m.version) + ')'
         print unicast_prefix.to_json_pretty()
