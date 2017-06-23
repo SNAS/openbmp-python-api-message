@@ -108,7 +108,11 @@ class Base(object):
 
             if required_fields:
                 for key in required_fields:
-                    fields_map[required_fields[key]] = fields[key]
+                    if validate:
+                        processor_class = self.get_processors()[key]
+                        fields_map[required_fields[key]] = processor_class.process_value(fields[key])
+                    else:
+                        fields_map[required_fields[key]] = fields[key]
             else:
                 if len(fields) >= len(self.processors):
                     fields_map = dict(zip(self.header_names, fields))
