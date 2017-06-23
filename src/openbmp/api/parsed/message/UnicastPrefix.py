@@ -48,11 +48,17 @@ class UnicastPrefix(Base):
         MsgBusFields.ORIGINATOR_ID.get_name()
     ]
 
-    def __init__(self, message):
+    def __init__(self, message, validate=True, required_fields=None):
         """
         Handle the message by parsing it and storing the data in memory.
 
         :param message: 'Message' object.
+        :param validate: If required to validate every field with its corresponding processor
+        :param validate: If required to validate every field with its corresponding processor
+        :param required_fields: If needed to parse only feq fields ans speed up parsing.
+            Example: {10: 'prefix', 11: "prefix_len"} where:
+             "10" and "11" - positions of fields in MESSAGE_BUS_API,
+             "prefix" and "prefix_len" - name of parsed fields in resulting dictionary.
         """
         if not isinstance(message, Message):
             raise TypeError("Expected Message object instead of type " + type(message))
@@ -84,7 +90,7 @@ class UnicastPrefix(Base):
         self.processors = self.get_processors()
 
         if data:
-            self.parse(version, data)
+            self.parse(version, data, validate=validate, required_fields=required_fields)
 
     def get_processors(self):
         """

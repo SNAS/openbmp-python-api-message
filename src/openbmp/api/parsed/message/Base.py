@@ -8,6 +8,7 @@
 
 from abc import ABCMeta, abstractmethod
 import json
+import re
 
 
 class Base(object):
@@ -23,6 +24,24 @@ class Base(object):
     """
 
     __metaclass__ = ABCMeta
+
+    @staticmethod
+    def isplit(string, delimiter=None):
+        """
+        Like string.split but returns an iterator (lazy and works a little bit faster)
+        """
+        if delimiter is None:
+            # Handle whitespace by default
+            delim = r"\s"
+
+        elif len(delimiter) != 1:
+            raise ValueError("Can only handle single character delimiters", delimiter)
+
+        else:
+            # Escape, incase it's "\", "*" etc.
+            delim = re.escape(delimiter)
+
+        return (x.group(0) for x in re.finditer(r"[^{}]+".format(delim), string))
 
     def __init__(self):
         """Initializes the class variables."""
@@ -55,13 +74,18 @@ class Base(object):
         """
         return self.row_map
 
-    def parse(self, version, data):
+    def parse(self, version, data, validate=True, required_fields=None):
         """
         Parse TSV rows of data from message
 
         :param version: Float representation of maximum message bus specification version supported.
                             See http://openbmp.org/#!docs/MESSAGE_BUS_API.md for more details.
         :param data: TSV data (MUST not include the headers)
+        :param validate: If required to validate every field with its corresponding processor
+        :param required_fields: If needed to parse only feq fields ans speed up parsing.
+            Example: {10: 'prefix', 11: "prefix_len"} where:
+             "10" and "11" - positions of fields in MESSAGE_BUS_API,
+             "prefix" and "prefix_len" - name of parsed fields in resulting dictionary.
 
         :return:  True if error, False if no errors
         """
@@ -76,20 +100,28 @@ class Base(object):
         if len(self.header_names) == 0:
             raise Exception("header_names should be overriden.")
 
-        records = data.splitlines()
+        # Splits each record into fields.
+        for record in Base.isplit(data, "\n"):
+            fields = record.split('\t')  # Fields of a record as array.
 
-        # # Splits each record into fields.
-        for r in records:
-            fields = r.split('\t')  # Fields of a record as array.
+            fields_map = {}
 
-            # # # Process and validate each field with its corresponding processor.
-            if len(fields) >= len(self.processors):
-                for i,processor in enumerate(self.processors):
-                    fields[i] = processor.process_value(fields[i])
+            if required_fields:
+                for key in required_fields:
+                    if validate:
+                        processor_class = self.get_processors()[key]
+                        fields_map[required_fields[key]] = processor_class.process_value(fields[key])
+                    else:
+                        fields_map[required_fields[key]] = fields[key]
+            else:
+                if len(fields) >= len(self.processors):
+                    fields_map = dict(zip(self.header_names, fields))
+                    if validate:
+                        # Process and validate each field with its corresponding processor.
+                        for (f, p, h) in zip(fields, self.get_processors(), self.header_names):
+                            fields_map[h] = p.process_value(f)
 
-            fields_dict = dict(zip(self.header_names, fields))
-
-            self.row_map.append(fields_dict)
+            self.row_map.append(fields_map)
 
     def to_json(self):
         """
