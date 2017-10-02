@@ -25,7 +25,7 @@ sudo pip install .
 #sudo python setup.py install
 ```
 
-#### Package for install or distribution (Python3)
+#### Package for install or distribution (works for both python2 and python3)
 
 ```sh
 git clone https://github.com/OpenBMP/openbmp-python-api-message.git
@@ -35,6 +35,7 @@ cd dist
 pip install openbmp_python_api_message-1.0-py2-none-any.whl   
 ```
     
+> #### NOTE: The above defaults for python2.  Change python to **python3** and pip to **pip3**.     
 ## Usage
  
 Use this library in any existing python project.

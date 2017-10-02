@@ -6,10 +6,10 @@
     and is available at http:#www.eclipse.org/legal/epl-v10.html
 """
 
-from Base import Base
-from FieldProcessors import ParseNullAsEmpty, ParseLongEmptyAsZero, ParseLong, ParseTimestamp, NotNull
-from Message import Message
-from MsgBusFields import MsgBusFields
+from .Base import Base
+from .FieldProcessors import ParseNullAsEmpty, ParseLongEmptyAsZero, ParseLong, ParseTimestamp, NotNull
+from .Message import Message
+from .MsgBusFields import MsgBusFields
 
 
 class BaseAttribute(Base):

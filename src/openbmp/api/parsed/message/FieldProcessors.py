@@ -9,12 +9,14 @@
 from abc import ABCMeta, abstractmethod
 import time
 
+# Compatible with python 2 and 3
+ABC = ABCMeta('ABC', (object,), {'__slots__': ()})
 
-class BaseFieldProcessor(object):
+
+class BaseFieldProcessor(ABC):
     """
     Parent class of field processors.
     """
-    __metaclass__ = ABCMeta
 
     def __init__(self):
         pass
@@ -72,11 +74,11 @@ class ParseLong(BaseFieldProcessor):
         value = None
 
         try:
-            value = long(field_to_process)
+            value = int(field_to_process)
 
         except ValueError:
             # Handle the exception
-            value = long(0)
+            value = int(0)
 
         return value
 
@@ -173,10 +175,10 @@ class ParseLongEmptyAsZero(BaseFieldProcessor):
         value = None
 
         try:
-            value = long(field_to_process)
+            value = int(field_to_process)
 
         except ValueError:
             # Handle the exception
-            value = long(0)
+            value = int(0)
 
         return value

@@ -1,3 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
 *.pyc
+dist/
+build/
+openbmp_python_api_message.egg-info

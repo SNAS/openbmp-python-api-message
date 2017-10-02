@@ -9,8 +9,11 @@
 from abc import ABCMeta, abstractmethod
 import json
 
+# Compatible with python 2 and 3
+ABC = ABCMeta('ABC', (object,), {'__slots__': ()})
 
-class Base(object):
+
+class Base(ABC):
     """
     Base class for parsing openbmp.parsed.* messages.
 
@@ -21,8 +24,6 @@ class Base(object):
     The schema version is the max version supported.  Each extended class is responsible for handling
     backwards compatibility.
     """
-
-    __metaclass__ = ABCMeta
 
     def __init__(self):
         """Initializes the class variables."""
@@ -87,7 +88,7 @@ class Base(object):
                 for i,processor in enumerate(self.processors):
                     fields[i] = processor.process_value(fields[i])
 
-            fields_dict = dict(zip(self.header_names, fields))
+            fields_dict = dict(list(zip(self.header_names, fields)))
 
             self.row_map.append(fields_dict)
 

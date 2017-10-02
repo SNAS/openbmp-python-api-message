@@ -21,22 +21,23 @@ class Message(object):
 
         :param data: Raw Kafka message as string.
         """
-
-        if data and not data.strip(): # If "data" is not string, throws error.
-            raise ValueError("Invalid data!", data)
-
         self.version = float()
         self.type = str()
         self.collector_hash_id = str()
-        self.length = long()
-        self.records = long()
+        self.length = int()
+        self.records = int()
         self.router_hash_id = str()
         self.content = str()
         self.content_pos = int()
         self.router_ip = str()
 
         if data:
-            self.__parse(data)
+            if isinstance(data, bytes):
+                self.__parse(data.decode("utf-8"))
+            else:
+                self.__parse(data)
+        else:
+            raise ValueError("Invalid data!", data)
 
     def __parse(self, data):
         """
@@ -68,10 +69,10 @@ class Message(object):
                 self.type = value
 
             elif attr == "L":
-                self.length = long(value)
+                self.length = int(value)
 
             elif attr == "R":
-                self.records = long(value)
+                self.records = int(value)
 
             elif attr == "R_HASH_ID":
                 self.router_hash_id = value
