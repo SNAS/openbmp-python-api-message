@@ -16,7 +16,7 @@ class BaseAttribute(Base):
     """
     Format class for base_attribute parsed messages (openbmp.parsed.base_attribute)
 
-    Schema Version: 1.4
+    Schema Version: 1.7
     """
 
     minimum_header_names = [
@@ -54,12 +54,20 @@ class BaseAttribute(Base):
         if not isinstance(message, Message):
             raise TypeError("Expected Message object instead of type " + type(message))
 
+        version = message.get_version()
         data = message.get_content()
 
         super(BaseAttribute, self).__init__()
 
-        self.header_names = BaseAttribute.minimum_header_names
+        if version >= float(1.7):
+            version_specific_headers = [
+                MsgBusFields.LARGE_COMMUNITY_LIST.get_name()
+            ]
+        else:
+            version_specific_headers = []
 
+        self.header_names = self.minimum_header_names + version_specific_headers
+        self.spec_version = version
         self.processors = self.get_processors()
 
         if data:
@@ -73,7 +81,7 @@ class BaseAttribute(Base):
         :return: array of cell processors.
         """
 
-        processors = [
+        default_processors = [
             NotNull(),  # action
             ParseLong(),  # seq
             NotNull(),  # hash
@@ -99,4 +107,11 @@ class BaseAttribute(Base):
             ParseNullAsEmpty()  # originator_id
         ]
 
-        return processors
+        if self.spec_version >= float(1.7):
+            version_specific_processors = [
+                ParseNullAsEmpty()  # large communities
+            ]
+        else:
+            version_specific_processors = []
+
+        return default_processors + version_specific_processors

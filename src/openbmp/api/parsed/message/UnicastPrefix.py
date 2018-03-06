@@ -15,7 +15,7 @@ class UnicastPrefix(Base):
     """
     Format class for unicast_prefix parsed messages (openbmp.parsed.unicast_prefix)
 
-    Schema Version: 1.4
+    Schema Version: 1.7
     """
 
     minimum_header_names = [
@@ -62,7 +62,16 @@ class UnicastPrefix(Base):
 
         super(UnicastPrefix, self).__init__()
 
-        if version >= float(1.3):
+        if version >= float(1.7):
+            version_specific_headers = [
+                MsgBusFields.PATH_ID.get_name(),
+                MsgBusFields.LABELS.get_name(),
+                MsgBusFields.ISPREPOLICY.get_name(),
+                MsgBusFields.IS_ADJ_RIB_IN.get_name(),
+                MsgBusFields.LARGE_COMMUNITY_LIST.get_name()
+            ]
+
+        elif version >= float(1.3):
             version_specific_headers = [
                 MsgBusFields.PATH_ID.get_name(),
                 MsgBusFields.LABELS.get_name(),
@@ -124,7 +133,16 @@ class UnicastPrefix(Base):
             ParseNullAsEmpty(),  # originator_id
         ]
 
-        if self.spec_version >= float(1.3):
+        if self.spec_version >= float(1.7):
+            version_specific_processors = [
+                ParseLongEmptyAsZero(),  # Path ID
+                ParseNullAsEmpty(),  # Labels
+                ParseLongEmptyAsZero(),  # isPrePolicy
+                ParseLongEmptyAsZero(),  # isAdjRibIn
+                ParseNullAsEmpty()  # large communities
+            ]
+
+        elif self.spec_version >= float(1.3):
             version_specific_processors = [
                 ParseLongEmptyAsZero(),  # Path ID
                 ParseNullAsEmpty(),  # Labels

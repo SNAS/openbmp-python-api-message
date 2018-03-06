@@ -63,6 +63,7 @@ class MsgBusFields:
     AGGREGATOR = MsgBusField({"name": "aggregator", "defaultValue": ""})
     COMMUNITY_LIST = MsgBusField({"name": "community_list", "defaultValue": ""})
     EXT_COMMUNITY_LIST = MsgBusField({"name": "ext_community_list", "defaultValue": ""})
+    LARGE_COMMUNITY_LIST = MsgBusField({"name": "large_community_list", "defaultValue": ""})
     CLUSTER_LIST = MsgBusField({"name": "cluster_list", "defaultValue": ""})
     ISATOMICAGG = MsgBusField({"name": "isAtomicAgg", "defaultValue": 1})
     IS_NEXTHOP_IPV4 = MsgBusField({"name": "isNexthopIPv4", "defaultValue": 1})
@@ -144,3 +145,4 @@ class MsgBusFields:
     IS_LOCRIB = MsgBusField({"name": "isLocRib", "defaultValue": 0})
     IS_LOCRIB_FILTERED = MsgBusField({"name": "isLocRibFiltered", "defaultValue": 0})
     TABLE_NAME = MsgBusField({"name": "tableName", "defaultValue": ""})
+
