@@ -7,7 +7,8 @@
 """
 
 from abc import ABCMeta, abstractmethod
-import time
+import calendar
+import datetime
 
 # Compatible with python 2 and 3
 ABC = ABCMeta('ABC', (object,), {'__slots__': ()})
@@ -121,10 +122,30 @@ class ParseTimestamp(BaseFieldProcessor):
         :param field_to_process: Data to process and validate.
         :return: Processed and validated data.
         """
-
         try:
-            return int(time.mktime(time.strptime(field_to_process, '%Y-%m-%d %H:%M:%S.%f')) * 1000)
+            # Date format YYYY-MM-DD HH:MM:SS.nnnnnn
+            dt = datetime.datetime(
+                  int(field_to_process[0:4]), # %Y
+                  int(field_to_process[5:7]), # %m
+                  int(field_to_process[8:10]), # %d
+                  int(field_to_process[11:13]), # %H
+                  int(field_to_process[14:16]), # %M
+                  int(field_to_process[17:19]), # %s
+                  int(field_to_process[20:26]) # %f
+                  )
+
+            # Get only ms (first 3 digits of us)
+            t_us = int(field_to_process[20:23])
+
+            t_struct = dt.timetuple()
+
+            secs = int(calendar.timegm(t_struct)) * 1000
+
+            return int(secs + (t_us / 1000))
+
         except ValueError:
+            return 0
+        except TypeError:
             return 0
 
 
